@@ -16,5 +16,5 @@ dependencyResolutionManagement {
 rootProject.name = "MediaPackage"
 include(":app")
 include(":cameracature")
-include(":screenprojection")
+include(":screenProjectPush")
 include(":commonLib")
