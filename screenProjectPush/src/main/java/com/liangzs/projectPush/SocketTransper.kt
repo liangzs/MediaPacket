@@ -3,7 +3,6 @@ package com.liangzs.media
 import org.java_websocket.WebSocket
 import org.java_websocket.handshake.ClientHandshake
 import org.java_websocket.server.WebSocketServer
-import java.lang.Exception
 
 class SocketTransper {
     var webSocket: WebSocket? = null;
@@ -34,7 +33,7 @@ class SocketTransper {
      * 不停发数据
      */
     fun sendData(data: ByteArray) {
-
+        webSocket?.send(data)
     }
 
     fun onDestroy() {
