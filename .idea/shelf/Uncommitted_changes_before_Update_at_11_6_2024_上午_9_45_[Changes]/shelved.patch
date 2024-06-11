@@ -1,0 +1,29 @@
+Index: screenprojection/src/main/java/com/liangzs/screenprojection/H265Encoder.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/screenprojection/src/main/java/com/liangzs/screenprojection/H265Encoder.kt b/screenprojection/src/main/java/com/liangzs/screenprojection/H265Encoder.kt
+new file mode 100644
+--- /dev/null	(date 1717580036905)
++++ b/screenprojection/src/main/java/com/liangzs/screenprojection/H265Encoder.kt	(date 1717580036905)
+@@ -0,0 +1,6 @@
++package com.liangzs.screenprojection
++
++import android.media.MediaCodec
++
++class H265Encoder {
++}
+\ No newline at end of file
+Index: .gitignore
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.gitignore b/.gitignore
+new file mode 100644
+--- /dev/null	(date 1718070291081)
++++ b/.gitignore	(date 1718070291081)
+@@ -0,0 +1,2 @@
++/.idea/
++/.gradle/
