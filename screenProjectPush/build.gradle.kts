@@ -1,9 +1,3 @@
-import org.jetbrains.kotlin.cli.jvm.main
-import javax.xml.parsers.DocumentBuilderFactory
-import javax.xml.transform.TransformerFactory
-import javax.xml.transform.dom.DOMSource
-import javax.xml.transform.stream.StreamResult
-
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -13,7 +7,7 @@ fun mergeManifestXmlFiles(mainXmlPath: String, libraryXmlPaths: List<String>): S
     val targetFile = File(mainManifestFile.getParent(), "AndroidManifest_target.xml")
 
     //从DOM工厂中获得DOM解析器
-    val documentBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+    val documentBuilder = javax.xml.parsers.DocumentBuilderFactory.newInstance().newDocumentBuilder();
 
     val mainXmlDocument = documentBuilder.parse(mainManifestFile)
     val mainApplicationNode = mainXmlDocument.getElementsByTagName("application").item(0);
@@ -39,21 +33,21 @@ fun mergeManifestXmlFiles(mainXmlPath: String, libraryXmlPaths: List<String>): S
         }
     }
 
-    val transformer = TransformerFactory.newInstance().newTransformer();
+    val transformer = javax.xml.transform.TransformerFactory.newInstance().newTransformer();
     transformer.setOutputProperty("encoding", "utf-8")
     transformer.setOutputProperty("indent", "yes")
-    val source = DOMSource(mainXmlDocument)
-    val result = StreamResult(targetFile)
+    val source = javax.xml.transform.dom.DOMSource(mainXmlDocument)
+    val result = javax.xml.transform.stream.StreamResult(targetFile)
     transformer.transform(source, result)
     return targetFile.getAbsolutePath()
 }
 android {
-    namespace = "com.liangzs.mediapackage"
+    namespace = "com.liangzs.screenprojection"
     compileSdk = 33
 
     defaultConfig {
-        applicationId = "com.liangzs.mediapackage"
-        minSdk = 21
+        applicationId = "com.liangzs.screenprojection"
+        minSdk = 24
         targetSdk = 33
         versionCode = 1
         versionName = "1.0"
@@ -106,26 +100,24 @@ android {
     }
 }
 
+dependencies {
 
+    implementation("androidx.core:core-ktx:1.9.0")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")
+    implementation("androidx.activity:activity-compose:1.7.0")
+    implementation(platform("androidx.compose:compose-bom:2023.03.00"))
+    implementation("androidx.compose.ui:ui")
+    implementation("androidx.compose.ui:ui-graphics")
+    implementation("androidx.compose.ui:ui-tooling-preview")
+    implementation("androidx.compose.material3:material3")
+    implementation("androidx.appcompat:appcompat:1.4.1")
+    testImplementation("junit:junit:4.13.2")
+    androidTestImplementation("androidx.test.ext:junit:1.1.5")
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+    androidTestImplementation(platform("androidx.compose:compose-bom:2023.03.00"))
+    androidTestImplementation("androidx.compose.ui:ui-test-junit4")
+    debugImplementation("androidx.compose.ui:ui-tooling")
+    debugImplementation("androidx.compose.ui:ui-test-manifest")
+    api("org.java-websocket:Java-WebSocket:1.5.2")
 
-    dependencies {
-
-        implementation("androidx.core:core-ktx:1.9.0")
-        implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")
-        implementation("androidx.activity:activity-compose:1.7.0")
-        implementation(platform("androidx.compose:compose-bom:2023.03.00"))
-        implementation("androidx.compose.ui:ui")
-        implementation("androidx.compose.ui:ui-graphics")
-        implementation("androidx.compose.ui:ui-tooling-preview")
-        implementation("androidx.compose.material3:material3")
-        implementation("androidx.appcompat:appcompat:1.6.1")
-        implementation("com.google.android.material:material:1.9.0")
-        implementation("androidx.constraintlayout:constraintlayout:2.1.4")
-        testImplementation("junit:junit:4.13.2")
-        androidTestImplementation("androidx.test.ext:junit:1.1.5")
-        androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
-        androidTestImplementation(platform("androidx.compose:compose-bom:2023.03.00"))
-        androidTestImplementation("androidx.compose.ui:ui-test-junit4")
-        debugImplementation("androidx.compose.ui:ui-tooling")
-        debugImplementation("androidx.compose.ui:ui-test-manifest")
-    }
+}
