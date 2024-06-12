@@ -13,7 +13,9 @@
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/cameracature" />
             <option value="$PROJECT_DIR$/commonLib" />
-            <option value="$PROJECT_DIR$/screenprojection" />
+            <option value="$PROJECT_DIR$/screenProjectPush" />
+            <option value="$PROJECT_DIR$/screenprojectfetch" />
+            <option value="$PROJECT_DIR$/videocall" />
           </set>
         </option>
         <option name="resolveExternalAnnotations" value="false" />

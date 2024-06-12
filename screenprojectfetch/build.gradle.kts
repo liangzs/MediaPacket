@@ -7,7 +7,8 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
 }
-apply( from="../commonLib/build.gradle.kts")
+//apply( from="../commonLib/build.gradle.kts")
+
 fun mergeManifestXmlFiles(mainXmlPath: String, libraryXmlPaths: List<String>): String {
     val mainManifestFile = file(mainXmlPath)
     val targetFile = File(mainManifestFile.getParent(), "AndroidManifest_target.xml")

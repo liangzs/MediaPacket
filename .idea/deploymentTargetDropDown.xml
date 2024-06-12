@@ -5,7 +5,16 @@
       <entry key="app">
         <State />
       </entry>
+      <entry key="screenProjectPush">
+        <State />
+      </entry>
+      <entry key="screenprojectfetch">
+        <State />
+      </entry>
       <entry key="screenprojection">
+        <State />
+      </entry>
+      <entry key="videocall">
         <State />
       </entry>
     </value>
