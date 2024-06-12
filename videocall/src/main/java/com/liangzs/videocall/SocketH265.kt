@@ -19,7 +19,7 @@ class SocketH265 {
     /**
      * 给对端发送数据
      */
-    fun sendData(bytes: ByteBuffer?) {
+    fun sendData(bytes: ByteArray?) {
         socketClient.send(bytes)
     }
 
