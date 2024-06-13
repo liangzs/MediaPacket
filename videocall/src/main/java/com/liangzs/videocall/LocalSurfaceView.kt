@@ -8,6 +8,10 @@ import android.view.SurfaceHolder
 import android.view.SurfaceView
 import java.nio.ByteBuffer
 
+/**
+ * 摄像头采集的视频数据格式是N21和YV12，但是编码器MediaCodec处理的数据格式是Y420P和Y420SP的，
+ * 所以这里需要做一次数据格式的转化，同样如果想采集摄像头的每一帧图片做处理的话，还需要把N21格式转化成RGB格式
+ */
 class LocalSurfaceView(context: Context?) : SurfaceView(context), SurfaceHolder.Callback {
 
     lateinit var camera: Camera;
@@ -18,12 +22,11 @@ class LocalSurfaceView(context: Context?) : SurfaceView(context), SurfaceHolder.
 
     init {
         holder.addCallback(this)
-        socketH265= SocketH265()
+        socketH265 = SocketH265()
     }
 
     override fun surfaceCreated(holder: SurfaceHolder) {
-        //开始摄像
-        startPreview()
+
     }
 
     override fun surfaceChanged(holder: SurfaceHolder, format: Int, width: Int, height: Int) {
@@ -51,7 +54,12 @@ class LocalSurfaceView(context: Context?) : SurfaceView(context), SurfaceHolder.
         byteArray = ByteArray(cameraSize.width * cameraSize.height * 3 / 2)
         camera.addCallbackBuffer(byteArray)
         camera.startPreview()
+    }
 
+    fun startCall() {
+        socketH265.start()
+        //开始摄像
+        startPreview()
     }
 
 }
