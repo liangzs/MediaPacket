@@ -16,33 +16,33 @@ import kotlin.experimental.and
 class SocketH265EncoderPush(val width: Int, val height: Int, val remoteCallback: LocalSurfaceView.RemoteCallback?) {
     var frameIndex = 0;
 
-    var socketLive: SocketLiveClient? = null;
-    //var socketLive: SocketLiveServer? = null;
+//    var socketLive: SocketLiveClient? = null;
+    var socketLive: SocketLiveServer? = null;
     var mediaCodecEncoder: MediaCodec? = null;
     var outputIndex: Int = 0;
     lateinit var outBufferInfo: BufferInfo;
     var outByteBuffer: ByteBuffer? = null;
     fun start() {
         frameIndex = 0;
-        mediaCodecEncoder = MediaCodec.createEncoderByType("video/hevc")
-        val mediaFormat = MediaFormat.createVideoFormat(MediaFormat.MIMETYPE_VIDEO_HEVC, width, height);
+        mediaCodecEncoder = MediaCodec.createEncoderByType("video/avc")
+        val mediaFormat = MediaFormat.createVideoFormat(MediaFormat.MIMETYPE_VIDEO_AVC, 720, 1280);
         mediaFormat.setInteger(MediaFormat.KEY_FRAME_RATE, 25)
         mediaFormat.setInteger(MediaFormat.KEY_BIT_RATE, width * height)
         mediaFormat.setInteger(MediaFormat.KEY_I_FRAME_INTERVAL, 5)
-        mediaFormat.setInteger(MediaFormat.KEY_COLOR_FORMAT, MediaCodecInfo.CodecCapabilities.COLOR_FormatYUV420Flexible)
+//        mediaFormat.setInteger(MediaFormat.KEY_COLOR_FORMAT, MediaCodecInfo.CodecCapabilities.COLOR_FormatYUV420Flexible)
         mediaCodecEncoder?.configure(mediaFormat, null, null, MediaCodec.CONFIGURE_FLAG_ENCODE)
-        socketLive = SocketLiveClient(object : SocketLiveClient.SocketCallback {
+//        socketLive = SocketLiveClient(object : SocketLiveClient.SocketCallback {
+//            override fun callBack(data: ByteArray?) {
+//                remoteCallback?.onData(data!!)
+//            }
+//
+//        })
+        socketLive = SocketLiveServer(object : SocketLiveServer.SocketCallback {
             override fun callBack(data: ByteArray?) {
                 remoteCallback?.onData(data!!)
             }
 
         })
-        //socketLive = SocketLiveServer(object : SocketLiveServer.SocketCallback {
-        //    override fun callBack(data: ByteArray?) {
-        //        remoteCallback?.onData(data!!)
-        //    }
-        //
-        //})
 
         socketLive?.start()
     }
@@ -59,7 +59,7 @@ class SocketH265EncoderPush(val width: Int, val height: Int, val remoteCallback:
         try {
 
             val inputIndex = mediaCodecEncoder!!.dequeueInputBuffer(10000)
-            if (inputIndex > 0) {
+            if (inputIndex >=0) {
                 val byteBuffer = mediaCodecEncoder!!.getInputBuffer(inputIndex);
                 byteBuffer?.clear()
                 byteBuffer?.put(n12)
@@ -73,7 +73,7 @@ class SocketH265EncoderPush(val width: Int, val height: Int, val remoteCallback:
             outBufferInfo = MediaCodec.BufferInfo();
             outputIndex = mediaCodecEncoder!!.dequeueOutputBuffer(outBufferInfo, 10000);
             //不停取，取光它
-            while (outputIndex > 0) {
+            while (outputIndex >= 0) {
                 outByteBuffer = mediaCodecEncoder?.getOutputBuffer(outputIndex)
 
                 //发送数据，识别到I帧，然后在I帧的前面插入pps，sps媒体数据
@@ -104,23 +104,23 @@ class SocketH265EncoderPush(val width: Int, val height: Int, val remoteCallback:
             offset = 3;
         }
         //h265 是取8位中的中间6位
-        val type = byteBuffer.get(offset) and (0x7E).shr(1)
-        if (type.toInt() == NAL_VPS) {
-            vps_pps_sps = ByteArray(bufferInfo.size)
-            byteBuffer.get(vps_pps_sps)
-        } else if (type.toInt() == NAL_I) {
-            //这里和vps_sps_pps进行拼接
-            val newByteArray = ByteArray(bufferInfo.size + (vps_pps_sps?.size ?: 0))
-            val bytes = ByteArray(bufferInfo.size);
-            byteBuffer.get(bytes)
-            System.arraycopy(vps_pps_sps, 0, newByteArray, 0, (vps_pps_sps?.size ?: 0))
-            System.arraycopy(bytes, 0, newByteArray, (vps_pps_sps?.size ?: 0), bytes.size)
-            socketLive?.sendData(newByteArray)
-        } else {
+//        val type = byteBuffer.get(offset) and (0x7E).shr(1)
+//        if (type.toInt() == NAL_VPS) {
+//            vps_pps_sps = ByteArray(bufferInfo.size)
+//            byteBuffer.get(vps_pps_sps)
+//        } else if (type.toInt() == NAL_I) {
+//            //这里和vps_sps_pps进行拼接
+//            val newByteArray = ByteArray(bufferInfo.size + (vps_pps_sps?.size ?: 0))
+//            val bytes = ByteArray(bufferInfo.size);
+//            byteBuffer.get(bytes)
+//            System.arraycopy(vps_pps_sps, 0, newByteArray, 0, (vps_pps_sps?.size ?: 0))
+//            System.arraycopy(bytes, 0, newByteArray, (vps_pps_sps?.size ?: 0), bytes.size)
+//            socketLive?.sendData(newByteArray)
+//        } else {
             val newByteArray = ByteArray(bufferInfo.size + (vps_pps_sps?.size ?: 0))
             byteBuffer.get(newByteArray)
             socketLive?.sendData(newByteArray)
-        }
+//        }
     }
 
     /**

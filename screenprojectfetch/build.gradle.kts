@@ -135,4 +135,6 @@ dependencies {
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
+    api("org.java-websocket:Java-WebSocket:1.5.2")
+
 }

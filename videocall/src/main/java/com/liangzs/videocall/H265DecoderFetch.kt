@@ -11,8 +11,8 @@ class H265DecoderFetch(surface: Surface, val width: Int, val height: Int) {
     lateinit var mediaCodec: MediaCodec;
 
     init {
-        mediaCodec = MediaCodec.createDecoderByType("video/hevc")
-        val mediaFormat = MediaFormat.createVideoFormat(MediaFormat.MIMETYPE_VIDEO_HEVC, 720, 1280)
+        mediaCodec = MediaCodec.createDecoderByType("video/avc")
+        val mediaFormat = MediaFormat.createVideoFormat(MediaFormat.MIMETYPE_VIDEO_AVC, 720, 1280)
         mediaFormat.setInteger(MediaFormat.KEY_BIT_RATE, width * height)
         mediaFormat.setInteger(MediaFormat.KEY_FRAME_RATE, 25)
         mediaFormat.setInteger(MediaFormat.KEY_I_FRAME_INTERVAL, 5)

@@ -20,11 +20,11 @@ class SocketFetcher(surface: Surface) {
         socket = MyWebSocketClient(URI("http:192.168.1.1:8080"));
         //初始化mediacodec
         val mediaFormat =
-            MediaFormat.createVideoFormat(MediaFormat.MIMETYPE_VIDEO_HEVC, width, height);
+            MediaFormat.createVideoFormat(MediaFormat.MIMETYPE_VIDEO_AVC, width, height);
         mediaFormat.setInteger(MediaFormat.KEY_BIT_RATE, width * height)
         mediaFormat.setInteger(MediaFormat.KEY_FRAME_RATE, 30);
         mediaFormat.setInteger(MediaFormat.KEY_I_FRAME_INTERVAL, 1)
-        decoder = MediaCodec.createDecoderByType("video/hevc")
+        decoder = MediaCodec.createDecoderByType("video/avc")
         decoder?.configure(mediaFormat, surface, null, 0);
     }
 

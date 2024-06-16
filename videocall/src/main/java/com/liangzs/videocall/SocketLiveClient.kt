@@ -11,7 +11,7 @@ class SocketLiveClient(private val socketCallback: SocketCallback) {
     var myWebSocketClient: MyWebSocketClient? = null
     fun start() {
         try {
-            val url = URI("ws://192.188.1.188:3800")
+            val url = URI("ws://192.168.1.28:3800")
             myWebSocketClient = MyWebSocketClient(url)
             myWebSocketClient!!.connect()
         } catch (e: Exception) {
@@ -36,8 +36,8 @@ class SocketLiveClient(private val socketCallback: SocketCallback) {
         }
 
         override fun onClose(i: Int, s: String, b: Boolean) {}
-        override fun onError(e: Exception) {
-            e.printStackTrace()
+        override fun onError(e: Exception?) {
+            e?.printStackTrace()
         }
     }
 

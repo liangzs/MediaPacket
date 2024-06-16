@@ -27,11 +27,11 @@ class RecordByMediaCodec(val mediaProject: MediaProjection, val transper: Socket
 
     init {
         val mediaFormat =
-            MediaFormat.createVideoFormat(MediaFormat.MIMETYPE_VIDEO_HEVC, width, height);
+            MediaFormat.createVideoFormat(MediaFormat.MIMETYPE_VIDEO_AVC, width, height);
         mediaFormat.setInteger(MediaFormat.KEY_BIT_RATE, width * height)
         mediaFormat.setInteger(MediaFormat.KEY_FRAME_RATE, 30);
         mediaFormat.setInteger(MediaFormat.KEY_I_FRAME_INTERVAL, 1)
-        mediaCodecH265 = MediaCodec.createDecoderByType("video/hevc")
+        mediaCodecH265 = MediaCodec.createDecoderByType("video/avc")
         mediaCodecH265.configure(mediaFormat, null, null, MediaCodec.CONFIGURE_FLAG_ENCODE)
         mediaCodecH265.start()
 

@@ -10,6 +10,16 @@
           <theme>@android:style/Theme.Material.Light</theme>
         </config>
       </layout>
+      <layout url="file://$PROJECT_DIR$/screenprojectfetch/src/main/res/layout/activity_main.xml">
+        <config>
+          <theme>@style/Theme.MediaPackage</theme>
+        </config>
+      </layout>
+      <layout url="file://$PROJECT_DIR$/trim/src/main/res/layout/activity_main.xml">
+        <config>
+          <theme>@style/Theme.MediaPackage</theme>
+        </config>
+      </layout>
       <layout url="file://$PROJECT_DIR$/videocall/src/main/res/layout/activity_main.xml">
         <config>
           <theme>@style/Theme.MediaPackage</theme>
@@ -22,24 +32,57 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7fd266e3-aca7-45c1-9e78-87fafa4ac8cf" name="Changes" comment="补充投屏拉流动作">
-      <change afterPath="$PROJECT_DIR$/videocall/src/main/java/com/liangzs/videocall/H265DecoderFetch.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/videocall/src/main/java/com/liangzs/videocall/SocketH265EncoderPush.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/videocall/src/main/java/com/liangzs/videocall/SocketLiveClient.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/videocall/src/main/java/com/liangzs/videocall/SocketLiveServer.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/videocall/src/main/java/com/liangzs/videocall/YuvUtil.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/trim/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/trim/build.gradle.kts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/trim/proguard-rules.pro" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/trim/src/androidTest/java/com/liangzs/trim/ExampleInstrumentedTest.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/trim/src/main/AndroidManifest.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/trim/src/main/java/com/liangzs/trim/MainActivity.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/trim/src/main/java/com/liangzs/trim/MainActivity2.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/trim/src/main/java/com/liangzs/trim/ui/theme/Color.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/trim/src/main/java/com/liangzs/trim/ui/theme/Theme.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/trim/src/main/java/com/liangzs/trim/ui/theme/Type.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/trim/src/main/res/drawable/ic_launcher_background.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/trim/src/main/res/drawable/ic_launcher_foreground.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/trim/src/main/res/layout/activity_main.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/trim/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/trim/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/trim/src/main/res/mipmap-hdpi/ic_launcher.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/trim/src/main/res/mipmap-hdpi/ic_launcher_round.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/trim/src/main/res/mipmap-mdpi/ic_launcher.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/trim/src/main/res/mipmap-mdpi/ic_launcher_round.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/trim/src/main/res/mipmap-xhdpi/ic_launcher.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/trim/src/main/res/mipmap-xhdpi/ic_launcher_round.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/trim/src/main/res/mipmap-xxhdpi/ic_launcher.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/trim/src/main/res/mipmap-xxhdpi/ic_launcher_round.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/trim/src/main/res/mipmap-xxxhdpi/ic_launcher.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/trim/src/main/res/mipmap-xxxhdpi/ic_launcher_round.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/trim/src/main/res/values/colors.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/trim/src/main/res/values/strings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/trim/src/main/res/values/themes.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/trim/src/test/java/com/liangzs/trim/ExampleUnitTest.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/8.0/checksums/checksums.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.0/checksums/checksums.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/8.0/checksums/md5-checksums.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.0/checksums/md5-checksums.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/8.0/checksums/sha1-checksums.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.0/checksums/sha1-checksums.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/8.0/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.0/executionHistory/executionHistory.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/8.0/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.0/executionHistory/executionHistory.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/8.0/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.0/fileHashes/fileHashes.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/8.0/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.0/fileHashes/fileHashes.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/8.0/fileHashes/resourceHashesCache.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.0/fileHashes/resourceHashesCache.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/file-system.probe" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dbnavigator.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dbnavigator.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/videocall/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/videocall/src/main/AndroidManifest.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/videocall/src/main/java/com/liangzs/videocall/LocalSurfaceView.kt" beforeDir="false" afterPath="$PROJECT_DIR$/videocall/src/main/java/com/liangzs/videocall/LocalSurfaceView.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/local.properties" beforeDir="false" afterPath="$PROJECT_DIR$/local.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/screenProjectPush/src/main/java/com/liangzs/projectPush/RecordByMediaCodec.kt" beforeDir="false" afterPath="$PROJECT_DIR$/screenProjectPush/src/main/java/com/liangzs/projectPush/RecordByMediaCodec.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/screenprojectfetch/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/screenprojectfetch/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/screenprojectfetch/src/main/java/com/liangzs/screenprojectfetch/SocketFetcher.kt" beforeDir="false" afterPath="$PROJECT_DIR$/screenprojectfetch/src/main/java/com/liangzs/screenprojectfetch/SocketFetcher.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/settings.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/settings.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/videocall/src/main/java/com/liangzs/videocall/H265DecoderFetch.kt" beforeDir="false" afterPath="$PROJECT_DIR$/videocall/src/main/java/com/liangzs/videocall/H265DecoderFetch.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/videocall/src/main/java/com/liangzs/videocall/MainActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/videocall/src/main/java/com/liangzs/videocall/MainActivity.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/videocall/src/main/java/com/liangzs/videocall/SocketH265.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/videocall/src/main/res/layout/activity_main.xml" beforeDir="false" afterPath="$PROJECT_DIR$/videocall/src/main/res/layout/activity_main.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/videocall/src/main/java/com/liangzs/videocall/SocketH265EncoderPush.kt" beforeDir="false" afterPath="$PROJECT_DIR$/videocall/src/main/java/com/liangzs/videocall/SocketH265EncoderPush.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/videocall/src/main/java/com/liangzs/videocall/SocketLiveClient.kt" beforeDir="false" afterPath="$PROJECT_DIR$/videocall/src/main/java/com/liangzs/videocall/SocketLiveClient.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/videocall/src/main/java/com/liangzs/videocall/SocketLiveServer.kt" beforeDir="false" afterPath="$PROJECT_DIR$/videocall/src/main/java/com/liangzs/videocall/SocketLiveServer.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -49,7 +92,7 @@
   <component name="ClangdSettings">
     <option name="formatViaClangd" value="false" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[98211FFAZ003B6]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[DeviceId(pluginId=PhysicalDevice, isTemplate=false, identifier=serial=Q2NVB20915007619)]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -86,6 +129,9 @@
     <option name="stateVersion" value="1" />
   </component>
   <component name="ProjectId" id="2hBH0MAcEiYIhBC4UMheMOLpPId" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="showLibraryContents" value="true" />
     <option name="showMembers" value="true" />
@@ -93,26 +139,36 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Android App.trim.executor": "Run",
+    "Android App.videocall.executor": "Run",
+    "DEBUGGABLE_DEVICE": "huawei-dvc_an20-Q2NVB20915007619",
+    "DEBUGGABLE_PROCESS": "com.liangzs.videocall",
+    "DEBUGGER_ID": "Auto",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.cidr.known.project.marker": "true",
+    "SHOW_ALL_PROCESSES": "false",
     "android-custom-viewD:/1.android/private/MediaPacket/videocall/src/main/java/com/liangzs/videocall/LocalSurfaceView.kt_SELECTED": "LocalSurfaceView",
     "android-custom-viewD:/IdeStudio/sdk/sources/android-34/android/view/SurfaceView.java_SELECTED": "SurfaceView",
     "android-custom-viewD:/androidIde/androidSdk/sources/android-34/android/view/SurfaceView.java_SELECTED": "SurfaceView",
     "cf.first.check.clang-format": "false",
     "cidr.known.project.marker": "true",
     "dart.analysis.tool.window.visible": "false",
+    "external.system.has.shared.sources": "true",
     "last_opened_file_path": "F:/BaiduNetdiskDownload/网课视频资料/VIP27-2020.12.21-从零打造H265版视频通话项目，手写WebRtc核心通话框架 -DAVID/代码/VideoChatA",
     "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.17",
     "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "vcs.Git",
+    "settings.editor.selected.configurable": "reference.settingsdialog.project.gradle",
     "show.migrate.to.gradle.popup": "false"
   }
 }]]></component>
   <component name="RecentsManager">
     <key name="android.template.-398585901">
       <recent name="com.liangzs.videocall" />
+    </key>
+    <key name="android.template.935571877">
+      <recent name="com.liangzs.trim" />
     </key>
     <key name="android.template.2041695428">
       <recent name="com.liangzs.mediapackage" />
@@ -124,7 +180,7 @@
       <recent name="com.liangzs.videocall" />
     </key>
   </component>
-  <component name="RunManager" selected="Android App.videocall">
+  <component name="RunManager" selected="Android App.trim">
     <configuration name="app" type="AndroidRunConfigurationType" factoryName="Android App">
       <module name="MediaPackage.app.main" />
       <option name="DEPLOY" value="true" />
@@ -142,6 +198,8 @@
       <option name="SHOW_LOGCAT_AUTOMATICALLY" value="false" />
       <option name="INSPECTION_WITHOUT_ACTIVITY_RESTART" value="false" />
       <option name="TARGET_SELECTION_MODE" value="DEVICE_AND_SNAPSHOT_COMBO_BOX" />
+      <option name="SELECTED_CLOUD_MATRIX_CONFIGURATION_ID" value="-1" />
+      <option name="SELECTED_CLOUD_MATRIX_PROJECT_ID" value="" />
       <option name="DEBUGGER_TYPE" value="Auto" />
       <Auto>
         <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
@@ -207,6 +265,8 @@
       <option name="SHOW_LOGCAT_AUTOMATICALLY" value="false" />
       <option name="INSPECTION_WITHOUT_ACTIVITY_RESTART" value="false" />
       <option name="TARGET_SELECTION_MODE" value="DEVICE_AND_SNAPSHOT_COMBO_BOX" />
+      <option name="SELECTED_CLOUD_MATRIX_CONFIGURATION_ID" value="-1" />
+      <option name="SELECTED_CLOUD_MATRIX_PROJECT_ID" value="" />
       <option name="DEBUGGER_TYPE" value="Auto" />
       <Auto>
         <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
@@ -272,6 +332,8 @@
       <option name="SHOW_LOGCAT_AUTOMATICALLY" value="false" />
       <option name="INSPECTION_WITHOUT_ACTIVITY_RESTART" value="false" />
       <option name="TARGET_SELECTION_MODE" value="DEVICE_AND_SNAPSHOT_COMBO_BOX" />
+      <option name="SELECTED_CLOUD_MATRIX_CONFIGURATION_ID" value="-1" />
+      <option name="SELECTED_CLOUD_MATRIX_PROJECT_ID" value="" />
       <option name="DEBUGGER_TYPE" value="Auto" />
       <Auto>
         <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
@@ -337,6 +399,8 @@
       <option name="SHOW_LOGCAT_AUTOMATICALLY" value="false" />
       <option name="INSPECTION_WITHOUT_ACTIVITY_RESTART" value="false" />
       <option name="TARGET_SELECTION_MODE" value="DEVICE_AND_SNAPSHOT_COMBO_BOX" />
+      <option name="SELECTED_CLOUD_MATRIX_CONFIGURATION_ID" value="-1" />
+      <option name="SELECTED_CLOUD_MATRIX_PROJECT_ID" value="" />
       <option name="DEBUGGER_TYPE" value="Auto" />
       <Auto>
         <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
@@ -402,6 +466,75 @@
       <option name="SHOW_LOGCAT_AUTOMATICALLY" value="false" />
       <option name="INSPECTION_WITHOUT_ACTIVITY_RESTART" value="false" />
       <option name="TARGET_SELECTION_MODE" value="DEVICE_AND_SNAPSHOT_COMBO_BOX" />
+      <option name="SELECTED_CLOUD_MATRIX_CONFIGURATION_ID" value="-1" />
+      <option name="SELECTED_CLOUD_MATRIX_PROJECT_ID" value="" />
+      <option name="DEBUGGER_TYPE" value="Auto" />
+      <Auto>
+        <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
+        <option name="SHOW_STATIC_VARS" value="true" />
+        <option name="WORKING_DIR" value="" />
+        <option name="TARGET_LOGGING_CHANNELS" value="lldb process:gdb-remote packets" />
+        <option name="SHOW_OPTIMIZED_WARNING" value="true" />
+        <option name="ATTACH_ON_WAIT_FOR_DEBUGGER" value="false" />
+        <option name="DEBUG_SANDBOX_SDK" value="false" />
+      </Auto>
+      <Hybrid>
+        <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
+        <option name="SHOW_STATIC_VARS" value="true" />
+        <option name="WORKING_DIR" value="" />
+        <option name="TARGET_LOGGING_CHANNELS" value="lldb process:gdb-remote packets" />
+        <option name="SHOW_OPTIMIZED_WARNING" value="true" />
+        <option name="ATTACH_ON_WAIT_FOR_DEBUGGER" value="false" />
+        <option name="DEBUG_SANDBOX_SDK" value="false" />
+      </Hybrid>
+      <Java>
+        <option name="ATTACH_ON_WAIT_FOR_DEBUGGER" value="false" />
+        <option name="DEBUG_SANDBOX_SDK" value="false" />
+      </Java>
+      <Native>
+        <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
+        <option name="SHOW_STATIC_VARS" value="true" />
+        <option name="WORKING_DIR" value="" />
+        <option name="TARGET_LOGGING_CHANNELS" value="lldb process:gdb-remote packets" />
+        <option name="SHOW_OPTIMIZED_WARNING" value="true" />
+        <option name="ATTACH_ON_WAIT_FOR_DEBUGGER" value="false" />
+        <option name="DEBUG_SANDBOX_SDK" value="false" />
+      </Native>
+      <Profilers>
+        <option name="ADVANCED_PROFILING_ENABLED" value="false" />
+        <option name="STARTUP_PROFILING_ENABLED" value="false" />
+        <option name="STARTUP_CPU_PROFILING_ENABLED" value="false" />
+        <option name="STARTUP_CPU_PROFILING_CONFIGURATION_NAME" value="Java/Kotlin Method Sample (legacy)" />
+        <option name="STARTUP_NATIVE_MEMORY_PROFILING_ENABLED" value="false" />
+        <option name="NATIVE_MEMORY_SAMPLE_RATE_BYTES" value="2048" />
+      </Profilers>
+      <option name="DEEP_LINK" value="" />
+      <option name="ACTIVITY_CLASS" value="" />
+      <option name="SEARCH_ACTIVITY_IN_GLOBAL_SCOPE" value="false" />
+      <option name="SKIP_ACTIVITY_VALIDATION" value="false" />
+      <method v="2">
+        <option name="Android.Gradle.BeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="trim" type="AndroidRunConfigurationType" factoryName="Android App">
+      <module name="MediaPackage.trim.main" />
+      <option name="DEPLOY" value="true" />
+      <option name="DEPLOY_APK_FROM_BUNDLE" value="false" />
+      <option name="DEPLOY_AS_INSTANT" value="false" />
+      <option name="ARTIFACT_NAME" value="" />
+      <option name="PM_INSTALL_OPTIONS" value="" />
+      <option name="ALL_USERS" value="false" />
+      <option name="ALWAYS_INSTALL_WITH_PM" value="false" />
+      <option name="CLEAR_APP_STORAGE" value="false" />
+      <option name="DYNAMIC_FEATURES_DISABLED_LIST" value="" />
+      <option name="ACTIVITY_EXTRA_FLAGS" value="" />
+      <option name="MODE" value="default_activity" />
+      <option name="CLEAR_LOGCAT" value="false" />
+      <option name="SHOW_LOGCAT_AUTOMATICALLY" value="false" />
+      <option name="INSPECTION_WITHOUT_ACTIVITY_RESTART" value="false" />
+      <option name="TARGET_SELECTION_MODE" value="DEVICE_AND_SNAPSHOT_COMBO_BOX" />
+      <option name="SELECTED_CLOUD_MATRIX_CONFIGURATION_ID" value="-1" />
+      <option name="SELECTED_CLOUD_MATRIX_PROJECT_ID" value="" />
       <option name="DEBUGGER_TYPE" value="Auto" />
       <Auto>
         <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
@@ -467,6 +600,8 @@
       <option name="SHOW_LOGCAT_AUTOMATICALLY" value="false" />
       <option name="INSPECTION_WITHOUT_ACTIVITY_RESTART" value="false" />
       <option name="TARGET_SELECTION_MODE" value="DEVICE_AND_SNAPSHOT_COMBO_BOX" />
+      <option name="SELECTED_CLOUD_MATRIX_CONFIGURATION_ID" value="-1" />
+      <option name="SELECTED_CLOUD_MATRIX_PROJECT_ID" value="" />
       <option name="DEBUGGER_TYPE" value="Auto" />
       <Auto>
         <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
@@ -527,6 +662,21 @@
     </task>
     <servers />
   </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="create：补充功能" />
+    <option name="LAST_COMMIT_MESSAGE" value="create：补充功能" />
+  </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
@@ -544,6 +694,36 @@
           <url>file://$PROJECT_DIR$/videocall/src/main/java/com/liangzs/videocall/LocalSurfaceView.kt</url>
           <line>67</line>
           <option name="timeStamp" value="3" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/videocall/src/main/java/com/liangzs/videocall/SocketLiveServer.kt</url>
+          <line>12</line>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/videocall/src/main/java/com/liangzs/videocall/SocketLiveServer.kt</url>
+          <line>26</line>
+          <option name="timeStamp" value="5" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/videocall/src/main/java/com/liangzs/videocall/SocketH265EncoderPush.kt</url>
+          <line>60</line>
+          <option name="timeStamp" value="6" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/videocall/src/main/java/com/liangzs/videocall/SocketH265EncoderPush.kt</url>
+          <line>28</line>
+          <option name="timeStamp" value="7" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/videocall/src/main/java/com/liangzs/videocall/SocketH265EncoderPush.kt</url>
+          <line>25</line>
+          <option name="timeStamp" value="8" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/videocall/src/main/java/com/liangzs/videocall/SocketH265EncoderPush.kt</url>
+          <line>54</line>
+          <option name="timeStamp" value="9" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
