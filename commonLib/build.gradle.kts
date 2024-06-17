@@ -3,7 +3,7 @@ plugins {
     id("org.jetbrains.kotlin.android")
 }
 android {
-    namespace = "com.ijoysoft.commonlib"
+    namespace = "com.liangzs.commonlib"
     compileSdk = 34
 
     defaultConfig {

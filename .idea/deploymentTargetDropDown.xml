@@ -5,6 +5,12 @@
       <entry key="app">
         <State />
       </entry>
+      <entry key="audio">
+        <State />
+      </entry>
+      <entry key="pcmmurge">
+        <State />
+      </entry>
       <entry key="screenProjectPush">
         <State />
       </entry>
@@ -12,6 +18,9 @@
         <State />
       </entry>
       <entry key="screenprojection">
+        <State />
+      </entry>
+      <entry key="trim">
         <State />
       </entry>
       <entry key="videocall">
