@@ -28,12 +28,15 @@ class MusicMurge {
         val byteArray1 = ByteArray(1024);
         val byteArray2 = ByteArray(1024);
         val byteResult = ByteArray(1024);
+        //定义一个音量
+        val volume1 = 1f;
+        val volume2 = 1f;
 
         var end1 = false
         var end2 = false;
-        var temp1 :Short
-        var temp2 :Short
-        var tempResult :Short
+        var temp1: Short
+        var temp2: Short
+        var tempResult: Int
         while (!end1 || !end2) {
             end1 = fileInputStream1.read(byteArray1) == -1
             end2 = fileInputStream2.read(byteArray2) == -1;
@@ -48,9 +51,20 @@ class MusicMurge {
                 //前八位是低位,后八位是高位
                 var i = 0;
                 while (i < byteArray1.size && i < byteArray2.size) {//拼成16位，1byte是8bit，要两个byte
-                    val hight=byteArray1.get(1).and(0xff.toByte()).toInt().shl(8).toByte()
-                    temp1=byteArray1.get(0).and(0xff.toByte()).or(hight).toShort()
-                    i+=2;
+                    var hightBit = byteArray1.get(i+1).and(0xff.toByte()).toInt().shl(8).toByte()
+                    temp1 = byteArray1.get(i).and(0xff.toByte()).or(hightBit).toShort()
+                    hightBit = byteArray2.get(i+1).and(0xff.toByte()).toInt().shl(8).toByte()
+                    temp2 = byteArray2.get(i).and(0xFF.toByte()).or(hightBit).toShort()
+
+                    tempResult = (temp1 * volume1 + temp2 * volume2).toInt();
+                    //检测是否超过阈值65535->32767   -32768
+                    if (tempResult > 32767) tempResult = 32767
+                    if (tempResult < -32768) tempResult = -32768;
+                    //低位
+                    byteResult.set(i,tempResult.toByte().and(0xFF.toByte()))
+                    //高位
+                    byteResult.set(i+1,tempResult.ushr(8).toByte().and(0xFF.toByte()))
+                    i += 2;
                 }
                 while (i < byteArray1.size) {
                     byteResult[i] = byteArray1[i]
@@ -75,7 +89,8 @@ class MusicMurge {
 
         val audioMediaFormat = mediaTractor.getTrackFormat(audioTrackIndex)
         //初始化编码
-        val mediaDecoder = MediaCodec.createDecoderByType(audioMediaFormat.getString(MediaFormat.KEY_MIME)!!)
+        val mediaDecoder =
+            MediaCodec.createDecoderByType(audioMediaFormat.getString(MediaFormat.KEY_MIME)!!)
         mediaDecoder.configure(audioMediaFormat, null, null, 0);
         mediaDecoder.start()
         //extractor 的bytebuffer需要设置最大限制,需要判断是否存在
@@ -115,7 +130,13 @@ class MusicMurge {
                 byteBuffer?.clear()
                 byteBuffer?.put(tempByteArray)
                 //通知解码
-                mediaDecoder.queueInputBuffer(inputIndex, bufferInfo.offset, bufferInfo.size, bufferInfo.presentationTimeUs, mediaTractor.sampleFlags)
+                mediaDecoder.queueInputBuffer(
+                    inputIndex,
+                    bufferInfo.offset,
+                    bufferInfo.size,
+                    bufferInfo.presentationTimeUs,
+                    mediaTractor.sampleFlags
+                )
 
                 mediaTractor.advance()
             }
