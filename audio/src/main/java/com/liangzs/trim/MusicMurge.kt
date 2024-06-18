@@ -51,9 +51,9 @@ class MusicMurge {
                 //前八位是低位,后八位是高位
                 var i = 0;
                 while (i < byteArray1.size && i < byteArray2.size) {//拼成16位，1byte是8bit，要两个byte
-                    var hightBit = byteArray1.get(i+1).and(0xff.toByte()).toInt().shl(8).toByte()
+                    var hightBit = byteArray1.get(i + 1).and(0xff.toByte()).toInt().shl(8).toByte()
                     temp1 = byteArray1.get(i).and(0xff.toByte()).or(hightBit).toShort()
-                    hightBit = byteArray2.get(i+1).and(0xff.toByte()).toInt().shl(8).toByte()
+                    hightBit = byteArray2.get(i + 1).and(0xff.toByte()).toInt().shl(8).toByte()
                     temp2 = byteArray2.get(i).and(0xFF.toByte()).or(hightBit).toShort()
 
                     tempResult = (temp1 * volume1 + temp2 * volume2).toInt();
@@ -61,18 +61,10 @@ class MusicMurge {
                     if (tempResult > 32767) tempResult = 32767
                     if (tempResult < -32768) tempResult = -32768;
                     //低位
-                    byteResult.set(i,tempResult.toByte().and(0xFF.toByte()))
+                    byteResult.set(i, tempResult.toByte().and(0xFF.toByte()))
                     //高位
-                    byteResult.set(i+1,tempResult.ushr(8).toByte().and(0xFF.toByte()))
+                    byteResult.set(i + 1, tempResult.ushr(8).toByte().and(0xFF.toByte()))
                     i += 2;
-                }
-                while (i < byteArray1.size) {
-                    byteResult[i] = byteArray1[i]
-                    i++;
-                }
-                while (i < byteArray2.size) {
-                    byteResult[i] = byteArray2[i]
-                    i++;
                 }
             }
         }

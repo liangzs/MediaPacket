@@ -15,10 +15,10 @@ dependencyResolutionManagement {
 
 rootProject.name = "MediaPackage"
 include(":app")
-include(":cameracature")
-include(":screenProjectPush")
-include(":commonLib")
-include(":screenprojectfetch")
-include(":videocall")
-include(":audio")
+//include(":cameracature")
+//include(":screenProjectPush")
+//include(":commonLib")
+//include(":screenprojectfetch")
+//include(":videocall")
+//include(":audio")
 include(":video")

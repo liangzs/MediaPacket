@@ -1,4 +1,4 @@
-package com.liangzs.video
+package com.linagzs.video
 
 import org.junit.Test
 
