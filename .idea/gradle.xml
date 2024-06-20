@@ -11,12 +11,8 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
-            <option value="$PROJECT_DIR$/audio" />
-            <option value="$PROJECT_DIR$/cameracature" />
-            <option value="$PROJECT_DIR$/commonLib" />
-            <option value="$PROJECT_DIR$/screenProjectPush" />
-            <option value="$PROJECT_DIR$/screenprojectfetch" />
-            <option value="$PROJECT_DIR$/videocall" />
+            <option value="$PROJECT_DIR$/nativelib" />
+            <option value="$PROJECT_DIR$/video" />
           </set>
         </option>
         <option name="resolveExternalAnnotations" value="false" />

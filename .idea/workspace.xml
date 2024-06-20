@@ -20,19 +20,14 @@
           <theme>@style/Theme.MediaPackage</theme>
         </config>
       </layout>
-      <layout url="file://$PROJECT_DIR$/pcmmurge/src/main/res/layout/activity_main.xml">
-        <config>
-          <theme>@style/Theme.MediaPackage</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/pcmmurge/src/main/res/layout/activity_main2.xml">
-        <config>
-          <theme>@style/Theme.MediaPackage</theme>
-        </config>
-      </layout>
       <layout url="file://$PROJECT_DIR$/screenprojectfetch/src/main/res/layout/activity_main.xml">
         <config>
           <theme>@style/Theme.MediaPackage</theme>
+        </config>
+      </layout>
+      <layout url="file://$PROJECT_DIR$/video/src/main/res/layout/activity_ffmplay.xml">
+        <config>
+          <theme>@android:style/Theme.Material.Light</theme>
         </config>
       </layout>
       <layout url="file://$PROJECT_DIR$/videocall/src/main/res/layout/activity_main.xml">
@@ -47,9 +42,159 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7fd266e3-aca7-45c1-9e78-87fafa4ac8cf" name="Changes" comment="补充投屏拉流动作">
-      <change afterPath="$PROJECT_DIR$/audio/src/main/java/com/liangzs/trim/MusicMurge.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/audio/src/main/java/com/liangzs/trim/PcmMurgeActivity.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/audio/src/main/res/layout/activity_pcm_murge.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/nativelib/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/nativelib/build.gradle.kts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/nativelib/consumer-rules.pro" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/nativelib/proguard-rules.pro" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/nativelib/src/androidTest/java/com/ijoysoft/nativelib/ExampleInstrumentedTest.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/nativelib/src/main/AndroidManifest.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/nativelib/src/main/cpp/CMakeLists.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/nativelib/src/main/cpp/nativelib.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/nativelib/src/main/java/com/ijoysoft/nativelib/NativeLib.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/nativelib/src/test/java/com/ijoysoft/nativelib/ExampleUnitTest.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/libs/armeabi-v7a/libffmpeg.so" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/CMakeLists.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/include/arm64-v8a/libffmpeg/config.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/include/armeabi-v7a/libffmpeg/config.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/include/compat/va_copy.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/include/libavcodec/ac3_parser.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/include/libavcodec/adts_parser.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/include/libavcodec/avcodec.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/include/libavcodec/avdct.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/include/libavcodec/avfft.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/include/libavcodec/d3d11va.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/include/libavcodec/dirac.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/include/libavcodec/dv_profile.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/include/libavcodec/dxva2.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/include/libavcodec/jni.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/include/libavcodec/mathops.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/include/libavcodec/mediacodec.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/include/libavcodec/qsv.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/include/libavcodec/vaapi.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/include/libavcodec/vda.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/include/libavcodec/vdpau.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/include/libavcodec/version.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/include/libavcodec/videotoolbox.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/include/libavcodec/vorbis_parser.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/include/libavcodec/xvmc.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/include/libavdevice/avdevice.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/include/libavdevice/version.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/include/libavfilter/avfilter.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/include/libavfilter/avfiltergraph.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/include/libavfilter/buffersink.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/include/libavfilter/buffersrc.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/include/libavfilter/version.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/include/libavformat/avc.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/include/libavformat/avformat.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/include/libavformat/avio.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/include/libavformat/avio_internal.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/include/libavformat/flv.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/include/libavformat/id3v2.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/include/libavformat/internal.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/include/libavformat/metadata.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/include/libavformat/os_support.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/include/libavformat/url.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/include/libavformat/version.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/include/libavresample/avresample.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/include/libavresample/version.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/include/libavutil/adler32.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/include/libavutil/aes.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/include/libavutil/aes_ctr.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/include/libavutil/application.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/include/libavutil/attributes.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/include/libavutil/audio_fifo.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/include/libavutil/avassert.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/include/libavutil/avconfig.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/include/libavutil/avstring.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/include/libavutil/avutil.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/include/libavutil/base64.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/include/libavutil/blowfish.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/include/libavutil/bprint.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/include/libavutil/bswap.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/include/libavutil/buffer.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/include/libavutil/camellia.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/include/libavutil/cast5.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/include/libavutil/channel_layout.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/include/libavutil/common.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/include/libavutil/cpu.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/include/libavutil/crc.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/include/libavutil/des.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/include/libavutil/dict.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/include/libavutil/display.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/include/libavutil/dns_cache.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/include/libavutil/downmix_info.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/include/libavutil/encryption_info.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/include/libavutil/error.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/include/libavutil/eval.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/include/libavutil/ffversion.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/include/libavutil/fifo.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/include/libavutil/file.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/include/libavutil/frame.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/include/libavutil/hash.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/include/libavutil/hmac.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/include/libavutil/hwcontext.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/include/libavutil/hwcontext_cuda.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/include/libavutil/hwcontext_d3d11va.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/include/libavutil/hwcontext_drm.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/include/libavutil/hwcontext_dxva2.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/include/libavutil/hwcontext_mediacodec.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/include/libavutil/hwcontext_qsv.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/include/libavutil/hwcontext_vaapi.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/include/libavutil/hwcontext_vdpau.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/include/libavutil/hwcontext_videotoolbox.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/include/libavutil/imgutils.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/include/libavutil/internal.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/include/libavutil/intfloat.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/include/libavutil/intreadwrite.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/include/libavutil/lfg.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/include/libavutil/libm.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/include/libavutil/log.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/include/libavutil/lzo.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/include/libavutil/macros.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/include/libavutil/mastering_display_metadata.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/include/libavutil/mathematics.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/include/libavutil/md5.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/include/libavutil/mem.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/include/libavutil/motion_vector.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/include/libavutil/murmur3.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/include/libavutil/opt.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/include/libavutil/parseutils.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/include/libavutil/pixdesc.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/include/libavutil/pixelutils.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/include/libavutil/pixfmt.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/include/libavutil/random_seed.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/include/libavutil/rational.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/include/libavutil/rc4.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/include/libavutil/replaygain.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/include/libavutil/reverse.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/include/libavutil/ripemd.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/include/libavutil/samplefmt.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/include/libavutil/sha.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/include/libavutil/sha512.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/include/libavutil/spherical.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/include/libavutil/stereo3d.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/include/libavutil/tea.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/include/libavutil/thread.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/include/libavutil/threadmessage.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/include/libavutil/time.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/include/libavutil/timecode.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/include/libavutil/timer.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/include/libavutil/timestamp.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/include/libavutil/tree.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/include/libavutil/twofish.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/include/libavutil/version.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/include/libavutil/xtea.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/include/libffmpeg/config.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/include/libpostproc/postprocess.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/include/libpostproc/version.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/include/libswresample/swresample.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/include/libswresample/version.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/include/libswscale/swscale.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/include/libswscale/version.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/nativelib.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/java/com/linagzs/video/FFPlayer.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/java/com/linagzs/video/FFmplayActivity.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/res/layout/activity_ffmplay.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/8.0/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.0/executionHistory/executionHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/8.0/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.0/executionHistory/executionHistory.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/8.0/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.0/fileHashes/fileHashes.bin" afterDir="false" />
@@ -61,40 +206,10 @@
       <change beforePath="$PROJECT_DIR$/.idea/deploymentTargetDropDown.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/deploymentTargetDropDown.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/commonLib/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/commonLib/build.gradle.kts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/local.properties" beforeDir="false" afterPath="$PROJECT_DIR$/local.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/settings.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/settings.gradle.kts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/trim/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/audio/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/trim/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/audio/build.gradle.kts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/trim/proguard-rules.pro" beforeDir="false" afterPath="$PROJECT_DIR$/audio/proguard-rules.pro" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/trim/src/androidTest/java/com/liangzs/trim/ExampleInstrumentedTest.kt" beforeDir="false" afterPath="$PROJECT_DIR$/audio/src/androidTest/java/com/liangzs/trim/ExampleInstrumentedTest.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/trim/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/audio/src/main/AndroidManifest.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/trim/src/main/java/com/liangzs/trim/MainActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/audio/src/main/java/com/liangzs/trim/MainActivity.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/trim/src/main/java/com/liangzs/trim/MainActivity2.kt" beforeDir="false" afterPath="$PROJECT_DIR$/audio/src/main/java/com/liangzs/trim/MainActivity2.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/trim/src/main/java/com/liangzs/trim/MusicTrim.kt" beforeDir="false" afterPath="$PROJECT_DIR$/audio/src/main/java/com/liangzs/trim/MusicTrim.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/trim/src/main/java/com/liangzs/trim/PcmToWavUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/audio/src/main/java/com/liangzs/trim/PcmToWavUtil.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/trim/src/main/java/com/liangzs/trim/ui/theme/Color.kt" beforeDir="false" afterPath="$PROJECT_DIR$/audio/src/main/java/com/liangzs/trim/ui/theme/Color.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/trim/src/main/java/com/liangzs/trim/ui/theme/Theme.kt" beforeDir="false" afterPath="$PROJECT_DIR$/audio/src/main/java/com/liangzs/trim/ui/theme/Theme.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/trim/src/main/java/com/liangzs/trim/ui/theme/Type.kt" beforeDir="false" afterPath="$PROJECT_DIR$/audio/src/main/java/com/liangzs/trim/ui/theme/Type.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/trim/src/main/res/drawable/ic_launcher_background.xml" beforeDir="false" afterPath="$PROJECT_DIR$/audio/src/main/res/drawable/ic_launcher_background.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/trim/src/main/res/drawable/ic_launcher_foreground.xml" beforeDir="false" afterPath="$PROJECT_DIR$/audio/src/main/res/drawable/ic_launcher_foreground.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/trim/src/main/res/layout/activity_main.xml" beforeDir="false" afterPath="$PROJECT_DIR$/audio/src/main/res/layout/activity_main.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/trim/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" beforeDir="false" afterPath="$PROJECT_DIR$/audio/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/trim/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" beforeDir="false" afterPath="$PROJECT_DIR$/audio/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/trim/src/main/res/mipmap-hdpi/ic_launcher.webp" beforeDir="false" afterPath="$PROJECT_DIR$/audio/src/main/res/mipmap-hdpi/ic_launcher.webp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/trim/src/main/res/mipmap-hdpi/ic_launcher_round.webp" beforeDir="false" afterPath="$PROJECT_DIR$/audio/src/main/res/mipmap-hdpi/ic_launcher_round.webp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/trim/src/main/res/mipmap-mdpi/ic_launcher.webp" beforeDir="false" afterPath="$PROJECT_DIR$/audio/src/main/res/mipmap-mdpi/ic_launcher.webp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/trim/src/main/res/mipmap-mdpi/ic_launcher_round.webp" beforeDir="false" afterPath="$PROJECT_DIR$/audio/src/main/res/mipmap-mdpi/ic_launcher_round.webp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/trim/src/main/res/mipmap-xhdpi/ic_launcher.webp" beforeDir="false" afterPath="$PROJECT_DIR$/audio/src/main/res/mipmap-xhdpi/ic_launcher.webp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/trim/src/main/res/mipmap-xhdpi/ic_launcher_round.webp" beforeDir="false" afterPath="$PROJECT_DIR$/audio/src/main/res/mipmap-xhdpi/ic_launcher_round.webp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/trim/src/main/res/mipmap-xxhdpi/ic_launcher.webp" beforeDir="false" afterPath="$PROJECT_DIR$/audio/src/main/res/mipmap-xxhdpi/ic_launcher.webp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/trim/src/main/res/mipmap-xxhdpi/ic_launcher_round.webp" beforeDir="false" afterPath="$PROJECT_DIR$/audio/src/main/res/mipmap-xxhdpi/ic_launcher_round.webp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/trim/src/main/res/mipmap-xxxhdpi/ic_launcher.webp" beforeDir="false" afterPath="$PROJECT_DIR$/audio/src/main/res/mipmap-xxxhdpi/ic_launcher.webp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/trim/src/main/res/mipmap-xxxhdpi/ic_launcher_round.webp" beforeDir="false" afterPath="$PROJECT_DIR$/audio/src/main/res/mipmap-xxxhdpi/ic_launcher_round.webp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/trim/src/main/res/values/colors.xml" beforeDir="false" afterPath="$PROJECT_DIR$/audio/src/main/res/values/colors.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/trim/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/audio/src/main/res/values/strings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/trim/src/main/res/values/themes.xml" beforeDir="false" afterPath="$PROJECT_DIR$/audio/src/main/res/values/themes.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/trim/src/test/java/com/liangzs/trim/ExampleUnitTest.kt" beforeDir="false" afterPath="$PROJECT_DIR$/audio/src/test/java/com/liangzs/trim/ExampleUnitTest.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/video/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/video/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/video/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/video/src/main/AndroidManifest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/video/src/main/AndroidManifest_target.xml" beforeDir="false" afterPath="$PROJECT_DIR$/video/src/main/AndroidManifest_target.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -149,35 +264,45 @@
     <option name="showMembers" value="true" />
     <option name="showVisibilityIcons" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Android App.trim.executor&quot;: &quot;Run&quot;,
-    &quot;Android App.videocall.executor&quot;: &quot;Run&quot;,
-    &quot;DEBUGGABLE_DEVICE&quot;: &quot;huawei-dvc_an20-Q2NVB20915007619&quot;,
-    &quot;DEBUGGABLE_PROCESS&quot;: &quot;com.liangzs.videocall&quot;,
-    &quot;DEBUGGER_ID&quot;: &quot;Auto&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;SHOW_ALL_PROCESSES&quot;: &quot;false&quot;,
-    &quot;android-custom-viewD:/1.android/private/MediaPacket/videocall/src/main/java/com/liangzs/videocall/LocalSurfaceView.kt_SELECTED&quot;: &quot;LocalSurfaceView&quot;,
-    &quot;android-custom-viewD:/IdeStudio/sdk/sources/android-34/android/view/SurfaceView.java_SELECTED&quot;: &quot;SurfaceView&quot;,
-    &quot;android-custom-viewD:/androidIde/androidSdk/sources/android-34/android/view/SurfaceView.java_SELECTED&quot;: &quot;SurfaceView&quot;,
-    &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
-    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
-    &quot;external.system.has.shared.sources&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;F:/BaiduNetdiskDownload/网课视频资料/VIP30-2020.12.28-两个音频PCM合成实现混音-David/代码/MusicClip&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.17&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settingsdialog.project.gradle&quot;,
-    &quot;show.migrate.to.gradle.popup&quot;: &quot;false&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Android App.trim.executor": "Run",
+    "Android App.videocall.executor": "Run",
+    "DEBUGGABLE_DEVICE": "huawei-dvc_an20-Q2NVB20915007619",
+    "DEBUGGABLE_PROCESS": "com.liangzs.videocall",
+    "DEBUGGER_ID": "Auto",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.cidr.known.project.marker": "true",
+    "SHOW_ALL_PROCESSES": "false",
+    "android-custom-viewD:/1.android/private/MediaPacket/videocall/src/main/java/com/liangzs/videocall/LocalSurfaceView.kt_SELECTED": "LocalSurfaceView",
+    "android-custom-viewD:/IdeStudio/sdk/sources/android-33/android/view/SurfaceView.java_SELECTED": "SurfaceView",
+    "android-custom-viewD:/IdeStudio/sdk/sources/android-34/android/view/SurfaceView.java_SELECTED": "SurfaceView",
+    "android-custom-viewD:/androidIde/androidSdk/sources/android-34/android/view/SurfaceView.java_SELECTED": "SurfaceView",
+    "cf.advertisement.text.has.clang-format": "true",
+    "cf.first.check.clang-format": "false",
+    "cidr.known.project.marker": "true",
+    "dart.analysis.tool.window.visible": "false",
+    "external.system.has.shared.sources": "true",
+    "last_opened_file_path": "D:/1.android/private/MediaPacket/video/libs",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.17",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "reference.settingsdialog.project.gradle",
+    "show.migrate.to.gradle.popup": "false"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="android.template.-398585901">
       <recent name="com.liangzs.videocall" />
+    </key>
+    <key name="android.template.1192334160">
+      <recent name="com.linagzs.video" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\1.android\private\MediaPacket\video\libs" />
+      <recent name="D:\1.android\private\MediaPacket\video\src\main\cpp" />
+      <recent name="D:\1.android\private\MediaPacket\video" />
     </key>
     <key name="android.template.935571877">
       <recent name="com.liangzs.trim" />
@@ -197,7 +322,7 @@
       <recent name="com.liangzs.videocall" />
     </key>
   </component>
-  <component name="RunManager" selected="Android App.audio">
+  <component name="RunManager" selected="Android App.video">
     <configuration name="app" type="AndroidRunConfigurationType" factoryName="Android App">
       <module name="MediaPackage.app.main" />
       <option name="DEPLOY" value="true" />
@@ -655,6 +780,71 @@
     </configuration>
     <configuration name="trim" type="AndroidRunConfigurationType" factoryName="Android App">
       <module name="MediaPackage.trim.main" />
+      <option name="DEPLOY" value="true" />
+      <option name="DEPLOY_APK_FROM_BUNDLE" value="false" />
+      <option name="DEPLOY_AS_INSTANT" value="false" />
+      <option name="ARTIFACT_NAME" value="" />
+      <option name="PM_INSTALL_OPTIONS" value="" />
+      <option name="ALL_USERS" value="false" />
+      <option name="ALWAYS_INSTALL_WITH_PM" value="false" />
+      <option name="CLEAR_APP_STORAGE" value="false" />
+      <option name="DYNAMIC_FEATURES_DISABLED_LIST" value="" />
+      <option name="ACTIVITY_EXTRA_FLAGS" value="" />
+      <option name="MODE" value="default_activity" />
+      <option name="CLEAR_LOGCAT" value="false" />
+      <option name="SHOW_LOGCAT_AUTOMATICALLY" value="false" />
+      <option name="INSPECTION_WITHOUT_ACTIVITY_RESTART" value="false" />
+      <option name="TARGET_SELECTION_MODE" value="DEVICE_AND_SNAPSHOT_COMBO_BOX" />
+      <option name="DEBUGGER_TYPE" value="Auto" />
+      <Auto>
+        <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
+        <option name="SHOW_STATIC_VARS" value="true" />
+        <option name="WORKING_DIR" value="" />
+        <option name="TARGET_LOGGING_CHANNELS" value="lldb process:gdb-remote packets" />
+        <option name="SHOW_OPTIMIZED_WARNING" value="true" />
+        <option name="ATTACH_ON_WAIT_FOR_DEBUGGER" value="false" />
+        <option name="DEBUG_SANDBOX_SDK" value="false" />
+      </Auto>
+      <Hybrid>
+        <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
+        <option name="SHOW_STATIC_VARS" value="true" />
+        <option name="WORKING_DIR" value="" />
+        <option name="TARGET_LOGGING_CHANNELS" value="lldb process:gdb-remote packets" />
+        <option name="SHOW_OPTIMIZED_WARNING" value="true" />
+        <option name="ATTACH_ON_WAIT_FOR_DEBUGGER" value="false" />
+        <option name="DEBUG_SANDBOX_SDK" value="false" />
+      </Hybrid>
+      <Java>
+        <option name="ATTACH_ON_WAIT_FOR_DEBUGGER" value="false" />
+        <option name="DEBUG_SANDBOX_SDK" value="false" />
+      </Java>
+      <Native>
+        <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
+        <option name="SHOW_STATIC_VARS" value="true" />
+        <option name="WORKING_DIR" value="" />
+        <option name="TARGET_LOGGING_CHANNELS" value="lldb process:gdb-remote packets" />
+        <option name="SHOW_OPTIMIZED_WARNING" value="true" />
+        <option name="ATTACH_ON_WAIT_FOR_DEBUGGER" value="false" />
+        <option name="DEBUG_SANDBOX_SDK" value="false" />
+      </Native>
+      <Profilers>
+        <option name="ADVANCED_PROFILING_ENABLED" value="false" />
+        <option name="STARTUP_PROFILING_ENABLED" value="false" />
+        <option name="STARTUP_CPU_PROFILING_ENABLED" value="false" />
+        <option name="STARTUP_CPU_PROFILING_CONFIGURATION_NAME" value="Java/Kotlin Method Sample (legacy)" />
+        <option name="STARTUP_NATIVE_MEMORY_PROFILING_ENABLED" value="false" />
+        <option name="NATIVE_MEMORY_SAMPLE_RATE_BYTES" value="2048" />
+      </Profilers>
+      <option name="DEEP_LINK" value="" />
+      <option name="ACTIVITY_CLASS" value="" />
+      <option name="SEARCH_ACTIVITY_IN_GLOBAL_SCOPE" value="false" />
+      <option name="SKIP_ACTIVITY_VALIDATION" value="false" />
+      <method v="2">
+        <option name="Android.Gradle.BeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="video" type="AndroidRunConfigurationType" factoryName="Android App">
+      <module name="MediaPackage.video.main" />
       <option name="DEPLOY" value="true" />
       <option name="DEPLOY_APK_FROM_BUNDLE" value="false" />
       <option name="DEPLOY_AS_INSTANT" value="false" />
