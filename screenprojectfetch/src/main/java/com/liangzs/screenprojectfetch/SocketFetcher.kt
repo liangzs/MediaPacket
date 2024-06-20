@@ -1,5 +1,6 @@
 package com.liangzs.screenprojectfetch
 
+<<<<<<< Updated upstream
 import android.media.MediaCodec
 import android.media.MediaCodec.BufferInfo
 import android.media.MediaFormat
@@ -73,5 +74,18 @@ class SocketFetcher(surface: Surface) {
             ex?.printStackTrace()
         }
 
+=======
+import org.java_websocket.client.WebSocketClient
+
+class SocketFetcher {
+    var socketClient: WebSocketClient? = null;
+
+    init {
+        socketClient = WebSocketClient("")
+    }
+
+    fun start() {
+        socketClient?.connect();
+>>>>>>> Stashed changes
     }
 }

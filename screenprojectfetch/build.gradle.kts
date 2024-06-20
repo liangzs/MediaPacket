@@ -8,7 +8,10 @@ plugins {
     id("org.jetbrains.kotlin.android")
 }
 //apply( from="../commonLib/build.gradle.kts")
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
 fun mergeManifestXmlFiles(mainXmlPath: String, libraryXmlPaths: List<String>): String {
     val mainManifestFile = file(mainXmlPath)
     val targetFile = File(mainManifestFile.getParent(), "AndroidManifest_target.xml")
@@ -135,6 +138,11 @@ dependencies {
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
+<<<<<<< Updated upstream
     api("org.java-websocket:Java-WebSocket:1.5.2")
 
+=======
+
+    implementation("org.java-websocket:Java-WebSocket:1.5.2")
+>>>>>>> Stashed changes
 }
