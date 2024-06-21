@@ -6,16 +6,25 @@
     android:layout_height="match_parent"
     tools:context=".FFmplayActivity">
 
-    <SurfaceView
-        android:id="@+id/surface"
+    <FrameLayout
+        android:id="@+id/fl_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <SurfaceView
+            android:id="@+id/surface"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </FrameLayout>
+
 
     <Button
         android:id="@+id/bt"
-        android:text="播放"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="播放"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

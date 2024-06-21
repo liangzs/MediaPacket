@@ -11,47 +11,24 @@ extern "C" {
 #include "libavutil/avutil.h"
 #include "libswscale/swscale.h"
 #include "libavutil/imgutils.h"
+#include <libavutil/time.h>
+
 }
 
 AVFormatContext *avFormatContext;
 AVCodecContext *avCodecContext;
 AVCodec *avCodec;
 SwsContext *swsContext;
-
-
+int videoStreamIndex = -1;
+ANativeWindow *window;
+AVPacket *avPacket;
+AVFrame *avFrame;
+AVFrame *rgbFrame;
 extern "C"
 
 JNIEXPORT jint JNICALL
-Java_com_linagzs_video_FFPlayer_play(JNIEnv *env, jobject thiz, jstring path, jobject surface) {
-    //把路径转成c支持的char*
-    char *pathChar = const_cast<char *>(env->GetStringUTFChars(path, 0));
-    avcodec_register_all();
+Java_com_linagzs_video_FFPlayer_play(JNIEnv *env, jobject thiz) {
 
-    avFormatContext = avformat_alloc_context();
-
-    if (avformat_open_input(&avFormatContext, pathChar, NULL, NULL) != 0) {
-        LOGI("打开文件失败");
-        return -1;
-    }
-    if (avformat_find_stream_info(avFormatContext, NULL) < 0) {
-        LOGI("获取流信息失败");
-        return -1;
-    }
-
-    int videoStreamIndex = -1;
-    for (int i = 0; i < avFormatContext->nb_streams; i++) {
-        if (avFormatContext->streams[i]->codecpar->codec_type == AVMediaType::AVMEDIA_TYPE_VIDEO) {
-            videoStreamIndex = i;
-            break;
-        }
-    }
-    if (videoStreamIndex == -1) {
-        LOGI("找不到视频流");
-        return -1;
-    }
-    //先有解码器上下文，然后再找到解码器，一般都是通过上下文
-    avCodecContext = avFormatContext->streams[videoStreamIndex]->codec;
-    avCodec = avcodec_find_decoder(avCodecContext->codec_id);
 
     //用open2方案
     if (avcodec_open2(avCodecContext, avCodec, NULL) < 0) {
@@ -62,17 +39,13 @@ Java_com_linagzs_video_FFPlayer_play(JNIEnv *env, jobject thiz, jstring path, jo
     //推送package，得到avframe是解码。推送avframe，得到package是编码
     //原始的挂钩的avPacket和avFrame由ffmpeg进行内存分配
     //av_packet_alloc()+av_packet_ref().
-    AVPacket *avPacket = av_packet_alloc();
-    av_packet_free(&avPacket);
+    avPacket = av_packet_alloc();
     //av_frame_free
-    AVFrame *avFrame = av_frame_alloc();
-    av_frame_free(&avFrame);
-    AVFrame *rgbFrame = av_frame_alloc();
+    avFrame = av_frame_alloc();
+
+    rgbFrame = av_frame_alloc();
     //中转的avframe作为最终展示
     int ret;
-
-    //定义window 进行展示
-    ANativeWindow *window = ANativeWindow_fromSurface(env, surface);
 
 
     //设置窗口的缓冲区
@@ -112,17 +85,83 @@ Java_com_linagzs_video_FFPlayer_play(JNIEnv *env, jobject thiz, jstring path, jo
                     memcpy(dst + i * windowBuffer.stride * 4,
                            rgbFrame->data[0] + i * rgbFrame->linesize[0], rgbFrame->linesize[0]);
                 }
+                av_usleep(3300);
                 ANativeWindow_unlockAndPost(window);
-
             }
+
         }
+        av_packet_unref(avPacket);
+    }
+    av_packet_free(&avPacket);
+    av_frame_free(&avFrame);
+    av_frame_free(&rgbFrame);
+    avcodec_close(avCodecContext);
+    avformat_close_input(&avFormatContext);
+    ANativeWindow_release(window);
 
+    return 0;
+}
+extern "C"
+JNIEXPORT jint JNICALL
+Java_com_linagzs_video_FFPlayer_createPlayer(JNIEnv *env, jobject thiz, jstring path,
+                                             jobject surface) {
+    //把路径转成c支持的char*
+    char *pathChar = const_cast<char *>(env->GetStringUTFChars(path, 0));
+    avcodec_register_all();
 
+    avFormatContext = avformat_alloc_context();
+
+    if (avformat_open_input(&avFormatContext, pathChar, NULL, NULL) != 0) {
+        LOGI("打开文件失败");
+        return -1;
+    }
+    if (avformat_find_stream_info(avFormatContext, NULL) < 0) {
+        LOGI("获取流信息失败");
+        return -1;
     }
 
 
-    ANativeWindow_release(window);
+    for (int i = 0; i < avFormatContext->nb_streams; i++) {
+        if (avFormatContext->streams[i]->codecpar->codec_type == AVMediaType::AVMEDIA_TYPE_VIDEO) {
+            videoStreamIndex = i;
+            break;
+        }
+    }
+    if (videoStreamIndex == -1) {
+        LOGI("找不到视频流");
+        return -1;
+    }
+    //先有解码器上下文，然后再找到解码器，一般都是通过上下文
+    avCodecContext = avFormatContext->streams[videoStreamIndex]->codec;
+    avCodec = avcodec_find_decoder(avCodecContext->codec_id);
+
+    //定义window 进行展示
+    window = ANativeWindow_fromSurface(env, surface);
     //两者需成双成对
     env->ReleaseStringUTFChars(path, pathChar);
     return 0;
+}
+extern "C"
+JNIEXPORT jint JNICALL
+Java_com_linagzs_video_FFPlayer_getWidth(JNIEnv *env, jobject thiz) {
+    return avCodecContext->width;
+}
+extern "C"
+JNIEXPORT jint JNICALL
+Java_com_linagzs_video_FFPlayer_getHeight(JNIEnv *env, jobject thiz) {
+    return avCodecContext->height;
+}
+extern "C"
+JNIEXPORT void JNICALL
+Java_com_linagzs_video_FFPlayer_release(JNIEnv *env, jobject thiz) {
+    av_packet_free(&avPacket);
+    av_frame_free(&avFrame);
+    av_frame_free(&rgbFrame);
+    avcodec_close(avCodecContext);
+    avformat_close_input(&avFormatContext);
+    ANativeWindow_release(window);
+}
+extern "C"
+JNIEXPORT jint JNICALL
+Java_com_linagzs_video_FFPlayer_getRotation(JNIEnv *env, jobject thiz) {
 }
