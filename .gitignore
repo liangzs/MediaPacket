@@ -69,3 +69,14 @@ video/.cxx/Debug/3y3f2a5v/armeabi-v7a/metadata_generation_command.txt
 video/.cxx/Debug/3y3f2a5v/armeabi-v7a/prefab_config.json
 video/.cxx/Debug/3y3f2a5v/hash_key.txt
 video/.cxx/tools/debug/armeabi-v7a/compile_commands.json
+*.json
+nativelib/build/intermediates/cxx/abi_configuration_2d42g4g6.log
+nativelib/build/intermediates/cxx/create_cxx_tasks_23_timing.txt
+nativelib/build/intermediates/cxx/Debug/4ce3k1x4/logs/x86/configure_command.bat
+nativelib/build/intermediates/cxx/Debug/4ce3k1x4/logs/x86/configure_stderr.txt
+nativelib/build/intermediates/cxx/Debug/4ce3k1x4/logs/x86/configure_stdout.txt
+nativelib/build/intermediates/cxx/Debug/4ce3k1x4/logs/x86/generate_cxx_metadata_23_timing.txt
+nativelib/build/intermediates/cxx/Debug/4ce3k1x4/meta/x86/additional_project_files.txt
+nativelib/build/intermediates/cxx/Debug/4ce3k1x4/meta/x86/build_file_index.txt
+nativelib/build/intermediates/cxx/Debug/4ce3k1x4/meta/x86/symbol_folder_index.txt
+nativelib/build/intermediates/cxx/ndk_locator_record_626ne35c.log
