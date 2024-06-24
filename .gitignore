@@ -82,3 +82,6 @@ nativelib/build/intermediates/cxx/Debug/4ce3k1x4/meta/x86/symbol_folder_index.tx
 nativelib/build/intermediates/cxx/ndk_locator_record_626ne35c.log
 /.gradle/
 /.idea/
+/FFmplayer/.cxx/
+.gradle/8.0/fileHashes/fileHashes.lock
+/.gradle
