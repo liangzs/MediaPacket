@@ -45,6 +45,8 @@ public:
      * 线程中执行解码过程
      */
     void decodeThread();
+
+    void start();
 };
 
 

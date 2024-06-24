@@ -8,6 +8,9 @@
 
 class PlayerJavaCall {
 
+public:
+    void onPrepared();
+
 };
 
 

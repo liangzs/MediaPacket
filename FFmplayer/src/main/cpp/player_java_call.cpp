@@ -3,3 +3,7 @@
 //
 
 #include "player_java_call.h"
+
+void PlayerJavaCall::onPrepared() {
+
+}

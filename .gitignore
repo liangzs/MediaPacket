@@ -80,3 +80,5 @@ nativelib/build/intermediates/cxx/Debug/4ce3k1x4/meta/x86/additional_project_fil
 nativelib/build/intermediates/cxx/Debug/4ce3k1x4/meta/x86/build_file_index.txt
 nativelib/build/intermediates/cxx/Debug/4ce3k1x4/meta/x86/symbol_folder_index.txt
 nativelib/build/intermediates/cxx/ndk_locator_record_626ne35c.log
+/.gradle/
+/.idea/

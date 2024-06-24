@@ -34,7 +34,7 @@ set_target_properties(ffmpeg-lib
 # for GameActivity/NativeActivity derived applications, the same library name must be
 # used in the AndroidManifest.xml file.
 #aux_source_directory(. SOURCE)
-
+#可以直接用source或者可以直接导入头文件，但是只导入头文件，总是在cpp文件中识别不了代码的导入方法。晕死
 add_library(${CMAKE_PROJECT_NAME} SHARED
         # List C/C++ source files with relative paths to this CMakeLists.txt.
         ffmplayer_android.cpp
@@ -42,6 +42,7 @@ add_library(${CMAKE_PROJECT_NAME} SHARED
         android_log.h
         player_status.h
         opensl_audio.h
+        opensl_audio.cpp
         Ffmpeg_player.h
         Ffmpeg_player.cpp
         player_java_call.h

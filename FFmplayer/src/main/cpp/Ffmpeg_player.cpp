@@ -50,16 +50,47 @@ void FfmpegPlayer::decodeThread() {
     for (int i = 0; i < avFormatContext->nb_streams; i++) {
         if (avFormatContext->streams[i]->codecpar->codec_type == AVMediaType::AVMEDIA_TYPE_AUDIO) {
             audioPlayer->audio_strem_index = i;
+            audioPlayer->avCodecPar = avFormatContext->streams[i]->codecpar;
+            avFormatContext->streams[i]->codec;
             break;
         }
     }
-    if(audioPlayer->audio_strem_index == -1){
+    if (audioPlayer->audio_strem_index == -1) {
         LOGE("没有找到音频流");
         return;
     }
+    AVCodec *codec = avcodec_find_decoder(
+            avFormatContext->streams[audioPlayer->audio_strem_index]->codecpar->codec_id);
+    if (codec == NULL) {
+        LOGE("没有找到解码器");
+        return;
+    }
+    //换另外一种方式初始化avCodecContxt
+    audioPlayer->avCodecContext = avcodec_alloc_context3(codec);
+    if (audioPlayer->avCodecContext == NULL) {
+        LOGE("can not fill decodecctx");
+        return;
+    }
+    //给avCodecContext赋值
+    if(avcodec_parameters_to_context(audioPlayer->avCodecContext, audioPlayer->avCodecPar)<0){
+        LOGE("could not fill avCodecContext");
+        return;
+    }
 
-
-
+    if(avcodec_open2(audioPlayer->avCodecContext,codec,NULL)<0){
+        LOGE("could not open codec");
+        return;
+    }
+    java_call->onPrepared();
 }
+
+/**
+ * 进行播放
+ */
+void FfmpegPlayer::start() {
+        audioPlayer.sta
+}
+
+
 
 
