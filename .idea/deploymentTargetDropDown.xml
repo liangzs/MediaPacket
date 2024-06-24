@@ -2,10 +2,16 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
+      <entry key="FFmplayer">
+        <State />
+      </entry>
       <entry key="app">
         <State />
       </entry>
       <entry key="audio">
+        <State />
+      </entry>
+      <entry key="ffmplay">
         <State />
       </entry>
       <entry key="pcmmurge">

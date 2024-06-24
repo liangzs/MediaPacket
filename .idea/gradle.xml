@@ -10,10 +10,8 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/FFmplayer" />
             <option value="$PROJECT_DIR$/app" />
-            <option value="$PROJECT_DIR$/audio" />
-            <option value="$PROJECT_DIR$/ffmplay" />
-            <option value="$PROJECT_DIR$/video" />
           </set>
         </option>
         <option name="resolveExternalAnnotations" value="false" />
