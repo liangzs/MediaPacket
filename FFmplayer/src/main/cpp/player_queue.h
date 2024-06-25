@@ -19,7 +19,7 @@ extern "C" {
 class PlayerQueue {
 
 public:
-    PlayerStatus status;
+    PlayerStatus *status=NULL;
     std::queue<AVPacket *> packetQueue; // 缓存队列
     //put和get要进行动作
     pthread_mutex_t packetQueueMutex = PTHREAD_MUTEX_INITIALIZER;
