@@ -52,6 +52,7 @@ void FfmpegPlayer::decodeThread() {
             audioPlayer->audio_strem_index = i;
             audioPlayer->avCodecPar = avFormatContext->streams[i]->codecpar;
             avFormatContext->streams[i]->codec;
+            audioPlayer->sample_rate=avFormatContext->streams[i]->codecpar->sample_rate;
             break;
         }
     }

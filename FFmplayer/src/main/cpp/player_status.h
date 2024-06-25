@@ -14,8 +14,17 @@ enum Status {
 };
 
 class PlayerStatus {
+
 public:
     Status status;
+
+public:
+    bool isPlaying() {
+        if (status == STARTED || status == PREPARED) {
+            return true;
+        }
+        return false;
+    }
 };
 
 

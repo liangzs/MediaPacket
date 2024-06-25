@@ -41,32 +41,21 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7fd266e3-aca7-45c1-9e78-87fafa4ac8cf" name="Changes" comment="补充投屏拉流动作">
-      <change afterPath="$PROJECT_DIR$/FFmplayer/src/main/cpp/Ffmpeg_player.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/FFmplayer/src/main/cpp/Ffmpeg_player.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/FFmplayer/src/main/cpp/android_log.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/FFmplayer/src/main/cpp/opensl_audio.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/FFmplayer/src/main/cpp/opensl_audio.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/FFmplayer/src/main/cpp/player_java_call.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/FFmplayer/src/main/cpp/player_java_call.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/FFmplayer/src/main/cpp/player_queue.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/FFmplayer/src/main/cpp/player_queue.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/FFmplayer/src/main/cpp/player_status.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/FFmplayer/src/main/cpp/player_status.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/8.0/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.0/executionHistory/executionHistory.bin" afterDir="false" />
+    <list default="true" id="7fd266e3-aca7-45c1-9e78-87fafa4ac8cf" name="Changes" comment="构建opensl播放器">
+      <change beforePath="$PROJECT_DIR$/.gradle/8.0/checksums/checksums.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.0/checksums/checksums.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/8.0/dependencies-accessors/dependencies-accessors.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.0/dependencies-accessors/dependencies-accessors.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/8.0/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.0/executionHistory/executionHistory.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/8.0/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.0/fileHashes/fileHashes.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/8.0/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.0/fileHashes/fileHashes.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/8.0/fileHashes/resourceHashesCache.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.0/fileHashes/resourceHashesCache.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/file-system.probe" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/deploymentTargetDropDown.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/deploymentTargetDropDown.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/FFmplayer/src/main/cpp/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/FFmplayer/src/main/cpp/CMakeLists.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FFmplayer/src/main/cpp/ffmplayer.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/FFmplayer/src/main/cpp/ffmplayer_android.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FFmplayer/src/main/java/com/liangzs/ffmplayer/NativeLib.kt" beforeDir="false" afterPath="$PROJECT_DIR$/FFmplayer/src/main/java/com/liangzs/ffmplayer/FFmPlayer.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FFmplayer/src/main/cpp/Ffmpeg_player.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/FFmplayer/src/main/cpp/Ffmpeg_player.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FFmplayer/src/main/cpp/opensl_audio.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/FFmplayer/src/main/cpp/opensl_audio.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FFmplayer/src/main/cpp/opensl_audio.h" beforeDir="false" afterPath="$PROJECT_DIR$/FFmplayer/src/main/cpp/opensl_audio.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FFmplayer/src/main/cpp/player_queue.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/FFmplayer/src/main/cpp/player_queue.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FFmplayer/src/main/cpp/player_queue.h" beforeDir="false" afterPath="$PROJECT_DIR$/FFmplayer/src/main/cpp/player_queue.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FFmplayer/src/main/cpp/player_status.h" beforeDir="false" afterPath="$PROJECT_DIR$/FFmplayer/src/main/cpp/player_status.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/local.properties" beforeDir="false" afterPath="$PROJECT_DIR$/local.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -980,6 +969,15 @@
       <option name="presentableId" value="Default" />
       <updated>1717060326365</updated>
     </task>
+    <task id="LOCAL-00001" summary="构建opensl播放器">
+      <option name="closed" value="true" />
+      <created>1719224102895</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1719224102895</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -995,7 +993,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="create：补充功能" />
-    <option name="LAST_COMMIT_MESSAGE" value="create：补充功能" />
+    <MESSAGE value="构建opensl播放器" />
+    <option name="LAST_COMMIT_MESSAGE" value="构建opensl播放器" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

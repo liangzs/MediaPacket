@@ -39,6 +39,7 @@ add_library(${CMAKE_PROJECT_NAME} SHARED
         # List C/C++ source files with relative paths to this CMakeLists.txt.
         ffmplayer_android.cpp
         player_queue.h
+        player_queue.cpp
         android_log.h
         player_status.h
         opensl_audio.h
