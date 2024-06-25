@@ -7,6 +7,7 @@
 
 #include "player_status.h"
 #include "player_queue.h"
+#include "player_java_call.h"
 
 extern "C" {
 #include "libavcodec/avcodec.h"
@@ -27,8 +28,9 @@ public:
     AVCodecContext *avCodecContext;
     AVCodecParameters *avCodecPar;
     pthread_t pthread_docode;
-    PlayerStatus status;
-
+    PlayerStatus *status;
+    PlayerQueue *queue = NULL;
+    PlayerJavaCall *playerJavaCall;
 
     //opensl
     int sample_rate;
@@ -54,6 +56,9 @@ public:
 
 
 public:
+    OpenSlAudio(PlayerStatus *status, PlayerJavaCall *playerJavaCall1);
+
+    ~OpenSlAudio();
 
     /**
      *  SL_IID_ENGINE: 引擎接口，用于创建和管理其他 OpenSL ES 对象。

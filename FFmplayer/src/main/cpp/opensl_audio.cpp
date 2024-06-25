@@ -61,7 +61,6 @@ void pcmBufferCallBack(SLAndroidSimpleBufferQueueItf bufQueueItf, void *context)
 
     OpenSlAudio *audioPlayer = (OpenSlAudio *) context;
     if (audioPlayer == NULL && audioPlayer->status.isPlaying()) {
-
         //播放状态，不需要回调
         return;
     }
@@ -170,6 +169,17 @@ void *openslDecode(void *data) {
  */
 void OpenSlAudio::start() {
     pthread_create(&pthread_docode, NULL, openslDecode, this);
+}
+
+
+OpenSlAudio::~OpenSlAudio() {
+
+}
+
+OpenSlAudio::OpenSlAudio(PlayerStatus *status, PlayerJavaCall *playerJavaCall1) {
+    this->status = status;
+    this->playerJavaCall = playerJavaCall1;
+    this->queue = PlayerQueue()
 }
 
 

@@ -9,7 +9,7 @@ FfmpegPlayer::FfmpegPlayer(PlayerStatus *status, const char *path) {
     this->java_call = new PlayerJavaCall();
     this->char_path = path;
     if (audioPlayer == NULL) {
-        audioPlayer = new OpenSlAudio();
+        audioPlayer = new OpenSlAudio(status,this->java_call);
     }
 }
 
@@ -89,7 +89,7 @@ void FfmpegPlayer::decodeThread() {
  * 进行播放
  */
 void FfmpegPlayer::start() {
-        audioPlayer.sta
+        audioPlayer->start();
 }
 
 
