@@ -7,3 +7,7 @@
 void PlayerJavaCall::onPrepared() {
 
 }
+
+void PlayerJavaCall::onProgress(int progress) {
+
+}

@@ -9,7 +9,7 @@ FfmpegPlayer::FfmpegPlayer(PlayerStatus *status, const char *path) {
     this->java_call = new PlayerJavaCall();
     this->char_path = path;
     if (audioPlayer == NULL) {
-        audioPlayer = new OpenSlAudio(status,this->java_call);
+        audioPlayer = new OpenSlAudio(status, this->java_call);
     }
 }
 
@@ -51,8 +51,9 @@ void FfmpegPlayer::decodeThread() {
         if (avFormatContext->streams[i]->codecpar->codec_type == AVMediaType::AVMEDIA_TYPE_AUDIO) {
             audioPlayer->audio_strem_index = i;
             audioPlayer->avCodecPar = avFormatContext->streams[i]->codecpar;
-            avFormatContext->streams[i]->codec;
-            audioPlayer->sample_rate=avFormatContext->streams[i]->codecpar->sample_rate;
+            audioPlayer->sample_rate = avFormatContext->streams[i]->codecpar->sample_rate;
+            audioPlayer->time_base = avFormatContext->streams[i]->time_base;
+            audioPlayer->duration = avFormatContext->duration;
             break;
         }
     }
@@ -73,12 +74,12 @@ void FfmpegPlayer::decodeThread() {
         return;
     }
     //给avCodecContext赋值
-    if(avcodec_parameters_to_context(audioPlayer->avCodecContext, audioPlayer->avCodecPar)<0){
+    if (avcodec_parameters_to_context(audioPlayer->avCodecContext, audioPlayer->avCodecPar) < 0) {
         LOGE("could not fill avCodecContext");
         return;
     }
 
-    if(avcodec_open2(audioPlayer->avCodecContext,codec,NULL)<0){
+    if (avcodec_open2(audioPlayer->avCodecContext, codec, NULL) < 0) {
         LOGE("could not open codec");
         return;
     }
@@ -89,7 +90,7 @@ void FfmpegPlayer::decodeThread() {
  * 进行播放
  */
 void FfmpegPlayer::start() {
-        audioPlayer->start();
+    audioPlayer->start();
 }
 
 

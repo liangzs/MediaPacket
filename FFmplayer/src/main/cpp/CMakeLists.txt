@@ -47,6 +47,7 @@ add_library(${CMAKE_PROJECT_NAME} SHARED
         Ffmpeg_player.h
         Ffmpeg_player.cpp
         player_java_call.h
+        player_java_call.cpp
         ${SOURCE}
 )
 

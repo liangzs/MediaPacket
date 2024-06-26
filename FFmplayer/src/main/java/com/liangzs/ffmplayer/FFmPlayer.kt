@@ -3,11 +3,6 @@ package com.liangzs.ffmplayer
 class FFmPlayer {
     var listener: OnPreparedListener? = null
 
-    /**
-     * A native method that is implemented by the 'ffmplayer' native library,
-     * which is packaged with this application.
-     */
-    external fun stringFromJNI(): String
 
     external fun setDataSource(path: String);
 

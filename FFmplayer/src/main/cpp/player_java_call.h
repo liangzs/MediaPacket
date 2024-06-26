@@ -11,6 +11,7 @@ class PlayerJavaCall {
 public:
     void onPrepared();
 
+    void onProgress(int progress);
 };
 
 

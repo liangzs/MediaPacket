@@ -34,7 +34,7 @@ int PlayerQueue::getPacket(AVPacket *packet) {
             packetQueue.pop();
         }
         //使用后即释放
-        av_free_packet(currentPacket);
+//        av_free_packet(currentPacket);
         av_free(currentPacket);
         currentPacket = NULL;
     }
@@ -54,7 +54,7 @@ void PlayerQueue::clearQueue() {
     while (!packetQueue.empty()) {
         AVPacket *packet = packetQueue.front();
         packetQueue.pop();
-        av_free_packet(packet);
+//        av_free_packet(packet);
         av_free(packet);
         packet = NULL;
     }

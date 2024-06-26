@@ -8,6 +8,7 @@
 #include "player_status.h"
 #include "player_queue.h"
 #include "player_java_call.h"
+#include "android_log.h"
 
 extern "C" {
 #include "libavcodec/avcodec.h"
@@ -15,6 +16,7 @@ extern "C" {
 #include "pthread.h"
 #include "SLES/OpenSLES.h"
 #include "SLES/OpenSLES_Android.h"
+#include "libswresample/swresample.h"
 #include "libswresample/swresample.h"
 };
 
@@ -31,7 +33,16 @@ public:
     PlayerStatus *status;
     PlayerQueue *queue = NULL;
     PlayerJavaCall *playerJavaCall;
+    uint8_t *outBuffer;//要计算这个值，所以得传一个sample_rate进来
+    const int SAMPLE_RATE = 44100;//或者强制写死也行
 
+
+    AVPacket *avPacket;
+    AVFrame *avFrame;
+    SwrContext *swrContext = NULL;
+
+    AVRational time_base;
+    int64_t duration;
     //opensl
     int sample_rate;
     //引擎
@@ -53,6 +64,13 @@ public:
     SLMuteSoloItf pcmplayer_mutesolo;
     //缓冲队列
     SLAndroidSimpleBufferQueueItf pcmplayer_bufferqueue;
+
+    //因为声音比较敏感，解码时间不一定是正常的时间所以要定义两个世界，一个是解码时间，另外一个是当前的时间
+    //当然还涉及到seeek的时候，时间是不一致的
+    double clock;
+    double time_now;
+    //定义一个刷新时间
+    double last_time;
 
 
 public:
@@ -88,6 +106,8 @@ public:
     void start();
 
     int getCurrentSampleRateForOpensles(int sample_rate);
+
+    int decodePacket();
 
 };
 
