@@ -6,6 +6,7 @@
 #define MEDIAPACKAGE_PLAYER_QUEUE_H
 
 #include <queue>
+#include <pthread.h>
 #include "player_status.h"
 
 extern "C" {
@@ -19,7 +20,6 @@ extern "C" {
 class PlayerQueue {
 
 public:
-    PlayerStatus *status=NULL;
     std::queue<AVPacket *> packetQueue; // 缓存队列
     //put和get要进行动作
     pthread_mutex_t packetQueueMutex = PTHREAD_MUTEX_INITIALIZER;

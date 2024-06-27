@@ -4,12 +4,11 @@
 
 #include "Ffmpeg_player.h"
 
-FfmpegPlayer::FfmpegPlayer(PlayerStatus *status, const char *path) {
-    this->status = status;
-    this->java_call = new PlayerJavaCall();
+FfmpegPlayer::FfmpegPlayer(PlayerJavaCall *javaCall, const char *path) {
+    this->java_call = javaCall;
     this->char_path = path;
     if (audioPlayer == NULL) {
-        audioPlayer = new OpenSlAudio(status, this->java_call);
+        audioPlayer = new OpenSlAudio(this->java_call);
     }
 }
 
@@ -20,10 +19,10 @@ FfmpegPlayer::~FfmpegPlayer() {
 
 void *extendCDecode(void *data) {
     FfmpegPlayer *player = static_cast<FfmpegPlayer *>(data);
+    LOGI("prepare decode");
     player->decodeThread();
     //销毁线程
     pthread_exit(&player->pthread_decode);
-    return 0;
 }
 
 void FfmpegPlayer::prepare() {
@@ -47,13 +46,21 @@ void FfmpegPlayer::decodeThread() {
         LOGE("获取视频流信息失败");
         return;
     }
+    LOGI("avformat_find_stream_info success");
     for (int i = 0; i < avFormatContext->nb_streams; i++) {
         if (avFormatContext->streams[i]->codecpar->codec_type == AVMediaType::AVMEDIA_TYPE_AUDIO) {
             audioPlayer->audio_strem_index = i;
+            LOGI("audio_strem_index success");
             audioPlayer->avCodecPar = avFormatContext->streams[i]->codecpar;
+            LOGI("avCodecPar success");
             audioPlayer->sample_rate = avFormatContext->streams[i]->codecpar->sample_rate;
+            LOGI("sample_rate success");
             audioPlayer->time_base = avFormatContext->streams[i]->time_base;
+            LOGI("time_base success");
             audioPlayer->duration = avFormatContext->duration;
+            LOGI("duration success");
+            audioPlayer->avFormatContext = avFormatContext;
+            LOGI("avFormatContext success");
             break;
         }
     }
@@ -61,6 +68,8 @@ void FfmpegPlayer::decodeThread() {
         LOGE("没有找到音频流");
         return;
     }
+    LOGI("audio_strem_index:%d", audioPlayer->audio_strem_index);
+
     AVCodec *codec = avcodec_find_decoder(
             avFormatContext->streams[audioPlayer->audio_strem_index]->codecpar->codec_id);
     if (codec == NULL) {
@@ -73,25 +82,32 @@ void FfmpegPlayer::decodeThread() {
         LOGE("can not fill decodecctx");
         return;
     }
+    LOGI("avCodecContext success");
+
     //给avCodecContext赋值
     if (avcodec_parameters_to_context(audioPlayer->avCodecContext, audioPlayer->avCodecPar) < 0) {
         LOGE("could not fill avCodecContext");
         return;
     }
+    LOGI("avcodec_parameters_to_context success");
 
     if (avcodec_open2(audioPlayer->avCodecContext, codec, NULL) < 0) {
         LOGE("could not open codec");
         return;
     }
-    java_call->onPrepared();
+    LOGI("avcodec_open2 success");
+    java_call->onCallJavaPrepared(CHILD_THREAD);
+    LOGI("onCallJavaPrepared success");
 }
 
 /**
- * 进行播放
+ * 进行播放,然后这里是解码数据放到队列中
  */
 void FfmpegPlayer::start() {
     audioPlayer->start();
+
 }
+
 
 
 

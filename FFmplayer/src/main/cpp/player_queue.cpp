@@ -18,28 +18,25 @@ int PlayerQueue::putPacket(AVPacket *packet) {
 }
 
 PlayerQueue::~PlayerQueue() {
-    getQueueSize();
+    clearQueue();
 }
 
 int PlayerQueue::getPacket(AVPacket *packet) {
     pthread_mutex_lock(&this->packetQueueMutex);
 
-    if (status != NULL && status->isPlaying()) {
-        if (packetQueue.empty()) {
-            pthread_cond_wait(&packetQueueCond, &packetQueueMutex);
-            return 0;
-        }
-        AVPacket *currentPacket = packetQueue.front();
-        if (av_packet_ref(packet, currentPacket) == 0) {
-            packetQueue.pop();
-        }
-        //使用后即释放
-//        av_free_packet(currentPacket);
-        av_free(currentPacket);
-        currentPacket = NULL;
+    if (packetQueue.empty()) {
+        pthread_cond_wait(&packetQueueCond, &packetQueueMutex);
+        return 0;
     }
+    AVPacket *currentPacket = packetQueue.front();
+    if (av_packet_ref(packet, currentPacket) == 0) {
+        packetQueue.pop();
+    }
+    //使用后即释放
+//        av_free_packet(currentPacket);
+    av_free(currentPacket);
+    currentPacket = NULL;
     //消费者等待数据上来
-
     pthread_mutex_unlock(&this->packetQueueMutex);
     return 0;
 }

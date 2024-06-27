@@ -9,23 +9,9 @@ enum Status {
     IDLE = 0,
     PREPARED = 1,
     STARTED = 2,
-    PAUSED = 3,
-    STOPPED = 4
+    SEEKING = 3,
+    PAUSED = 4,
+    STOPPED = 5
 };
-
-class PlayerStatus {
-
-public:
-    Status status;
-
-public:
-    bool isPlaying() {
-        if (status == STARTED || status == PREPARED) {
-            return true;
-        }
-        return false;
-    }
-};
-
 
 #endif //MEDIAPACKAGE_PLAYER_STATUS_H

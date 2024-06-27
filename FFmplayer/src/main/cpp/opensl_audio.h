@@ -9,6 +9,7 @@
 #include "player_queue.h"
 #include "player_java_call.h"
 #include "android_log.h"
+#include <string>
 
 extern "C" {
 #include "libavcodec/avcodec.h"
@@ -28,9 +29,11 @@ class OpenSlAudio {
 public:
     int audio_strem_index = -1;
     AVCodecContext *avCodecContext;
+    AVFormatContext *avFormatContext;
     AVCodecParameters *avCodecPar;
     pthread_t pthread_docode;
-    PlayerStatus *status;
+    pthread_t pthread_push_packet;
+    Status status=IDLE;
     PlayerQueue *queue = NULL;
     PlayerJavaCall *playerJavaCall;
     uint8_t *outBuffer;//要计算这个值，所以得传一个sample_rate进来
@@ -74,7 +77,7 @@ public:
 
 
 public:
-    OpenSlAudio(PlayerStatus *status, PlayerJavaCall *playerJavaCall1);
+    OpenSlAudio(PlayerJavaCall *playerJavaCall1);
 
     ~OpenSlAudio();
 
@@ -108,6 +111,12 @@ public:
     int getCurrentSampleRateForOpensles(int sample_rate);
 
     int decodePacket();
+
+    void pushPacket();
+
+    bool checkError(SLresult result, std::string msg);
+
+    bool isPlaying();
 
 };
 

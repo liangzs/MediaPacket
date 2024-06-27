@@ -5,13 +5,27 @@
 #ifndef MEDIAPACKAGE_PLAYER_JAVA_CALL_H
 #define MEDIAPACKAGE_PLAYER_JAVA_CALL_H
 
+#define MAIN_THREAD 0
+#define CHILD_THREAD 1
+
+#include <jni.h>
 
 class PlayerJavaCall {
+    JavaVM *javaVm = NULL;
+    JNIEnv *jniEnv = NULL;
+    jobject jobj = NULL;
+
+    jmethodID jmid_prepared = NULL;
+    jmethodID jmid_progress = NULL;
 
 public:
-    void onPrepared();
+    PlayerJavaCall(JavaVM *vm, JNIEnv *env, jobject object);
 
-    void onProgress(int progress);
+    ~PlayerJavaCall();
+
+    void onCallJavaPrepared(int type);
+
+    void onCallJavaProgress(int type,int progress, int duration);
 };
 
 

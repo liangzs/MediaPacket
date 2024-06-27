@@ -24,15 +24,14 @@ extern "C" {
 class FfmpegPlayer {
 
 public:
-    OpenSlAudio *audioPlayer;
-    PlayerStatus *status;
-    PlayerJavaCall *java_call;
+    OpenSlAudio *audioPlayer=NULL;
+    PlayerJavaCall *java_call=NULL;
     const char *char_path;
 
     pthread_t pthread_decode;
 
 public:
-    FfmpegPlayer(PlayerStatus *status, const char *path);
+    FfmpegPlayer(PlayerJavaCall *javaCall, const char *path);
 
     ~FfmpegPlayer();
 

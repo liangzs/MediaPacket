@@ -1,5 +1,7 @@
 package com.liangzs.ffmplayer
 
+import android.util.Log
+
 class FFmPlayer {
     var listener: OnPreparedListener? = null
 
@@ -21,13 +23,19 @@ class FFmPlayer {
     /**
      * prepare结束了进行回调
      */
-    fun onPrepared() {
+    fun onCallJavaPrepared() {
+        Log.i(javaClass.simpleName, "onCallJavaPrepared:sucessful")
         listener?.onPrepared()
+    }
+
+    fun onCallJavaProgress(progress: Int, duration: Int) {
+        listener?.onProgress(progress, duration)
     }
 
 
     interface OnPreparedListener {
         fun onPrepared()
+        fun onProgress(progress: Int, duration: Int)
     }
 
     companion object {
