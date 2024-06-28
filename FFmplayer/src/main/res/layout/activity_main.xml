@@ -22,25 +22,25 @@
             android:text="pause" />
 
         <Button
-            android:id="@+id/bt_speed"
+            android:id="@+id/bt_resume"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="5dp"
-            android:text="speed" />
+            android:text="resume" />
 
         <Button
             android:id="@+id/bt_left"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="5dp"
-            android:text="left track" />
+            android:text="left" />
 
         <Button
             android:id="@+id/bt_right"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="5dp"
-            android:text="right track" />
+            android:text="right" />
 
     </LinearLayout>
 

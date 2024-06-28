@@ -18,6 +18,10 @@ class FFmPlayer {
 
     external fun release();
 
+    external fun resume();
+
+    external fun setMute(track: Int);
+
     //jni回调java的方法
 
     /**

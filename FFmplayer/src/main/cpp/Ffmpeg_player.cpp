@@ -108,6 +108,26 @@ void FfmpegPlayer::start() {
 
 }
 
+void FfmpegPlayer::pause() {
+    audioPlayer->pause();
+}
+
+void FfmpegPlayer::stop() {
+//    audioPlayer->stop();
+}
+
+void FfmpegPlayer::release() {
+    audioPlayer->release();
+}
+
+void FfmpegPlayer::setMute(int mute) {
+    audioPlayer->setMute(mute);
+}
+
+void FfmpegPlayer::resume() {
+    audioPlayer->resume();
+}
+
 
 
 

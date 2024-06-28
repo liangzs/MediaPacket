@@ -54,12 +54,34 @@ Java_com_liangzs_ffmplayer_FFmPlayer_start(JNIEnv *env, jobject thiz) {
 extern "C"
 JNIEXPORT void JNICALL
 Java_com_liangzs_ffmplayer_FFmPlayer_pause(JNIEnv *env, jobject thiz) {
+    if (player != NULL) {
+        player->pause();
+    }
 }
 extern "C"
 JNIEXPORT void JNICALL
 Java_com_liangzs_ffmplayer_FFmPlayer_stop(JNIEnv *env, jobject thiz) {
+    if (player != NULL) {
+        player->pause();
+    }
 }
 extern "C"
 JNIEXPORT void JNICALL
 Java_com_liangzs_ffmplayer_FFmPlayer_release(JNIEnv *env, jobject thiz) {
+    if (player != NULL) {
+        player->release();
+    }
+
+}
+extern "C"
+JNIEXPORT void JNICALL
+Java_com_liangzs_ffmplayer_FFmPlayer_setMute(JNIEnv *env, jobject thiz, jint track) {
+    if (player != NULL) {
+        player->setMute(track);
+    }
+}
+extern "C"
+JNIEXPORT void JNICALL
+Java_com_liangzs_ffmplayer_FFmPlayer_resume(JNIEnv *env, jobject thiz) {
+    player->resume();
 }

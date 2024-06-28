@@ -24,8 +24,8 @@ extern "C" {
 class FfmpegPlayer {
 
 public:
-    OpenSlAudio *audioPlayer=NULL;
-    PlayerJavaCall *java_call=NULL;
+    OpenSlAudio *audioPlayer = NULL;
+    PlayerJavaCall *java_call = NULL;
     const char *char_path;
 
     pthread_t pthread_decode;
@@ -46,6 +46,16 @@ public:
     void decodeThread();
 
     void start();
+
+    void pause();
+
+    void stop();
+
+    void release();
+
+    void setMute(int mute);
+
+    void resume();
 };
 
 

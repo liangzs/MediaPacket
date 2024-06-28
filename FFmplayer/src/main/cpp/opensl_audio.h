@@ -33,7 +33,7 @@ public:
     AVCodecParameters *avCodecPar;
     pthread_t pthread_docode;
     pthread_t pthread_push_packet;
-    Status status=IDLE;
+    Status status = IDLE;
     PlayerQueue *queue = NULL;
     PlayerJavaCall *playerJavaCall;
     uint8_t *outBuffer;//要计算这个值，所以得传一个sample_rate进来
@@ -108,6 +108,10 @@ public:
 
     void start();
 
+    void pause();
+
+    void resume();
+
     int getCurrentSampleRateForOpensles(int sample_rate);
 
     int decodePacket();
@@ -118,6 +122,17 @@ public:
 
     bool isPlaying();
 
+    bool exit();
+
+    void setVolume(int percent);
+
+    /**
+     * 0 左声道
+     * 1 右声道
+     * 2 立体声
+     * @param mute
+     */
+    void setMute(int mute);
 };
 
 

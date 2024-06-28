@@ -33,10 +33,22 @@ class MainActivity : AppCompatActivity() {
                         binding.tvCurrent.text = progress.toString()
                         binding.tvDuration.text = duration.toString()
                     }
-
                 }
-
             }
+        }
+
+        binding.btPause.setOnClickListener {
+            mFFmplayer.pause()
+        }
+
+        binding.btResume.setOnClickListener {
+            mFFmplayer.resume()
+        }
+        binding.btLeft.setOnClickListener {
+            mFFmplayer.setMute(0)
+        }
+        binding.btRight.setOnClickListener {
+            mFFmplayer.setMute(1)
         }
         checkPermission()
     }
@@ -54,5 +66,14 @@ class MainActivity : AppCompatActivity() {
             )
         }
         return false
+    }
+
+    override fun onStop() {
+        super.onStop()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        mFFmplayer.release();
     }
 }

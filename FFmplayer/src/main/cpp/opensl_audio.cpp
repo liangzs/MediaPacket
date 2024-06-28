@@ -204,7 +204,16 @@ void OpenSlAudio::initOpenSl() {
 
 
 void OpenSlAudio::release() {
-
+    status = Status::STOPPED;
+    if (pcmplayer_object != NULL) {
+        (*pcmplayer_object)->Destroy(pcmplayer_object);
+    }
+    if (engine_object != NULL) {
+        (*engine_object)->Destroy(engine_object);
+    }
+    if (mix_object != NULL) {
+        (*mix_object)->Destroy(mix_object);
+    }
 }
 
 /**
@@ -286,12 +295,9 @@ int OpenSlAudio::decodePacket() {
             recycleFrame(avFrame);
             return 0;
         }
-        if(avFrame->channels && avFrame->channel_layout == 0)
-        {
+        if (avFrame->channels && avFrame->channel_layout == 0) {
             avFrame->channel_layout = av_get_default_channel_layout(avFrame->channels);
-        }
-        else if(avFrame->channels == 0 && avFrame->channel_layout > 0)
-        {
+        } else if (avFrame->channels == 0 && avFrame->channel_layout > 0) {
             avFrame->channels = av_get_channel_layout_nb_channels(avFrame->channel_layout);
         }
         //out_sample_rate=44100*AV_SAMPLE_FMT_S16*AV_CH_LAYOUT_STEREO====44100 * 2 * 2
@@ -317,8 +323,8 @@ int OpenSlAudio::decodePacket() {
 //        }
         //这里返回的是重采样后的样本数，即具体是数据
         int nb = swr_convert(swrContext, &outBuffer, avFrame->nb_samples,
-                                 reinterpret_cast<const uint8_t **>(&avFrame->data),
-                                 avFrame->nb_samples);
+                             reinterpret_cast<const uint8_t **>(&avFrame->data),
+                             avFrame->nb_samples);
         int out_channels = av_get_channel_layout_nb_channels(AV_CH_LAYOUT_STEREO);
         //这里是重点
         bufferSize = nb * out_channels * av_get_bytes_per_sample(AV_SAMPLE_FMT_S16);
@@ -345,7 +351,7 @@ bool OpenSlAudio::checkError(SLresult result, std::string msg) {
 }
 
 void OpenSlAudio::pushPacket() {
-    while (isPlaying()) {
+    while (!exit()) {
         if (status == Status::SEEKING) {
             continue;
         }
@@ -385,6 +391,65 @@ bool OpenSlAudio::isPlaying() {
     }
     return false;
 }
+
+bool OpenSlAudio::exit() {
+    if (status == STOPPED) {
+        return true;
+    }
+    return false;
+}
+
+
+void OpenSlAudio::pause() {
+    status = Status::STARTED;
+    (*pcmplayer_player)->SetPlayState(pcmplayer_player, SL_PLAYSTATE_PAUSED);
+}
+
+void OpenSlAudio::resume() {
+    status = Status::STARTED;
+    (*pcmplayer_player)->SetPlayState(pcmplayer_player, SL_PLAYSTATE_PLAYING);
+
+}
+
+void OpenSlAudio::setVolume(int percent) {
+    if (pcmplayer_volume != NULL) {
+        if (percent > 30) {
+            (*pcmplayer_volume)->SetVolumeLevel(pcmplayer_volume, (100 - percent) * -20);
+        } else if (percent > 25) {
+            (*pcmplayer_volume)->SetVolumeLevel(pcmplayer_volume, (100 - percent) * -22);
+        } else if (percent > 20) {
+            (*pcmplayer_volume)->SetVolumeLevel(pcmplayer_volume, (100 - percent) * -25);
+        } else if (percent > 15) {
+            (*pcmplayer_volume)->SetVolumeLevel(pcmplayer_volume, (100 - percent) * -28);
+        } else if (percent > 10) {
+            (*pcmplayer_volume)->SetVolumeLevel(pcmplayer_volume, (100 - percent) * -30);
+        } else if (percent > 5) {
+            (*pcmplayer_volume)->SetVolumeLevel(pcmplayer_volume, (100 - percent) * -34);
+        } else if (percent > 3) {
+            (*pcmplayer_volume)->SetVolumeLevel(pcmplayer_volume, (100 - percent) * -37);
+        } else if (percent > 0) {
+            (*pcmplayer_volume)->SetVolumeLevel(pcmplayer_volume, (100 - percent) * -40);
+        } else {
+            (*pcmplayer_volume)->SetVolumeLevel(pcmplayer_volume, (100 - percent) * -100);
+        }
+    }
+
+
+}
+
+void OpenSlAudio::setMute(int mute) {
+    if (mute == 0) {
+        (*pcmplayer_mutesolo)->SetChannelMute(pcmplayer_mutesolo, 0, true);
+        (*pcmplayer_mutesolo)->SetChannelMute(pcmplayer_mutesolo, 1, false);
+    } else if (mute == 1) {
+        (*pcmplayer_mutesolo)->SetChannelMute(pcmplayer_mutesolo, 1, true);
+        (*pcmplayer_mutesolo)->SetChannelMute(pcmplayer_mutesolo, 0, false);
+    } else {
+        (*pcmplayer_mutesolo)->SetChannelMute(pcmplayer_mutesolo, 0, false);
+        (*pcmplayer_mutesolo)->SetChannelMute(pcmplayer_mutesolo, 1, false);
+    }
+}
+
 
 
 
