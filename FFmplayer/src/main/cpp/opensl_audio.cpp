@@ -320,6 +320,7 @@ int OpenSlAudio::decodePacket() {
                                  reinterpret_cast<const uint8_t **>(&avFrame->data),
                                  avFrame->nb_samples);
         int out_channels = av_get_channel_layout_nb_channels(AV_CH_LAYOUT_STEREO);
+        //这里是重点
         bufferSize = nb * out_channels * av_get_bytes_per_sample(AV_SAMPLE_FMT_S16);
         //时间的计算是time_base * pts，因为数据传输时为了精简，时间戳不会传很长
         time_now = avFrame->pts * av_q2d(time_base);
