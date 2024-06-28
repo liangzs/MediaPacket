@@ -69,7 +69,7 @@ void pcmBufferCallBack(SLAndroidSimpleBufferQueueItf bufQueueItf, void *context)
                                                            audioPlayer->outBuffer, bufferSize);
             LOGI("audioPlayer->clock = %f", audioPlayer->clock);
             //设置回调的频率
-            if (audioPlayer->clock - audioPlayer->last_time > 1000) {
+            if (audioPlayer->clock - audioPlayer->last_time > 0.1) {
                 audioPlayer->last_time = audioPlayer->clock;
                 //进行java层的回调
                 audioPlayer->playerJavaCall->onCallJavaProgress(CHILD_THREAD, audioPlayer->clock,
@@ -286,26 +286,41 @@ int OpenSlAudio::decodePacket() {
             recycleFrame(avFrame);
             return 0;
         }
-        //out_sample_rate=44100*AV_SAMPLE_FMT_S16*AV_CH_LAYOUT_STEREO====44100 * 2 * 2
-        const int size = 176400;
-        if (swrContext == NULL) {
-            swrContext = swr_alloc();
-            //定义输出配置
-            int out_ch_layout = AV_CH_LAYOUT_STEREO;//立体声
-            AVSampleFormat out_format = AVSampleFormat::AV_SAMPLE_FMT_S16;//16位
-            int out_sample_rate = 44100;//采样率
-            swr_alloc_set_opts(swrContext, out_ch_layout, out_format, out_sample_rate,
-                               avFrame->channel_layout,
-                               static_cast<AVSampleFormat>(avFrame->format), avFrame->sample_rate,
-                               0, 0);
-
-            //配置好参数之后需要初始化
-            swr_init(swrContext);
+        if(avFrame->channels && avFrame->channel_layout == 0)
+        {
+            avFrame->channel_layout = av_get_default_channel_layout(avFrame->channels);
         }
+        else if(avFrame->channels == 0 && avFrame->channel_layout > 0)
+        {
+            avFrame->channels = av_get_channel_layout_nb_channels(avFrame->channel_layout);
+        }
+        //out_sample_rate=44100*AV_SAMPLE_FMT_S16*AV_CH_LAYOUT_STEREO====44100 * 2 * 2
+//        if (swrContext == NULL) {
+        SwrContext *swrContext;
+        //定义输出配置
+        int out_ch_layout = AV_CH_LAYOUT_STEREO;//立体声
+        AVSampleFormat out_format = AVSampleFormat::AV_SAMPLE_FMT_S16;//16位
+        int out_sample_rate = 44100;//采样率
+        swrContext = swr_alloc_set_opts(NULL, out_ch_layout, out_format, out_sample_rate,
+                                        avFrame->channel_layout,
+                                        static_cast<AVSampleFormat>(avFrame->format),
+                                        avFrame->sample_rate,
+                                        0, 0);
+
+        //配置好参数之后需要初始化
+        if (!swrContext || swr_init(swrContext) < 0) {
+            recycleFrame(avFrame);
+            recyclePacket(avPacket);
+            swr_free(&swrContext);
+            return 0;
+        }
+//        }
         //这里返回的是重采样后的样本数，即具体是数据
-        bufferSize = swr_convert(swrContext, &outBuffer, size,
+        int nb = swr_convert(swrContext, &outBuffer, avFrame->nb_samples,
                                  reinterpret_cast<const uint8_t **>(&avFrame->data),
                                  avFrame->nb_samples);
+        int out_channels = av_get_channel_layout_nb_channels(AV_CH_LAYOUT_STEREO);
+        bufferSize = nb * out_channels * av_get_bytes_per_sample(AV_SAMPLE_FMT_S16);
         //时间的计算是time_base * pts，因为数据传输时为了精简，时间戳不会传很长
         time_now = avFrame->pts * av_q2d(time_base);
         LOGI("time_now = %f, clock = %f,bufferSize = %d", time_now, clock, bufferSize);
@@ -315,6 +330,7 @@ int OpenSlAudio::decodePacket() {
         clock = time_now;
         recycleFrame(avFrame);
         recyclePacket(avPacket);
+        swr_free(&swrContext);
     }
     return bufferSize;
 }

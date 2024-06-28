@@ -29,8 +29,11 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 override fun onProgress(progress: Int, duration: Int) {
-                    binding.tvCurrent.text = progress.toString()
-                    binding.tvDuration.text = duration.toString()
+                    runOnUiThread {
+                        binding.tvCurrent.text = progress.toString()
+                        binding.tvDuration.text = duration.toString()
+                    }
+
                 }
 
             }

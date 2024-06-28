@@ -46,31 +46,18 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7fd266e3-aca7-45c1-9e78-87fafa4ac8cf" name="Changes" comment="完善代码提交">
+    <list default="true" id="7fd266e3-aca7-45c1-9e78-87fafa4ac8cf" name="Changes" comment="已经能播放，但是声音不正常">
       <change beforePath="$PROJECT_DIR$/.gradle/8.0/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.0/executionHistory/executionHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/8.0/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.0/executionHistory/executionHistory.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/8.0/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.0/fileHashes/fileHashes.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/8.0/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.0/fileHashes/fileHashes.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/8.0/fileHashes/resourceHashesCache.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.0/fileHashes/resourceHashesCache.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/file-system.probe" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FFmplayer/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/FFmplayer/build.gradle.kts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FFmplayer/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/FFmplayer/src/main/AndroidManifest.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FFmplayer/src/main/cpp/Ffmpeg_player.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/FFmplayer/src/main/cpp/Ffmpeg_player.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FFmplayer/src/main/cpp/Ffmpeg_player.h" beforeDir="false" afterPath="$PROJECT_DIR$/FFmplayer/src/main/cpp/Ffmpeg_player.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FFmplayer/src/main/cpp/ffmplayer_android.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/FFmplayer/src/main/cpp/ffmplayer_android.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/FFmplayer/src/main/cpp/opensl_audio.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/FFmplayer/src/main/cpp/opensl_audio.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/FFmplayer/src/main/cpp/opensl_audio.h" beforeDir="false" afterPath="$PROJECT_DIR$/FFmplayer/src/main/cpp/opensl_audio.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FFmplayer/src/main/cpp/player_java_call.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/FFmplayer/src/main/cpp/player_java_call.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FFmplayer/src/main/cpp/player_java_call.h" beforeDir="false" afterPath="$PROJECT_DIR$/FFmplayer/src/main/cpp/player_java_call.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FFmplayer/src/main/cpp/player_queue.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/FFmplayer/src/main/cpp/player_queue.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FFmplayer/src/main/cpp/player_queue.h" beforeDir="false" afterPath="$PROJECT_DIR$/FFmplayer/src/main/cpp/player_queue.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FFmplayer/src/main/cpp/player_status.h" beforeDir="false" afterPath="$PROJECT_DIR$/FFmplayer/src/main/cpp/player_status.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FFmplayer/src/main/java/com/liangzs/ffmplayer/FFmPlayer.kt" beforeDir="false" afterPath="$PROJECT_DIR$/FFmplayer/src/main/java/com/liangzs/ffmplayer/FFmPlayer.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/FFmplayer/src/main/java/com/liangzs/ffmplayer/MainActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/FFmplayer/src/main/java/com/liangzs/ffmplayer/MainActivity.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FFmplayer/src/main/res/layout/activity_main.xml" beforeDir="false" afterPath="$PROJECT_DIR$/FFmplayer/src/main/res/layout/activity_main.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -1021,7 +1008,15 @@
       <option name="project" value="LOCAL" />
       <updated>1719396971983</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="已经能播放，但是声音不正常">
+      <option name="closed" value="true" />
+      <created>1719489743151</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1719489743151</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -1046,11 +1041,14 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
+    <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
+    <option name="CHECK_NEW_TODO" value="false" />
     <MESSAGE value="create：补充功能" />
     <MESSAGE value="构建opensl播放器" />
     <MESSAGE value="补充opensl播放器" />
     <MESSAGE value="完善代码提交" />
-    <option name="LAST_COMMIT_MESSAGE" value="完善代码提交" />
+    <MESSAGE value="已经能播放，但是声音不正常" />
+    <option name="LAST_COMMIT_MESSAGE" value="已经能播放，但是声音不正常" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

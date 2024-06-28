@@ -42,7 +42,7 @@ public:
 
     AVPacket *avPacket;
     AVFrame *avFrame;
-    SwrContext *swrContext = NULL;
+//    SwrContext *swrContext = NULL;
 
     AVRational time_base;
     int64_t duration;
