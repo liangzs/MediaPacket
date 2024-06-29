@@ -22,7 +22,6 @@ include_directories(include)
 # In this top level CMakeLists.txt, ${CMAKE_PROJECT_NAME} is used to define
 # the target library name; in the sub-module's CMakeLists.txt, ${PROJECT_NAME}
 # is preferred for the same purpose.
-
 add_library(ffmpeg-lib
         SHARED
         IMPORTED)
@@ -34,10 +33,21 @@ set_target_properties(ffmpeg-lib
 # System.loadLibrary() and pass the name of the library defined here;
 # for GameActivity/NativeActivity derived applications, the same library name must be
 # used in the AndroidManifest.xml file.
-aux_source_directory(. SOURCE)
-
+#aux_source_directory(. SOURCE)
+#可以直接用source或者可以直接导入头文件，但是只导入头文件，总是在cpp文件中识别不了代码的导入方法。晕死
 add_library(${CMAKE_PROJECT_NAME} SHARED
         # List C/C++ source files with relative paths to this CMakeLists.txt.
+        ffmplayer_android.cpp
+        player_queue.h
+        player_queue.cpp
+        android_log.h
+        player_status.h
+        opensl_audio.h
+        opensl_audio.cpp
+        Ffmpeg_player.h
+        Ffmpeg_player.cpp
+        player_java_call.h
+        player_java_call.cpp
         ${SOURCE}
 )
 
