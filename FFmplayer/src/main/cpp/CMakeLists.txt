@@ -13,7 +13,8 @@ project("ffmplayer")
 
 
 include_directories(include)
-
+include_directories(soundtouch/include)
+include_directories(soundtouch/SoundTouch)
 # Creates and names a library, sets it as either STATIC
 # or SHARED, and provides the relative paths to its source code.
 # You can define multiple libraries, and CMake builds them for you.
@@ -33,7 +34,7 @@ set_target_properties(ffmpeg-lib
 # System.loadLibrary() and pass the name of the library defined here;
 # for GameActivity/NativeActivity derived applications, the same library name must be
 # used in the AndroidManifest.xml file.
-#aux_source_directory(. SOURCE)
+aux_source_directory(./soundtouch/SoundTouch SOURCE)
 #可以直接用source或者可以直接导入头文件，但是只导入头文件，总是在cpp文件中识别不了代码的导入方法。晕死
 add_library(${CMAKE_PROJECT_NAME} SHARED
         # List C/C++ source files with relative paths to this CMakeLists.txt.

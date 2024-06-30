@@ -10,7 +10,9 @@
 #include "player_java_call.h"
 #include "android_log.h"
 #include <string>
+#include "soundtouch/include/SoundTouch.h"
 
+using namespace soundtouch;
 extern "C" {
 #include "libavcodec/avcodec.h"
 #include "libavformat/avformat.h"
@@ -74,6 +76,9 @@ public:
     double time_now;
     //定义一个刷新时间
     double last_time;
+
+    //加上soundTouch
+    SoundTouch *soundTouch=NULL;
 
 
 public:
