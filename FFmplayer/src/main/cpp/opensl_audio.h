@@ -41,6 +41,8 @@ public:
     uint8_t *outBuffer;//要计算这个值，所以得传一个sample_rate进来
     const int SAMPLE_RATE = 44100;//或者强制写死也行
 
+    uint8_t *paramBuffer;
+    SAMPLETYPE *resampleBuffer;
 
     AVPacket *avPacket;
     AVFrame *avFrame;
@@ -78,7 +80,7 @@ public:
     double last_time;
 
     //加上soundTouch
-    SoundTouch *soundTouch=NULL;
+    SoundTouch *soundTouch = NULL;
 
 
 public:
@@ -119,7 +121,7 @@ public:
 
     int getCurrentSampleRateForOpensles(int sample_rate);
 
-    int decodePacket();
+    int decodePacket(uint8_t **pcmBuffer);
 
     void pushPacket();
 
@@ -138,6 +140,9 @@ public:
      * @param mute
      */
     void setMute(int mute);
+
+    //转成sountouch支持的数据，数据采用short字段，两个字节长度
+    int switchSountouchData();
 };
 
 

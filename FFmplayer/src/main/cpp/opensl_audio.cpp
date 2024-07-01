@@ -61,7 +61,7 @@ void pcmBufferCallBack(SLAndroidSimpleBufferQueueItf bufQueueItf, void *context)
     LOGI("pcmBufferCallBack  call");
     OpenSlAudio *audioPlayer = (OpenSlAudio *) context;
     if (audioPlayer != NULL && audioPlayer->isPlaying()) {
-        int bufferSize = audioPlayer->decodePacket();
+        int bufferSize = audioPlayer->switchSountouchData();
         if (bufferSize > 0) {
             //这里是真正的传送数据进行播放，把swr_cevert后的outbuffer数据推送到audioPlayer->queue中
             //使用opensl 对象的时候，每次都需要强转成*指针对象才能用
@@ -251,7 +251,7 @@ void OpenSlAudio::start() {
 
 
 OpenSlAudio::~OpenSlAudio() {
- delete soundTouch;
+    delete soundTouch;
 }
 
 OpenSlAudio::OpenSlAudio(PlayerJavaCall *playerJavaCall1) {
@@ -261,7 +261,9 @@ OpenSlAudio::OpenSlAudio(PlayerJavaCall *playerJavaCall1) {
 
     //定义soundtouch
     soundTouch = new SoundTouch();
+    resampleBuffer = static_cast<SAMPLETYPE *>(av_malloc(SAMPLE_RATE * 2 * 2));
 }
+
 void recyclePacket(AVPacket *packet) {
 //    av_free_packet(packet);
     av_free(packet);
@@ -275,10 +277,10 @@ void recycleFrame(AVFrame *frame) {
 }
 
 /**
- * 循环遍历
+ * 循环遍历,传参出参
  * @return
  */
-int OpenSlAudio::decodePacket() {
+int OpenSlAudio::decodePacket(uint8_t **pcmBuffer) {
     int bufferSize = 0;
     if (isPlaying() && queue->getQueueSize() > 0) {
         avPacket = av_packet_alloc();
@@ -327,6 +329,8 @@ int OpenSlAudio::decodePacket() {
         int nb = swr_convert(swrContext, &outBuffer, avFrame->nb_samples,
                              reinterpret_cast<const uint8_t **>(&avFrame->data),
                              avFrame->nb_samples);
+
+        *pcmBuffer = outBuffer;
         int out_channels = av_get_channel_layout_nb_channels(AV_CH_LAYOUT_STEREO);
         //这里是重点
         bufferSize = nb * out_channels * av_get_bytes_per_sample(AV_SAMPLE_FMT_S16);
@@ -450,6 +454,32 @@ void OpenSlAudio::setMute(int mute) {
         (*pcmplayer_mutesolo)->SetChannelMute(pcmplayer_mutesolo, 0, false);
         (*pcmplayer_mutesolo)->SetChannelMute(pcmplayer_mutesolo, 1, false);
     }
+}
+
+int OpenSlAudio::switchSountouchData() {
+    int num=0;
+    while (isPlaying() && queue->getQueueSize() > 0) {
+        int bufferSize = decodePacket(&paramBuffer);
+        if (bufferSize > 0) {
+            //byte 转成short，一个字节转成两个字节
+            for (int i = 0; i < bufferSize / 2 + 1; i++) {
+                //paramBuffer[i * 2 + 1] 是高位
+                resampleBuffer[i] = (paramBuffer[i * 2] | paramBuffer[i * 2 + 1] << 8);
+            }
+            //波形整理
+            soundTouch->putSamples(resampleBuffer, bufferSize / 2 / 2);
+            //获取新波形
+            num = soundTouch->receiveSamples(resampleBuffer, bufferSize / 2 / 2);
+        } else {
+            soundTouch->flush();
+        }
+        if (num == 0) {
+            continue;
+        }
+        return num;
+    }
+    return num;
+
 }
 
 
