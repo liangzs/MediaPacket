@@ -251,7 +251,7 @@ void OpenSlAudio::start() {
 
 
 OpenSlAudio::~OpenSlAudio() {
- delete soundTouch;
+    delete soundTouch;
 }
 
 OpenSlAudio::OpenSlAudio(PlayerJavaCall *playerJavaCall1) {
@@ -262,6 +262,7 @@ OpenSlAudio::OpenSlAudio(PlayerJavaCall *playerJavaCall1) {
     //定义soundtouch
     soundTouch = new SoundTouch();
 }
+
 void recyclePacket(AVPacket *packet) {
 //    av_free_packet(packet);
     av_free(packet);
