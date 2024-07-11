@@ -10,8 +10,9 @@ cmake_minimum_required(VERSION 3.22.1)
 # with ${CMAKE_PROJECT_NAME} (both CMake variables are in-sync within the top level
 # build script scope).
 project("ffplayer")
-
-include_directories(include)
+set(PATH_CPP_ROOT_DIR ${CMAKE_SOURCE_DIR}/src/main/cpp)
+include_directories(include
+        PATH_CPP_ROOT_DIR)
 # Creates and names a library, sets it as either STATIC
 # or SHARED, and provides the relative paths to its source code.
 # You can define multiple libraries, and CMake builds them for you.
@@ -29,6 +30,8 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -L${CMAKE_SOURCE_DIR}/libs/${ANDROID_ABI
 
 add_library(${CMAKE_PROJECT_NAME} SHARED
         # List C/C++ source files with relative paths to this CMakeLists.txt.
+        android_log.h
+        video_trim.cpp
         nativelib.cpp)
 
 add_library(ffmpeg-lib

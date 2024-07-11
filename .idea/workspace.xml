@@ -46,40 +46,20 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7fd266e3-aca7-45c1-9e78-87fafa4ac8cf" name="Changes" comment="        重点：bufferSize = nb * out_channels * av_get_bytes_per_sample(AV_SAMPLE_FMT_S16);">
-      <change afterPath="$PROJECT_DIR$/FFmplayer/src/main/cpp/soundtouch/SoundTouch/AAFilter.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/FFmplayer/src/main/cpp/soundtouch/SoundTouch/AAFilter.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/FFmplayer/src/main/cpp/soundtouch/SoundTouch/FIFOSampleBuffer.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/FFmplayer/src/main/cpp/soundtouch/SoundTouch/FIRFilter.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/FFmplayer/src/main/cpp/soundtouch/SoundTouch/FIRFilter.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/FFmplayer/src/main/cpp/soundtouch/SoundTouch/InterpolateCubic.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/FFmplayer/src/main/cpp/soundtouch/SoundTouch/InterpolateCubic.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/FFmplayer/src/main/cpp/soundtouch/SoundTouch/InterpolateLinear.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/FFmplayer/src/main/cpp/soundtouch/SoundTouch/InterpolateLinear.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/FFmplayer/src/main/cpp/soundtouch/SoundTouch/InterpolateShannon.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/FFmplayer/src/main/cpp/soundtouch/SoundTouch/InterpolateShannon.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/FFmplayer/src/main/cpp/soundtouch/SoundTouch/PeakFinder.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/FFmplayer/src/main/cpp/soundtouch/SoundTouch/PeakFinder.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/FFmplayer/src/main/cpp/soundtouch/SoundTouch/RateTransposer.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/FFmplayer/src/main/cpp/soundtouch/SoundTouch/RateTransposer.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/FFmplayer/src/main/cpp/soundtouch/SoundTouch/SoundTouch.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/FFmplayer/src/main/cpp/soundtouch/SoundTouch/TDStretch.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/FFmplayer/src/main/cpp/soundtouch/SoundTouch/TDStretch.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/FFmplayer/src/main/cpp/soundtouch/SoundTouch/cpu_detect.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/FFmplayer/src/main/cpp/soundtouch/SoundTouch/cpu_detect_x86.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/FFmplayer/src/main/cpp/soundtouch/SoundTouch/sse_optimized.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/FFmplayer/src/main/cpp/soundtouch/include/BPMDetect.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/FFmplayer/src/main/cpp/soundtouch/include/FIFOSampleBuffer.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/FFmplayer/src/main/cpp/soundtouch/include/FIFOSamplePipe.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/FFmplayer/src/main/cpp/soundtouch/include/Makefile.am" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/FFmplayer/src/main/cpp/soundtouch/include/STTypes.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/FFmplayer/src/main/cpp/soundtouch/include/SoundTouch.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/FFmplayer/src/main/cpp/soundtouch/include/soundtouch_config.h.in" afterDir="false" />
+    <list default="true" id="7fd266e3-aca7-45c1-9e78-87fafa4ac8cf" name="Changes" comment="      完善播放功能">
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/android_log.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/video_trim.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/video_trim.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/8.0/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.0/executionHistory/executionHistory.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/8.0/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.0/executionHistory/executionHistory.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/8.0/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.0/fileHashes/fileHashes.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/8.0/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.0/fileHashes/fileHashes.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/file-system.probe" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FFmplayer/src/main/cpp/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/FFmplayer/src/main/cpp/CMakeLists.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FFmplayer/src/main/cpp/opensl_audio.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/FFmplayer/src/main/cpp/opensl_audio.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FFmplayer/src/main/cpp/opensl_audio.h" beforeDir="false" afterPath="$PROJECT_DIR$/FFmplayer/src/main/cpp/opensl_audio.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/local.properties" beforeDir="false" afterPath="$PROJECT_DIR$/local.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/video/src/main/cpp/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/video/src/main/cpp/CMakeLists.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -89,7 +69,7 @@
   <component name="ClangdSettings">
     <option name="formatViaClangd" value="false" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[NYPC4A0139]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -160,7 +140,7 @@
     "dart.analysis.tool.window.visible": "false",
     "external.system.has.shared.sources": "true",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "/Users/mac/1.android/workSpace/MediaPacket/FFmplayer/src/main/cpp",
+    "last_opened_file_path": "D:/1.android/private/MediaPacket/video/src/main/cpp",
     "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.17",
     "project.structure.side.proportion": "0.2",
@@ -177,11 +157,11 @@
       <recent name="com.linagzs.video" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\1.android\private\MediaPacket\video\src\main\cpp" />
       <recent name="$PROJECT_DIR$/FFmplayer/src/main/cpp" />
       <recent name="D:\1.android\private\MediaPacket\FFmplayer\src\main\res" />
       <recent name="$PROJECT_DIR$/audio" />
       <recent name="$PROJECT_DIR$/audio/src/main" />
-      <recent name="D:\1.android\private\MediaPacket\video\libs" />
     </key>
     <key name="android.template.935571877">
       <recent name="com.liangzs.trim" />
@@ -219,8 +199,6 @@
       <option name="SHOW_LOGCAT_AUTOMATICALLY" value="false" />
       <option name="INSPECTION_WITHOUT_ACTIVITY_RESTART" value="false" />
       <option name="TARGET_SELECTION_MODE" value="DEVICE_AND_SNAPSHOT_COMBO_BOX" />
-      <option name="SELECTED_CLOUD_MATRIX_CONFIGURATION_ID" value="-1" />
-      <option name="SELECTED_CLOUD_MATRIX_PROJECT_ID" value="" />
       <option name="DEBUGGER_TYPE" value="Native" />
       <Auto>
         <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
@@ -286,8 +264,6 @@
       <option name="SHOW_LOGCAT_AUTOMATICALLY" value="false" />
       <option name="INSPECTION_WITHOUT_ACTIVITY_RESTART" value="false" />
       <option name="TARGET_SELECTION_MODE" value="DEVICE_AND_SNAPSHOT_COMBO_BOX" />
-      <option name="SELECTED_CLOUD_MATRIX_CONFIGURATION_ID" value="-1" />
-      <option name="SELECTED_CLOUD_MATRIX_PROJECT_ID" value="" />
       <option name="DEBUGGER_TYPE" value="Auto" />
       <Auto>
         <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
@@ -353,8 +329,6 @@
       <option name="SHOW_LOGCAT_AUTOMATICALLY" value="false" />
       <option name="INSPECTION_WITHOUT_ACTIVITY_RESTART" value="false" />
       <option name="TARGET_SELECTION_MODE" value="DEVICE_AND_SNAPSHOT_COMBO_BOX" />
-      <option name="SELECTED_CLOUD_MATRIX_CONFIGURATION_ID" value="-1" />
-      <option name="SELECTED_CLOUD_MATRIX_PROJECT_ID" value="" />
       <option name="DEBUGGER_TYPE" value="Auto" />
       <Auto>
         <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
@@ -420,8 +394,6 @@
       <option name="SHOW_LOGCAT_AUTOMATICALLY" value="false" />
       <option name="INSPECTION_WITHOUT_ACTIVITY_RESTART" value="false" />
       <option name="TARGET_SELECTION_MODE" value="DEVICE_AND_SNAPSHOT_COMBO_BOX" />
-      <option name="SELECTED_CLOUD_MATRIX_CONFIGURATION_ID" value="-1" />
-      <option name="SELECTED_CLOUD_MATRIX_PROJECT_ID" value="" />
       <option name="DEBUGGER_TYPE" value="Auto" />
       <Auto>
         <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
@@ -487,8 +459,6 @@
       <option name="SHOW_LOGCAT_AUTOMATICALLY" value="false" />
       <option name="INSPECTION_WITHOUT_ACTIVITY_RESTART" value="false" />
       <option name="TARGET_SELECTION_MODE" value="DEVICE_AND_SNAPSHOT_COMBO_BOX" />
-      <option name="SELECTED_CLOUD_MATRIX_CONFIGURATION_ID" value="-1" />
-      <option name="SELECTED_CLOUD_MATRIX_PROJECT_ID" value="" />
       <option name="DEBUGGER_TYPE" value="Auto" />
       <Auto>
         <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
@@ -554,8 +524,6 @@
       <option name="SHOW_LOGCAT_AUTOMATICALLY" value="false" />
       <option name="INSPECTION_WITHOUT_ACTIVITY_RESTART" value="false" />
       <option name="TARGET_SELECTION_MODE" value="DEVICE_AND_SNAPSHOT_COMBO_BOX" />
-      <option name="SELECTED_CLOUD_MATRIX_CONFIGURATION_ID" value="-1" />
-      <option name="SELECTED_CLOUD_MATRIX_PROJECT_ID" value="" />
       <option name="DEBUGGER_TYPE" value="Auto" />
       <Auto>
         <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
@@ -621,8 +589,6 @@
       <option name="SHOW_LOGCAT_AUTOMATICALLY" value="false" />
       <option name="INSPECTION_WITHOUT_ACTIVITY_RESTART" value="false" />
       <option name="TARGET_SELECTION_MODE" value="DEVICE_AND_SNAPSHOT_COMBO_BOX" />
-      <option name="SELECTED_CLOUD_MATRIX_CONFIGURATION_ID" value="-1" />
-      <option name="SELECTED_CLOUD_MATRIX_PROJECT_ID" value="" />
       <option name="DEBUGGER_TYPE" value="Auto" />
       <Auto>
         <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
@@ -688,8 +654,6 @@
       <option name="SHOW_LOGCAT_AUTOMATICALLY" value="false" />
       <option name="INSPECTION_WITHOUT_ACTIVITY_RESTART" value="false" />
       <option name="TARGET_SELECTION_MODE" value="DEVICE_AND_SNAPSHOT_COMBO_BOX" />
-      <option name="SELECTED_CLOUD_MATRIX_CONFIGURATION_ID" value="-1" />
-      <option name="SELECTED_CLOUD_MATRIX_PROJECT_ID" value="" />
       <option name="DEBUGGER_TYPE" value="Auto" />
       <Auto>
         <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
@@ -755,8 +719,6 @@
       <option name="SHOW_LOGCAT_AUTOMATICALLY" value="false" />
       <option name="INSPECTION_WITHOUT_ACTIVITY_RESTART" value="false" />
       <option name="TARGET_SELECTION_MODE" value="DEVICE_AND_SNAPSHOT_COMBO_BOX" />
-      <option name="SELECTED_CLOUD_MATRIX_CONFIGURATION_ID" value="-1" />
-      <option name="SELECTED_CLOUD_MATRIX_PROJECT_ID" value="" />
       <option name="DEBUGGER_TYPE" value="Auto" />
       <Auto>
         <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
@@ -822,8 +784,6 @@
       <option name="SHOW_LOGCAT_AUTOMATICALLY" value="false" />
       <option name="INSPECTION_WITHOUT_ACTIVITY_RESTART" value="false" />
       <option name="TARGET_SELECTION_MODE" value="DEVICE_AND_SNAPSHOT_COMBO_BOX" />
-      <option name="SELECTED_CLOUD_MATRIX_CONFIGURATION_ID" value="-1" />
-      <option name="SELECTED_CLOUD_MATRIX_PROJECT_ID" value="" />
       <option name="DEBUGGER_TYPE" value="Auto" />
       <Auto>
         <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
@@ -889,8 +849,6 @@
       <option name="SHOW_LOGCAT_AUTOMATICALLY" value="false" />
       <option name="INSPECTION_WITHOUT_ACTIVITY_RESTART" value="false" />
       <option name="TARGET_SELECTION_MODE" value="DEVICE_AND_SNAPSHOT_COMBO_BOX" />
-      <option name="SELECTED_CLOUD_MATRIX_CONFIGURATION_ID" value="-1" />
-      <option name="SELECTED_CLOUD_MATRIX_PROJECT_ID" value="" />
       <option name="DEBUGGER_TYPE" value="Auto" />
       <Auto>
         <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
@@ -956,8 +914,6 @@
       <option name="SHOW_LOGCAT_AUTOMATICALLY" value="false" />
       <option name="INSPECTION_WITHOUT_ACTIVITY_RESTART" value="false" />
       <option name="TARGET_SELECTION_MODE" value="DEVICE_AND_SNAPSHOT_COMBO_BOX" />
-      <option name="SELECTED_CLOUD_MATRIX_CONFIGURATION_ID" value="-1" />
-      <option name="SELECTED_CLOUD_MATRIX_PROJECT_ID" value="" />
       <option name="DEBUGGER_TYPE" value="Auto" />
       <Auto>
         <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
