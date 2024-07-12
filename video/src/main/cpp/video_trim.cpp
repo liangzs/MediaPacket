@@ -34,6 +34,7 @@ VideoTrim::~VideoTrim() {
  */
 void *threadTrim(void *data) {
     VideoTrim *trim = static_cast<VideoTrim *>(data);
+    trim->trimImpl();
     pthread_exit(&trim->trimThread);
 }
 
@@ -41,6 +42,12 @@ void VideoTrim::startTrim() {
 
     pthread_create(&trimThread, NULL, threadTrim, this);
 }
+
+int64_t time_to_timestamp(double time_in_seconds, AVRational time_base) {
+    // 将秒转换为时间戳
+    return (int64_t) (time_in_seconds * time_base.den + 0.5) / time_base.num;
+}
+
 
 void VideoTrim::trimImpl() {
     avcodec_register_all();
@@ -50,6 +57,40 @@ void VideoTrim::trimImpl() {
     if (initOutput() < 0) {
         return;
     }
+    //
+//    int seekTime = time_to_timestamp(startTime/1000, avCtxD->time_base);//这里是标准计算，也可以通过时间戳进行计算
+    int seekTime = startTime / 1000 * AV_TIME_BASE * inputFormatContext->start_time;
+    int ret = av_seek_frame(inputFormatContext, -1, seekTime / 1000, AVSEEK_FLAG_BACKWARD);
+    if (ret < 0) {
+        LOGE("av_seek_frame fail");
+        return;
+    }
+
+    while (true) {
+        avPacket = av_packet_alloc();
+        ret = av_read_frame(inputFormatContext, avPacket);
+        if (ret < 0) {
+            LOGE("av_read_frame break");
+            av_packet_unref(avPacket);
+            break;
+        }
+        if (avPacket->stream_index == videoStreamIndex) {
+            //视频解析
+            AVFrame *frame = decodeAvPackage();
+            if (frame != NULL) {
+
+            }
+            av_frame_free(&frame);
+
+        } else if (avPacket->stream_index == audioStreamIndex) {
+            //音频解析
+        }
+
+        //av_write_frame：直接写入帧，不进行交错处理。适用于单流或已经手动处理交错的场景。
+        //av_interleaved_write_frame：交错写入帧，确保音视频同步。适用于多流的场景，推荐在包含视频和音频的情况下使用
+    }
+
+    //写文件尾,muxer的整理三个步骤就是写文件头，write_frame,写文件尾
 
 }
 
@@ -129,11 +170,20 @@ int VideoTrim::initOutput() {
     }
     //打开输出文件
     if (!(avOutputFormat->flags & AVFMT_NOFILE)) {
-        ret= avio_open()
+        ret = avio_open(&outputFormatContext->pb, outputPath, AVIO_FLAG_WRITE);
+        if (ret < 0) {
+            LOGE("could not open file avio_open:%s", outputPath);
+            return -1;
+        }
     }
-
-
     //写入文件头
+    ret = avformat_write_header(outputFormatContext, NULL);
+    if (ret < 0) {
+        LOGE("avformat_write_header fail");
+        return -1;
+    }
+    LOGE(" INIT OUTPUT SUCCESS !");
+    return 0;
 
 }
 
@@ -205,4 +255,24 @@ int VideoTrim::addAudioStream() {
     //stream->codecpar->codec_tag = 0; // 设置 codec_tag 为 0，让 FFmpeg 自动选择
     outputAudioStream->codecpar->codec_tag = 0;
     return 0;
+}
+
+AVFrame *VideoTrim::decodeAvPackage() {
+    int ret = avcodec_send_packet(avCtxD, avPacket);
+    if (ret < 0) {
+        LOGE("  avcodec_send_packet %s ", av_err2str(ret));
+        return NULL;
+    }
+    AVFrame *avFrame = av_frame_alloc();
+    ret = avcodec_receive_frame(avCtxD, avFrame);
+    if (ret < 0) {
+        av_frame_free(&avFrame);
+        LOGE("  avcodec_receive_frame %s ", av_err2str(ret));
+        return NULL;
+    }
+    return avFrame;
+}
+
+AVPacket *VideoTrim::encodeAvPackage() {
+    return nullptr;
 }

@@ -21,8 +21,8 @@ public:
     //放到子线程取处理
     pthread_t trimThread;
 private:
-    long startTime = 0;
-    long endTime = 0;
+    int startTime = 0;
+    int endTime = 0;
     char *inputPath;
     char *outputPath;
 
@@ -55,13 +55,16 @@ public:
 
     void startTrim();
 
+    void trimImpl();
 
 private:
     int initInput();
 
     int initOutput();
 
-    void trimImpl();
+    AVFrame *decodeAvPackage();
+
+    AVPacket *encodeAvPackage();
 
     int addVideoStream(int width, int height);
 
