@@ -46,20 +46,12 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7fd266e3-aca7-45c1-9e78-87fafa4ac8cf" name="Changes" comment="      完善播放功能">
-      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/android_log.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/video_trim.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/video_trim.h" afterDir="false" />
+    <list default="true" id="7fd266e3-aca7-45c1-9e78-87fafa4ac8cf" name="Changes" comment="补充文件">
       <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/8.0/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.0/executionHistory/executionHistory.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/8.0/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.0/executionHistory/executionHistory.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/8.0/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.0/fileHashes/fileHashes.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/8.0/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.0/fileHashes/fileHashes.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/file-system.probe" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/local.properties" beforeDir="false" afterPath="$PROJECT_DIR$/local.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/video/src/main/cpp/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/video/src/main/cpp/CMakeLists.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/video/src/main/cpp/video_trim.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/video/src/main/cpp/video_trim.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/video/src/main/cpp/video_trim.h" beforeDir="false" afterPath="$PROJECT_DIR$/video/src/main/cpp/video_trim.h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -117,38 +109,38 @@
     <option name="showMembers" value="true" />
     <option name="showVisibilityIcons" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Android App.trim.executor": "Run",
-    "Android App.videocall.executor": "Run",
-    "DEBUGGABLE_DEVICE": "lenovo_l38041-HKL4YUA3",
-    "DEBUGGABLE_PROCESS": "com.liangzs.ffmplayer",
-    "DEBUGGER_ID": "Native",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.cidr.known.project.marker": "true",
-    "RunOnceActivity.readMode.enableVisualFormatting": "true",
-    "SHOW_ALL_PROCESSES": "true",
-    "android-custom-viewD:/1.android/private/MediaPacket/videocall/src/main/java/com/liangzs/videocall/LocalSurfaceView.kt_SELECTED": "LocalSurfaceView",
-    "android-custom-viewD:/IdeStudio/sdk/sources/android-33/android/view/SurfaceView.java_SELECTED": "SurfaceView",
-    "android-custom-viewD:/IdeStudio/sdk/sources/android-33/android/view/ViewGroup.java_SELECTED": "ViewGroup",
-    "android-custom-viewD:/IdeStudio/sdk/sources/android-34/android/view/SurfaceView.java_SELECTED": "SurfaceView",
-    "android-custom-viewD:/androidIde/androidSdk/sources/android-34/android/view/SurfaceView.java_SELECTED": "SurfaceView",
-    "cf.advertisement.text.has.clang-format": "true",
-    "cf.first.check.clang-format": "false",
-    "cidr.known.project.marker": "true",
-    "dart.analysis.tool.window.visible": "false",
-    "external.system.has.shared.sources": "true",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "D:/1.android/private/MediaPacket/video/src/main/cpp",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.17",
-    "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "reference.settingsdialog.project.gradle",
-    "show.migrate.to.gradle.popup": "false",
-    "structure.view.defaults.are.configured": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Android App.trim.executor&quot;: &quot;Run&quot;,
+    &quot;Android App.videocall.executor&quot;: &quot;Run&quot;,
+    &quot;DEBUGGABLE_DEVICE&quot;: &quot;lenovo_l38041-HKL4YUA3&quot;,
+    &quot;DEBUGGABLE_PROCESS&quot;: &quot;com.liangzs.ffmplayer&quot;,
+    &quot;DEBUGGER_ID&quot;: &quot;Native&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.readMode.enableVisualFormatting&quot;: &quot;true&quot;,
+    &quot;SHOW_ALL_PROCESSES&quot;: &quot;true&quot;,
+    &quot;android-custom-viewD:/1.android/private/MediaPacket/videocall/src/main/java/com/liangzs/videocall/LocalSurfaceView.kt_SELECTED&quot;: &quot;LocalSurfaceView&quot;,
+    &quot;android-custom-viewD:/IdeStudio/sdk/sources/android-33/android/view/SurfaceView.java_SELECTED&quot;: &quot;SurfaceView&quot;,
+    &quot;android-custom-viewD:/IdeStudio/sdk/sources/android-33/android/view/ViewGroup.java_SELECTED&quot;: &quot;ViewGroup&quot;,
+    &quot;android-custom-viewD:/IdeStudio/sdk/sources/android-34/android/view/SurfaceView.java_SELECTED&quot;: &quot;SurfaceView&quot;,
+    &quot;android-custom-viewD:/androidIde/androidSdk/sources/android-34/android/view/SurfaceView.java_SELECTED&quot;: &quot;SurfaceView&quot;,
+    &quot;cf.advertisement.text.has.clang-format&quot;: &quot;true&quot;,
+    &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
+    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
+    &quot;external.system.has.shared.sources&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/1.android/private/MediaPacket/video/src/main/cpp&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.17&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settingsdialog.project.gradle&quot;,
+    &quot;show.migrate.to.gradle.popup&quot;: &quot;false&quot;,
+    &quot;structure.view.defaults.are.configured&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="android.template.-398585901">
       <recent name="com.liangzs.videocall" />
@@ -1034,7 +1026,15 @@
       <option name="project" value="LOCAL" />
       <updated>1719547039880</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="补充文件">
+      <option name="closed" value="true" />
+      <created>1720699321003</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1720699321003</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -1068,7 +1068,8 @@
     <MESSAGE value="已经能播放，但是声音不正常" />
     <MESSAGE value="终于正常播放了，原因是buffersize没有正确计算" />
     <MESSAGE value="        重点：bufferSize = nb * out_channels * av_get_bytes_per_sample(AV_SAMPLE_FMT_S16);" />
-    <option name="LAST_COMMIT_MESSAGE" value="        重点：bufferSize = nb * out_channels * av_get_bytes_per_sample(AV_SAMPLE_FMT_S16);" />
+    <MESSAGE value="补充文件" />
+    <option name="LAST_COMMIT_MESSAGE" value="补充文件" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

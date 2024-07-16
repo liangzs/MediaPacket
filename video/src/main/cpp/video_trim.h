@@ -44,9 +44,11 @@ private:
     AVStream *videoStream;
     AVStream *audioStream;
     //外写文件
-    AVOutputFormat *avOutputFormat;
+    AVOutputFormat *oformat;
     AVStream *outputVideoStream;
     AVStream *outputAudioStream;
+
+    int progress;
 
 public:
     VideoTrim(char *inputPath, char *outputpath, long startTime, long endTime);
@@ -61,7 +63,18 @@ private:
 
     int initOutput();
 
+    int decodeEncode();
+
+    AVFrame *decodePackage();
+
+    AVPacket *encodePackage(AVFrame *frame);
+
     void trimImpl();
+
+    /**
+     * 修改广告库，需要
+     */
+    void writePacket(AVPacket *packet);
 
     int addVideoStream(int width, int height);
 
