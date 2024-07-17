@@ -83,6 +83,21 @@ private:
 
     void releaseSwrContext();
 
+    //开始解码
+    int startDecode();
+
+    /**
+     * 解码包
+     * @return
+     */
+    AVFrame *decodePacket();
+
+    /**
+     * 编码包
+     * @return
+     */
+    AVPacket *encodePacket();
+
 public:
     VideoConcat(std::vector<char *> inputPaths, char *outputPath, int width, int height);
 

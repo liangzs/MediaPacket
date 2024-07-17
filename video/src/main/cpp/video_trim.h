@@ -48,6 +48,7 @@ private:
     AVStream *outputVideoStream;
     AVStream *outputAudioStream;
 
+    int progress;
 public:
     VideoTrim(char *inputPath, char *outputpath, long startTime, long endTime);
 

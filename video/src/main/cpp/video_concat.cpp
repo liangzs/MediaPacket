@@ -81,6 +81,8 @@ int VideoConcat::initInput(char *inputPath) {
         LOGE("avcodec_open2 error");
         return -1;
     }
+    //video sws
+    releaseSwsContext();
     if (initSwsContext() < 0) {
         LOGE("initSwsContext error");
         return -1;
@@ -104,6 +106,7 @@ int VideoConcat::initInput(char *inputPath) {
         return -1;
     }
     //audio swr
+    releaseSwrContext();
     if (initSwrContext() < 0) {
         LOGE("initSwrContext error");
         return -1;
@@ -155,6 +158,9 @@ void VideoConcat::run() {
         //先释放，再创建
         releaseInput();
         initInput(inputPath);
+
+        //开始解码
+        startDecode();
 
     }
 }
@@ -237,13 +243,16 @@ int VideoConcat::addAudioStream() {
 }
 
 void VideoConcat::releaseInput() {
+    if (inFormatContext != NULL) {
+        avformat_free_context(inFormatContext);
+        inFormatContext = NULL;
+    }
     if (inVideoCodecContext != NULL) {
         avcodec_free_context(&inVideoCodecContext);
         inVideoCodecContext = NULL;
     }
-    if (inFormatContext != NULL) {
-        avformat_free_context(inFormatContext);
-        inFormatContext = NULL;
+    if (inAudioCodecContext != NULL) {
+        avcodec_free_context(&inAudioCodecContext);
     }
 
 }
@@ -307,4 +316,8 @@ void VideoConcat::releaseSwsContext() {
 void VideoConcat::releaseSwrContext() {
     swr_free(&inSwrContext);
     inSwrContext = NULL;
+}
+
+int VideoConcat::startDecode() {
+
 }
