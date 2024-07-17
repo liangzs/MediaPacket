@@ -21,8 +21,8 @@ public:
     //放到子线程取处理
     pthread_t trimThread;
 private:
-    long startTime = 0;
-    long endTime = 0;
+    int startTime = 0;
+    int endTime = 0;
     char *inputPath;
     char *outputPath;
 
@@ -44,11 +44,9 @@ private:
     AVStream *videoStream;
     AVStream *audioStream;
     //外写文件
-    AVOutputFormat *oformat;
+    AVOutputFormat *avOutputFormat;
     AVStream *outputVideoStream;
     AVStream *outputAudioStream;
-
-    int progress;
 
 public:
     VideoTrim(char *inputPath, char *outputpath, long startTime, long endTime);
