@@ -31,7 +31,11 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -L${CMAKE_SOURCE_DIR}/libs/${ANDROID_ABI
 add_library(${CMAKE_PROJECT_NAME} SHARED
         # List C/C++ source files with relative paths to this CMakeLists.txt.
         android_log.h
+        video_concat.h
+        mythread.h
+        mythread.cpp
         video_trim.cpp
+        video_concat.cpp
         nativelib.cpp)
 
 add_library(ffmpeg-lib
