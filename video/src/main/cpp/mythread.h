@@ -18,12 +18,12 @@ private:
     pthread_t thread;
     char *threadName;
 
-    bool isExist;//退出线程
-    bool isPause;//等待线程
-
     static void *startThread(void *);
 
 public:
+    bool isExist;//退出线程
+    bool isPause;//等待线程
+
     pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
 
 

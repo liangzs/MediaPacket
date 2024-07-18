@@ -47,13 +47,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7fd266e3-aca7-45c1-9e78-87fafa4ac8cf" name="Changes" comment="补充裁剪逻辑">
-      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/mythread.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/mythread.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/video_concat.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/video/src/main/cpp/video_concat.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/8.0/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.0/fileHashes/fileHashes.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/video/src/main/cpp/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/video/src/main/cpp/CMakeLists.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/video/src/main/cpp/mythread.h" beforeDir="false" afterPath="$PROJECT_DIR$/video/src/main/cpp/mythread.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/video/src/main/cpp/video_concat.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/video/src/main/cpp/video_concat.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/video/src/main/cpp/video_concat.h" beforeDir="false" afterPath="$PROJECT_DIR$/video/src/main/cpp/video_concat.h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -1044,7 +1041,15 @@
       <option name="project" value="LOCAL" />
       <updated>1721101474449</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="补充裁剪逻辑">
+      <option name="closed" value="true" />
+      <created>1721219315480</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1721219315480</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
