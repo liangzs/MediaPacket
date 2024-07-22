@@ -33,6 +33,7 @@ private:
     std::queue<AVPacket *> queueVideo;
     std::queue<AVPacket *> queueAudio;
     int QUEUE_MAX_SIZE = 100;
+    bool readEnd;
 
 //input
     AVFormatContext *inFormatContext;
@@ -62,7 +63,6 @@ private:
     AVCodec *outAudioCodec;
 
     AVFrame *outVideoFrame;
-    AVFrame *outAudioFrame;
 
     //重新穿甲缓冲区接受pcm数据(swr后的数据),长度根据采用率*通道数*位数
     uint8_t *pcmOutBuffer;
@@ -86,6 +86,9 @@ private:
     uint64_t channelLayout;
     int channels;
     int frameRate;
+    //写出的时间戳
+    int64_t audioPts;
+    int64_t videoPts;
 
 private:
     int addAudioStream();

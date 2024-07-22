@@ -28,6 +28,7 @@ VideoConcat::VideoConcat(std::vector<char *> inputPaths, char *outputPath, int w
 
     //pcm缓冲区
     pcmOutBuffer = static_cast<uint8_t *>(av_malloc(sampleRate * 2 * channels));
+    readEnd = false;
 
 }
 
@@ -61,6 +62,7 @@ int VideoConcat::startConcat() {
         //清空所有队列
         clearQueue();
     }
+    readEnd = true;
 
     return 1;
 }
@@ -199,7 +201,53 @@ int VideoConcat::initOuput() {
     return 0;
 }
 
+/**
+ * 遍历queue，判读时间戳，把时间比较早的先写入数据
+ */
 void VideoConcat::run() {
+    int result = 0;
+    while (!isExist) {
+        if (isPause) {
+            av_usleep(1000);
+            continue;
+        }
+        //取数据的时候用锁进行防
+        if (queueAudio.empty() || queueVideo.empty()) {
+            if (readEnd) {
+                break;
+            }
+            continue;
+        }
+        pthread_mutex_lock(&mutex);
+        AVPacket *videoPack = queueVideo.front();
+        AVPacket *audioPack = queueAudio.front();
+        pthread_mutex_unlock(&mutex);
+        //比较时间戳
+        if (av_compare_ts(audioPts, outAudioStream->time_base, videoPts,
+                          outVideoStream->time_base) < 0) {
+            //音频先
+            audioPts = audioPack->pts;
+            result = av_interleaved_write_frame(outFormatContext, audioPack);
+            if (result < 0) {
+                LOGE("audio av_interleaved_write_frame error");
+            }
+            av_packet_free(&audioPack);
+            queueAudio.pop();
+        } else {
+            //视频先
+            videoPts = videoPack->pts;
+            result = av_interleaved_write_frame(outFormatContext, videoPack);
+            if (result < 0) {
+                LOGE("video av_interleaved_write_frame error");
+            }
+            av_packet_free(&videoPack);
+            queueVideo.pop();
+        }
+        //写入尾巴
+        av_write_trailer(outFormatContext);
+        LOGE("CONCAT-------------FINISH------------")
+    }
+
 
 }
 
