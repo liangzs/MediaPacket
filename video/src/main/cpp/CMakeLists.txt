@@ -33,9 +33,13 @@ add_library(${CMAKE_PROJECT_NAME} SHARED
         android_log.h
         video_concat.h
         mythread.h
+        video_reverse.h
+        video_reverse.cpp
         mythread.cpp
         video_trim.cpp
         video_concat.cpp
+        base_interface.cpp
+        base_interface.h
         nativelib.cpp)
 
 add_library(ffmpeg-lib
