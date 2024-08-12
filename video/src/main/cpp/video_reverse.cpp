@@ -35,8 +35,21 @@ int VideoReverse::buildInput() {
         LOGE("open_input_file fail");
         return -1;
     }
-    videoStreamIndex= getVideoDecodeContext(inFormatCtx);
-    audioStreamIndex= getAudioDecodeContext(inFormatCtx);
+    videoStreamIndex = getVideoDecodeContext(inFormatCtx, &inVCodecCtx);
+    audioStreamIndex = getAudioDecodeContext(inFormatCtx, &inACodecCtx);
+    //检测是否初始化成功
+    if (inVCodecCtx == NULL || videoStreamIndex == -1) {
+        LOGE("getVideoDecodeContext fail");
+        return -1;
+    }
+    if (inACodecCtx == NULL || audioStreamIndex == -1) {
+        LOGE("getAudioDecodeContext fail");
+        return -1;
+    }
+    inWdith = inFormatCtx->streams[videoStreamIndex]->codecpar->width;
+    inHeight = inFormatCtx->streams[videoStreamIndex]->codecpar->height;
+    //获取时长
+    int64_t duration=inFormatCtx->duration* av_q2d(timeBaseFFmpeg);
     return 0;
 }
 
