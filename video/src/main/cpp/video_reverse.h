@@ -35,7 +35,7 @@ private:
 
     //output
     char *outputPath;
-    AVFormatContext *outForamtCtx;
+    AVFormatContext *outFormatCtx;
     AVCodecContext *outVCodecCtx;
     AVCodecContext *outACodecCtx;
     int inWdith;

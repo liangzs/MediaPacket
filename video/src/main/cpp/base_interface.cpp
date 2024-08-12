@@ -98,9 +98,134 @@ int BaseInterface::getAudioDecodeContext(AVFormatContext *ps, AVCodecContext **d
 }
 
 BaseInterface::BaseInterface() {
-    timeBaseFFmpeg = AVRational{1, AV_TIME_BASE};
+    videoStreamIndex = -1;
+    audioStreamIndex = -1;
+    videoOutputStreamIndex = -1;
+    audioOutputStreamIndex = -1;
+    progress = 0;
+    outFrameRate = 25;
+    timeBaseFFmpeg = (AVRational) {1, AV_TIME_BASE};
 }
 
 BaseInterface::~BaseInterface() {
 
+}
+
+int BaseInterface::initOutput(const char *ouput, AVFormatContext **ctx) {
+    int ret = avformat_alloc_output_context2(ctx, NULL, NULL, ouput);
+    if (ret < 0) {
+        LOGE("avformat_alloc_output_context2 fail");
+        return -1;
+    }
+    return 0;
+}
+
+int BaseInterface::initOutput(const char *ouput, const char *format, AVFormatContext **ctx) {
+    int ret = avformat_alloc_output_context2(ctx, NULL, format, ouput);
+    if (ret < 0) {
+        LOGE("avformat_alloc_output_context2 fail");
+        return -1;
+    }
+    return 0;
+}
+
+/**
+ * 添加视频的信道信息
+ * @param afc_output
+ * @param vCtxE
+ * @param codecpar
+ * @return
+ */
+int BaseInterface::addOutputVideoStream(AVFormatContext *afc_output, AVCodecContext **vCtxE,
+                                        AVCodecParameters codecpar) {
+    AVStream *avStream = avformat_new_stream(afc_output, NULL);
+    //创建codecCxt，给codecParameter进行赋值
+    AVOutputFormat *oformat = afc_output->oformat;
+
+    if (oformat->video_codec == AVCodecID::AV_CODEC_ID_NONE) {
+        LOGE("afc_output->oformat is AV_CODEC_ID_NONE");
+        return -1;
+    }
+    AVCodec *codec = avcodec_find_encoder(oformat->video_codec);
+    if (codec == NULL) {
+        LOGE("avcodec_find_encoder fail");
+        return -1;
+    }
+    //给outVideoStreamIndex赋值
+    videoOutputStreamIndex = avStream->index;
+    *vCtxE = avcodec_alloc_context3(codec);
+    (*vCtxE)->bit_rate = outFrameRate * codecpar.width * codecpar.height * 3 / 2;
+    (*vCtxE)->framerate = AVRational{outFrameRate, 1};
+    (*vCtxE)->time_base = AVRational{1, outFrameRate};
+    (*vCtxE)->gop_size = 100;
+//    vCtxE->max_b_frames = 1;
+    (*vCtxE)->pix_fmt = (AVPixelFormat) codecpar.format;
+    (*vCtxE)->codec_type = AVMEDIA_TYPE_VIDEO;
+    (*vCtxE)->width = codecpar.width;
+    (*vCtxE)->height = codecpar.height;
+    if ((*vCtxE)->codec_id == AV_CODEC_ID_MPEG2VIDEO) {
+        /* just for testing, we also add B-frames */
+        (*vCtxE)->max_b_frames = 2;
+    }
+    if ((*vCtxE)->codec_id == AV_CODEC_ID_MPEG1VIDEO) {
+        /* Needed to avoid using macroblocks in which some coeffs overflow.
+         * This does not happen with normal video, it just happens here as
+         * the motion of the chroma plane does not match the luma plane. */
+        (*vCtxE)->mb_decision = 2;
+    }
+    if ((*vCtxE)->codec_id == AV_CODEC_ID_H264)
+        av_opt_set((*vCtxE)->priv_data, "preset", "slow", 0);
+
+    int ret = avcodec_parameters_from_context(avStream->codecpar, *vCtxE);
+    if (ret < 0) {
+        LOGE("avcodec_parameters_from_context fail");
+        return -1;
+    }
+    ret = avcodec_open2(*vCtxE, codec, NULL);
+    if (ret < 0) {
+        LOGE("avcodec_open2 fail");
+        return -1;
+    }
+    LOGE(" init addOutputVideoStream success!");
+    return videoOutputStreamIndex;
+}
+
+int BaseInterface::addOutputAudioStream(AVFormatContext *afc_output, AVCodecContext **aCtxE,
+                                        AVCodecParameters codecpar) {
+    AVStream *avStream = avformat_new_stream(afc_output, NULL);
+
+    AVOutputFormat *oformat = afc_output->oformat;
+    if (oformat->audio_codec == AVCodecID::AV_CODEC_ID_NONE) {
+        LOGE("audio safc_output->oformat is AV_CODEC_ID_NONE");
+        return -1;
+    }
+    AVCodec *avCodec = avcodec_find_decoder(oformat->audio_codec);
+    if (avCodec == NULL) {
+        LOGE("audio avcodec_find_decoder fail ");
+        return -1;
+    }
+    *aCtxE = avcodec_alloc_context3(avCodec);
+    //直接复用 输入的AVCodecParameters 参数
+    (*aCtxE)->bit_rate = 64000;
+    (*aCtxE)->sample_fmt = (AVSampleFormat)codecpar.format;
+    (*aCtxE)->sample_rate = codecpar.sample_rate;
+    (*aCtxE)->channel_layout = codecpar.channel_layout;
+    (*aCtxE)->channels = codecpar.channels;
+    (*aCtxE)->time_base = (AVRational) {1, codecpar.sample_rate};
+    (*aCtxE)->codec_type = AVMEDIA_TYPE_AUDIO;
+    avStream->time_base = (AVRational) {1, codecpar.sample_rate};
+
+    int ret = avcodec_parameters_from_context(avStream->codecpar, *aCtxE);
+    if (ret < 0) {
+        LOGE(" avcodec_parameters_from_context FAILD ! ");
+        return -1;
+    }
+    ret = avcodec_open2(*aCtxE, avCodec, NULL);
+    if (ret < 0) {
+        LOGE(" audio Could not open codec %s ", av_err2str(ret));
+        return -1;
+    }
+
+    LOGE(" init output success audio!");
+    return audioOutputStreamIndex;
 }

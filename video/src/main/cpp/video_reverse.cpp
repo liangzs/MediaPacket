@@ -49,11 +49,23 @@ int VideoReverse::buildInput() {
     inWdith = inFormatCtx->streams[videoStreamIndex]->codecpar->width;
     inHeight = inFormatCtx->streams[videoStreamIndex]->codecpar->height;
     //获取时长
-    int64_t duration=inFormatCtx->duration* av_q2d(timeBaseFFmpeg);
+    int64_t duration = inFormatCtx->duration * av_q2d(timeBaseFFmpeg);
     return 0;
 }
 
 
+/**
+ * 初始化输出配置
+ * @return
+ */
 int VideoReverse::buildOutput() {
+    initOutput(outputPath, &outFormatCtx);
+    //添加视频信道,传入inpu的codecParameter
+    addOutputVideoStream(outFormatCtx, &outVCodecCtx,
+                         *inFormatCtx->streams[videoStreamIndex]->codecpar);
+
+    //添加音频信道
     return 0;
+    addOutputAudioStream(outFormatCtx, &outACodecCtx,
+                         *inFormatCtx->streams[audioStreamIndex]->codecpar);
 }
