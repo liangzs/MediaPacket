@@ -7,6 +7,7 @@
 
 #include <stdio.h>
 #include "mythread.h"
+#include "queue"
 #include "base_interface.h"
 
 extern "C" {
@@ -22,7 +23,10 @@ using namespace std;
  *
  * 存入和读取应该都是按照原始数据进行处理，即通过yuv的数据格式进行固定存读取
  */
+
+
 class VideoReverse : Mythread, BaseInterface {
+
 
 private:
     //input
@@ -41,11 +45,16 @@ private:
     int inWdith;
     int inHeight;
     //YUV数据
+    int yuvSize;
+    int ySize;
+    char *readBuffer;
     FILE *fCache;
 
     //编解码
     vector<int64_t> keyFrameTimeStamps;//解码前遍历所以的关键帧并保存，后续拿这个做seek操作来读取一个gop
-
+    vector<int64_t> keyFrameTime;
+    queue<AVPacket *> audioPackages;
+    int nowKeyFrame;
 
 public:
     VideoReverse(char *inputPath, char *outputPath);
@@ -58,6 +67,12 @@ public:
 
     int buildOutput();
 
+    /**
+     * 开始工作
+     */
+    void startReverse();
+
+    void run() override
 };
 
 

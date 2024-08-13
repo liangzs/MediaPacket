@@ -14,6 +14,9 @@ VideoReverse::VideoReverse(char *inputPath, char *outputPath) {
 
     buildInput();
     buildOutput();
+    yuvSize = inWdith * inHeight * 3 / 2;
+    ySize = inWdith * inHeight;
+    readBuffer = static_cast<char *>(malloc(yuvSize));
 }
 
 VideoReverse::~VideoReverse() {
@@ -50,7 +53,7 @@ int VideoReverse::buildInput() {
     inHeight = inFormatCtx->streams[videoStreamIndex]->codecpar->height;
     //获取时长
     int64_t duration = inFormatCtx->duration * av_q2d(timeBaseFFmpeg);
-    return 0;
+    return 1;
 }
 
 
@@ -65,7 +68,54 @@ int VideoReverse::buildOutput() {
                          *inFormatCtx->streams[videoStreamIndex]->codecpar);
 
     //添加音频信道
-    return 0;
     addOutputAudioStream(outFormatCtx, &outACodecCtx,
                          *inFormatCtx->streams[audioStreamIndex]->codecpar);
+    return 1;
+}
+
+const char *tempYuv = "sdcard/FFmpeg/temp.yuv";
+
+/**
+ * 这里进行编解码放到缓存区
+ */
+void VideoReverse::startReverse() {
+
+    this->run();
+    //打开文件
+    fCache = fopen(tempYuv, "wb+");
+    //遍历解码出所有的关键帧时间戳
+    int ret = 0;
+    while (!isExist) {
+        AVPacket *packet = av_packet_alloc();
+        ret = av_read_frame(inFormatCtx, packet);
+        if (ret < 0) {
+            av_packet_free(&packet);
+            break;
+        }
+        if (packet->stream_index == inputVideoStreamIndex) {
+            if (packet->flags & AV_PKT_FLAG_KEY) {
+                keyFrameTime.push_back(packet->pts);
+            }
+            av_packet_free(&packet);
+        } else if (packet->stream_index == inputAudioStreamIndex) {
+            //音频不做处理，直接缓存输出，需要转换一下package的时间戳
+            av_packet_rescale_ts(packet, inFormatCtx->streams[audioStreamIndex]->time_base,
+                                 outFormatCtx->streams[audioOutputStreamIndex]->time_base);
+            audioPackages.push(packet);
+        }
+    }
+
+    //从最后一帧开始解析，先seek到最后一帧的关键帧，然后得到gop，然后反向写入gop序列
+    nowKeyFrame = keyFrameTime.size() - 1;
+    av_seek_frame(inFormatCtx, videoStreamIndex, keyFrameTime.at(nowKeyFrame),
+                  AVSEEK_FLAG_BACKWARD);
+
+
+}
+
+/**
+ * 这里是遍历缓存进行读取数据
+ */
+void VideoReverse::run() {
+
 }
