@@ -54,7 +54,8 @@ private:
     vector<int64_t> keyFrameTimeStamps;//解码前遍历所以的关键帧并保存，后续拿这个做seek操作来读取一个gop
     vector<int64_t> keyFrameTime;
     queue<AVPacket *> audioPackages;
-    int nowKeyFrame;
+    int nowKeyFramePosition;
+    int64_t nowKeyFramePts;
 
 public:
     VideoReverse(char *inputPath, char *outputPath);

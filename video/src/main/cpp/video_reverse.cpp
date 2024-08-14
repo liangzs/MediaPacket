@@ -96,6 +96,7 @@ void VideoReverse::startReverse() {
             if (packet->flags & AV_PKT_FLAG_KEY) {
                 keyFrameTime.push_back(packet->pts);
             }
+            nowKeyFramePts = packet->pts;
             av_packet_free(&packet);
         } else if (packet->stream_index == inputAudioStreamIndex) {
             //音频不做处理，直接缓存输出，需要转换一下package的时间戳
@@ -106,9 +107,41 @@ void VideoReverse::startReverse() {
     }
 
     //从最后一帧开始解析，先seek到最后一帧的关键帧，然后得到gop，然后反向写入gop序列
-    nowKeyFrame = keyFrameTime.size() - 1;
+    nowKeyFramePosition = keyFrameTime.size() - 1;
     av_seek_frame(inFormatCtx, videoStreamIndex, keyFrameTime.at(nowKeyFrame),
                   AVSEEK_FLAG_BACKWARD);
+
+    while (!isExist) {
+        //最后一gop，或者不是最后的gop时，根据时间戳pts来做边界处理
+        AVPacket *avPacket = av_packet_alloc();
+        ret = av_read_frame(inFormatCtx, avPacket);
+        if (ret < 0) {//结束了
+
+
+            break;
+        }
+
+        if (avPacket->stream_index == inputVideoStreamIndex) {
+            if (((nowKeyFramePosition + 1) >= keyFrameTimeStamps.size() &&
+                 avPacket->pts > nowKeyFramePts) ||
+                (nowKeyFramePosition + 1) < keyFrameTimeStamps.size() &&
+                avPacket->pts > keyFrameTimeStamps.at(nowKeyFramePosition + 1)) {
+                //完成了一个gop
+                clearCode(fCache);
+
+                LOGE(" NEXT GOP %d", nowKeyFramePosition);
+                //开始倒序读取
+                reverseFile();
+
+                if (seekLastKeyFrame() < 0) {
+                    LOGE(" ALL END gopCount %d ", gopCount);
+                    av_packet_free(&packet);
+                    break;
+                }
+            }
+        }
+
+    }
 
 
 }
