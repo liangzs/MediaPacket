@@ -49,6 +49,7 @@ private:
     int ySize;
     char *readBuffer;
     FILE *fCache;
+    AVFrame *outFrame;
 
     //编解码
     vector<int64_t> keyFrameTimeStamps;//解码前遍历所以的关键帧并保存，后续拿这个做seek操作来读取一个gop

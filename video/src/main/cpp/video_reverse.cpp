@@ -70,6 +70,8 @@ int VideoReverse::buildOutput() {
     //添加音频信道
     addOutputAudioStream(outFormatCtx, &outACodecCtx,
                          *inFormatCtx->streams[audioStreamIndex]->codecpar);
+
+    outFrame = av_frame_alloc();
     return 1;
 }
 
@@ -130,7 +132,7 @@ void VideoReverse::startReverse() {
                 completeCode(fCache);
                 LOGE(" NEXT GOP %d", nowKeyFramePosition);
                 //开始倒序读取
-                reverseFile();
+                reverseReadFileToPakage();
 
                 if (seekLastKeyFrame() < 0) {
                     LOGE(" ALL END gopCount %d ", gopCount);
@@ -160,7 +162,7 @@ void VideoReverse::completeCode(FILE *file) {
         result = avcodec_receive_frame(inVCodecCtx, frame);
         writeFrameToFile(frame, file);
         av_frame_free(&frame);
-    } while (result > 0)
+    } while (result > 0);
 }
 
 /**
@@ -194,5 +196,22 @@ void VideoReverse::reverseReadFileToPakage() {
         fread(readBuffer, 1, yuvSize, fCache);
         //fread yuvSize之后，光标指针又回到了yuvSize后面的位置，所有需要重新把指针移回yuvsize前的位置
         fseek(fCache, -yuvSize, SEEK_CUR);
+
+        //检测
+        if (av_frame_is_writable(outFrame) < 0) {
+            LOGE("av_frame_make_writable FAILD !");
+        }
+
+        //将readBuffer 开始地址给到y，然后ysize后给u，y+u后的地址给v
+        outFrame->data[0] = (uint8_t *) readBuffer;
+        outFrame->data[1] = (uint8_t *) (readBuffer + ySize);
+        outFrame->data[2] = (uint8_t *) (readBuffer + ySize + ySize / 4);
+
+        //设置每行的大小
+        outFrame->linesize[0] = inWdith;
+        //从这里可以看出，writeFrameToFile  fwrite(frame->data[1], 1, frame->linesize[1] * inHeight / 2
+        outFrame->linesize[1] = inWdith / 2;
+        outFrame->linesize[2] = inWdith / 2;
+        outFrame->pts=//每帧的时间戳
     }
 }
