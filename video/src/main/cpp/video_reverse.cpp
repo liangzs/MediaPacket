@@ -127,8 +127,7 @@ void VideoReverse::startReverse() {
                 (nowKeyFramePosition + 1) < keyFrameTimeStamps.size() &&
                 avPacket->pts > keyFrameTimeStamps.at(nowKeyFramePosition + 1)) {
                 //完成了一个gop
-                clearCode(fCache);
-
+                completeCode(fCache);
                 LOGE(" NEXT GOP %d", nowKeyFramePosition);
                 //开始倒序读取
                 reverseFile();
@@ -151,4 +150,49 @@ void VideoReverse::startReverse() {
  */
 void VideoReverse::run() {
 
+}
+
+void VideoReverse::completeCode(FILE *file) {
+    avcodec_flush_buffers(inVCodecCtx);
+    int result = 0;
+    do {
+        AVFrame *frame = av_frame_alloc();
+        result = avcodec_receive_frame(inVCodecCtx, frame);
+        writeFrameToFile(frame, file);
+        av_frame_free(&frame);
+    } while (result > 0)
+}
+
+/**
+ * 写出yuv数据
+ * y占w*h
+ * uv 各占 w*h* 1/4
+ * frame->linesize[0]  *inHeight/2 而不是/4
+ * vFrame->linesize[1] 和 vFrame->linesize[2] 表示 U 和 V 分量的每一行占用的字节数，通常等于 Width/2
+ * 这里解释一下
+ * @param frame
+ * @param file
+ */
+void VideoReverse::writeFrameToFile(AVFrame *frame, FILE *file) {
+    //    size_t written = fwrite(array, sizeof(int), num_elements, fp);
+    fwrite(frame->data[0], 1, frame->linesize[0] * inHeight, file);
+    fwrite(frame->data[1], 1, frame->linesize[1] * inHeight / 2, file);
+    fwrite(frame->data[2], 1, frame->linesize[2] * inHeight / 2, file);
+}
+
+/**
+ * 反向读取文件，然后转化成Frame在编码成package
+ */
+void VideoReverse::reverseReadFileToPakage() {
+    //清理缓存
+    fflush(fCache);
+    //把指针从最末尾开始读取,每次读取yuvsize大小即一帧缓存
+    fseek(fCache, 0, SEEK_END);
+    while (ftell(fCache) > 0) {
+        //指针往前移动yuvSize前的位置，然后读取yuvSize大小即可
+        fseek(fCache, -yuvSize, SEEK_CUR);
+        fread(readBuffer, 1, yuvSize, fCache);
+        //fread yuvSize之后，光标指针又回到了yuvSize后面的位置，所有需要重新把指针移回yuvsize前的位置
+        fseek(fCache, -yuvSize, SEEK_CUR);
+    }
 }

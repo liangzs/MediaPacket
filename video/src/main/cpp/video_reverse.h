@@ -73,7 +73,13 @@ public:
      */
     void startReverse();
 
-    void run() override
+    void run() override;
+
+    void completeCode(FILE *file);
+
+    void writeFrameToFile(AVFrame *frame, FILE *file);
+
+    void reverseReadFileToPakage();
 };
 
 
