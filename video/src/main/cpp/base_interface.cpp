@@ -207,7 +207,7 @@ int BaseInterface::addOutputAudioStream(AVFormatContext *afc_output, AVCodecCont
     *aCtxE = avcodec_alloc_context3(avCodec);
     //直接复用 输入的AVCodecParameters 参数
     (*aCtxE)->bit_rate = 64000;
-    (*aCtxE)->sample_fmt = (AVSampleFormat)codecpar.format;
+    (*aCtxE)->sample_fmt = (AVSampleFormat) codecpar.format;
     (*aCtxE)->sample_rate = codecpar.sample_rate;
     (*aCtxE)->channel_layout = codecpar.channel_layout;
     (*aCtxE)->channels = codecpar.channels;
@@ -229,3 +229,50 @@ int BaseInterface::addOutputAudioStream(AVFormatContext *afc_output, AVCodecCont
     LOGE(" init output success audio!");
     return audioOutputStreamIndex;
 }
+
+int BaseInterface::getVideoOutFrameRate() {
+    return outFrameRate;
+}
+
+/**
+ * 编码
+ * @param frame
+ * @param codecContext
+ * @return
+ */
+AVPacket *BaseInterface::encodeFrame(AVFrame *frame, AVCodecContext *codecContext) {
+    int ret = avcodec_send_frame(codecContext, frame);
+    if (ret < 0) {
+        LOGE("encodeFrame->avcodec_send_frame fail");
+        return NULL;
+    }
+    AVPacket *avPacket = av_packet_alloc();
+    ret = avcodec_receive_packet(codecContext, avPacket);
+    if (ret < 0) {
+        LOGE("encodeFrame->avcodec_receive_packet fail");
+        return NULL;
+    }
+    return avPacket;
+}
+
+/**
+ * 解码，得到avframe的yuv数据
+ * @param decode
+ * @param packet
+ * @return
+ */
+AVFrame *BaseInterface::decodePacket(AVCodecContext *decode, AVPacket *packet) {
+    AVFrame *frame = av_frame_alloc();
+    int ret = avcodec_send_packet(decode, packet);
+    if (ret < 0) {
+        LOGE("decodePacket->avcodec_send_packet fail");
+        return NULL;
+    }
+    ret = avcodec_receive_frame(decode, frame);
+    if (ret < 0) {
+        LOGE("decodePacket->avcodec_receive_frame fail");
+        return NULL;
+    }
+    return frame;
+}
+

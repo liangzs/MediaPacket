@@ -41,9 +41,9 @@ protected:
     //输出
     int videoOutputStreamIndex;
     int audioOutputStreamIndex;
-    int outFrameRate;
-
     int initOutput(const char *ouput, AVFormatContext **ctx);
+
+    int outFrameRate;
 
     int initOutput(const char *ouput, const char *format, AVFormatContext **ctx);
 

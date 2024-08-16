@@ -9,6 +9,11 @@
 #include "stdlib.h"
 #include "string"
 #include "android_log.h"
+#include <time.h>
+
+extern "C" {
+#include "libavutil/time.h"
+};
 
 /**
  * 定义一个thread，可以实现类似java调用thread的习惯
@@ -42,6 +47,9 @@ public:
     void join();
 
     void stop();
+
+    void sleep(int ms);
+
 
     virtual void run() = 0;
 

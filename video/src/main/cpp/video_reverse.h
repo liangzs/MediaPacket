@@ -51,12 +51,19 @@ private:
     FILE *fCache;
     AVFrame *outFrame;
 
+    int periodTime;//每帧的时间
+    int currentFrameCount;//当前帧数量集合
+
     //编解码
     vector<int64_t> keyFrameTimeStamps;//解码前遍历所以的关键帧并保存，后续拿这个做seek操作来读取一个gop
     vector<int64_t> keyFrameTime;
-    queue<AVPacket *> audioPackages;
+    queue<AVPacket *> queueAudioPackages;
+    queue<AVPacket *> queueVideoPackages;
     int nowKeyFramePosition;
     int64_t nowKeyFramePts;
+    bool readFinish;
+    int vpts = 0;
+    int apts = 0;
 
 public:
     VideoReverse(char *inputPath, char *outputPath);
@@ -81,6 +88,12 @@ public:
     void writeFrameToFile(AVFrame *frame, FILE *file);
 
     void reverseReadFileToPakage();
+
+    /**
+     * 开启下一个gop列表，即 keyFrameTimeStamps 做下一个nextseek动作
+     * @return
+     */
+    int seekNextFrame();
 };
 
 
