@@ -49,18 +49,18 @@ int BaseInterface::getAudioStreamIndex(AVFormatContext *fmt_ctx) {
 int BaseInterface::getVideoDecodeContext(AVFormatContext *avFormatContext,
                                          AVCodecContext **codecContext) {
     //传统做法遍历streamindex获得videostreamindex
-    for (int i = 0; i < avFormatContext->nb_streams; i++) {
-        if (avFormatContext->streams[i]->codecpar->codec_type == AVMediaType::AVMEDIA_TYPE_VIDEO) {
-            videoStreamIndex = i;
-
-        } else if (avFormatContext->streams[i]->codecpar->codec_type ==
-                   AVMediaType::AVMEDIA_TYPE_AUDIO) {
-            audioStreamIndex = i;
-        }
-    }
+//    for (int i = 0; i < avFormatContext->nb_streams; i++) {
+//        if (avFormatContext->streams[i]->codecpar->codec_type == AVMediaType::AVMEDIA_TYPE_VIDEO) {
+//            videoStreamIndex = i;
+//
+//        } else if (avFormatContext->streams[i]->codecpar->codec_type ==
+//                   AVMediaType::AVMEDIA_TYPE_AUDIO) {
+//            audioStreamIndex = i;
+//        }
+//    }
     //直接通过bestIndex方法直接获取index
-//    videoStreamIndex = av_find_best_stream(avFormatContext, AVMediaType::AVMEDIA_TYPE_VIDEO, -1, -1,
-//                                           NULL, 0);
+    videoStreamIndex = av_find_best_stream(avFormatContext, AVMediaType::AVMEDIA_TYPE_VIDEO, -1, -1,
+                                           NULL, 0);
 //    audioStreamIndex = av_find_best_stream(avFormatContext, AVMediaType::AVMEDIA_TYPE_AUDIO, -1, -1,
 //                                           NULL, 0);
 
@@ -74,7 +74,7 @@ int BaseInterface::getVideoDecodeContext(AVFormatContext *avFormatContext,
         return -1;
     }
 
-    return audioStreamIndex;
+    return videoStreamIndex;
 }
 
 int BaseInterface::getAudioDecodeContext(AVFormatContext *ps, AVCodecContext **dec_ctx) {
@@ -274,5 +274,24 @@ AVFrame *BaseInterface::decodePacket(AVCodecContext *decode, AVPacket *packet) {
         return NULL;
     }
     return frame;
+}
+
+int BaseInterface::writeOutoutHeader(AVFormatContext *afc_output, const char *outputPath) {
+    int ret = 0;
+    //检测文件是否存在
+    if (!(afc_output->oformat->flags & AVFMT_NOFILE)) {//文件存在
+        ret = avio_open(&afc_output->pb, outputPath, AVIO_FLAG_READ_WRITE);
+        if (ret < 0) {
+            LOGE("avio_open fail:%s", outputPath);
+            return -1;
+        }
+    }
+    ret = avformat_write_header(afc_output, NULL);
+    if (ret < 0) {
+        LOGE("avformat_write_header fail:%s", outputPath);
+        return -1;
+    }
+    //写头文件
+    return 0;
 }
 

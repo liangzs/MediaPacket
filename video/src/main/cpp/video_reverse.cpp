@@ -72,6 +72,14 @@ int VideoReverse::buildOutput() {
                          *inFormatCtx->streams[audioStreamIndex]->codecpar);
 
     outFrame = av_frame_alloc();
+
+    writeOutoutHeader(outFormatCtx, this->outputPath);
+    AVCodecParameters *codecpar = outFormatCtx->streams[videoStreamIndex]->codecpar;
+    outFrame = av_frame_alloc();
+    outFrame->width = codecpar->width;
+    outFrame->height = codecpar->height;
+    outFrame->format = codecpar->format;
+//    av_frame_get_buffer 会产生内存泄露
     return 1;
 }
 

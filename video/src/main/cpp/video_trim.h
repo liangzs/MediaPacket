@@ -44,7 +44,7 @@ private:
     AVStream *videoStream;
     AVStream *audioStream;
     //外写文件
-    AVOutputFormat *avOutputFormat;
+    AVOutputFormat *oformat;
     AVStream *outputVideoStream;
     AVStream *outputAudioStream;
 
