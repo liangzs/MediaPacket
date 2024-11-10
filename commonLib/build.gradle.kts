@@ -3,13 +3,8 @@ plugins {
     id("org.jetbrains.kotlin.android")
 }
 android {
-<<<<<<< Updated upstream
     namespace = "com.liangzs.commonlib"
-=======
-    namespace = "com.ijoysoft.commonlib"
->>>>>>> Stashed changes
     compileSdk = 34
-
     defaultConfig {
         minSdk = 24
 

@@ -1,0 +1,3 @@
+D:/1.android/my/MediaPacket/opencv/.cxx/Debug/4z5w4g1q/armeabi-v7a/CMakeFiles/opencv.dir
+D:/1.android/my/MediaPacket/opencv/.cxx/Debug/4z5w4g1q/armeabi-v7a/CMakeFiles/edit_cache.dir
+D:/1.android/my/MediaPacket/opencv/.cxx/Debug/4z5w4g1q/armeabi-v7a/CMakeFiles/rebuild_cache.dir

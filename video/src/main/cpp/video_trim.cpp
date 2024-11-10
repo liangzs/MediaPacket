@@ -53,7 +53,7 @@ void VideoTrim::startTrim() {
 }
 
 void VideoTrim::trimImpl() {
-    avcodec_register_all();
+//    avcodec_register_all();
     if (initInput() < 0) {
         return;
     }

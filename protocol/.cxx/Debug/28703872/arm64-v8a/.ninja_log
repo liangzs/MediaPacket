@@ -1,0 +1,5 @@
+# ninja log v5
+0	884	7517273360864831	CMakeFiles/protocol.dir/protocol.cpp.o	99c5329833b5f9c2
+887	2376	7517273375512158	D:/1.android/my/MediaPacket/protocol/build/intermediates/cxx/Debug/28703872/obj/arm64-v8a/libprotocol.so	7c1b67713836def8
+0	8	0	clean	df21c7e18988fccf
+0	10	0	clean	df21c7e18988fccf

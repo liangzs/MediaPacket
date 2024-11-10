@@ -295,3 +295,7 @@ int BaseInterface::writeOutoutHeader(AVFormatContext *afc_output, const char *ou
     return 0;
 }
 
+int BaseInterface::writeTrail(AVFormatContext *afc_output) {
+    return 0;
+}
+
