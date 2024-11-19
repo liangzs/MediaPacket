@@ -60,6 +60,7 @@ android {
             jniLibs.srcDirs("src/main/cpp/libs")
         }
     }
+    ndkVersion = "21.3.6528147"
 
 }
 
