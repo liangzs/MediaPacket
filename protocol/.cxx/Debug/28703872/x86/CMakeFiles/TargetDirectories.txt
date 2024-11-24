@@ -1,3 +1,0 @@
-D:/1.android/my/MediaPacket/protocol/.cxx/Debug/28703872/x86/CMakeFiles/protocol.dir
-D:/1.android/my/MediaPacket/protocol/.cxx/Debug/28703872/x86/CMakeFiles/edit_cache.dir
-D:/1.android/my/MediaPacket/protocol/.cxx/Debug/28703872/x86/CMakeFiles/rebuild_cache.dir

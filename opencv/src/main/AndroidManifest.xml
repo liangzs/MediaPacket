@@ -28,7 +28,7 @@
         </activity>
 
         <activity
-            android:name="com.liangzs.basecommon.WelcomActivity"
+            android:name="com.liangzs.activity.WelcomActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -1,40 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="deploymentTargetDropDown">
-    <value>
-      <entry key="FFmplayer">
-        <State />
-      </entry>
-      <entry key="app">
-        <State />
-      </entry>
-      <entry key="audio">
-        <State />
-      </entry>
-      <entry key="ffmplay">
-        <State />
-      </entry>
-      <entry key="pcmmurge">
-        <State />
-      </entry>
-      <entry key="screenProjectPush">
-        <State />
-      </entry>
-      <entry key="screenprojectfetch">
-        <State />
-      </entry>
-      <entry key="screenprojection">
-        <State />
-      </entry>
-      <entry key="trim">
-        <State />
-      </entry>
-      <entry key="video">
-        <State />
-      </entry>
-      <entry key="videocall">
-        <State />
-      </entry>
-    </value>
+    <runningDeviceTargetSelectedWithDropDown>
+      <Target>
+        <type value="RUNNING_DEVICE_TARGET" />
+        <deviceKey>
+          <Key>
+            <type value="SERIAL_NUMBER" />
+            <value value="R5CR308NRJA" />
+          </Key>
+        </deviceKey>
+      </Target>
+    </runningDeviceTargetSelectedWithDropDown>
+    <timeTargetWasSelectedWithDropDown value="2024-11-09T04:50:48.895748700Z" />
+    <runningDeviceTargetsSelectedWithDialog>
+      <Target>
+        <type value="RUNNING_DEVICE_TARGET" />
+        <deviceKey>
+          <Key>
+            <type value="SERIAL_NUMBER" />
+            <value value="R5CR308NRJA" />
+          </Key>
+        </deviceKey>
+      </Target>
+    </runningDeviceTargetsSelectedWithDialog>
   </component>
 </project>
