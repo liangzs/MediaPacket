@@ -1,0 +1,5 @@
+# ninja log v5
+1	387	7517274294401966	CMakeFiles/opencv.dir/opencv_jni.cpp.o	b502f295462b860a
+388	904	7517274299528630	D:/1.android/my/MediaPacket/opencv/build/intermediates/cxx/Debug/4z5w4g1q/obj/armeabi-v7a/libopencv.so	de6778d9447681cb
+15	189	7528473124281163	build.ninja	11ec8abb260769c2
+0	7	0	clean	df21c7e18988fccf

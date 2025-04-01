@@ -53,4 +53,14 @@ void Mythread::stop() {
 void Mythread::resume() {
     isPause = false;
     isExist = false;
+
+}
+
+/**
+ * milliseconds微秒
+ * microseconds微妙
+ * @param ms
+ */
+void Mythread::sleep(int ms) {
+    av_usleep(ms / 1000);
 }

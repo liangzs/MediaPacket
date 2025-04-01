@@ -1,0 +1,5 @@
+# ninja log v5
+0	3167	7529352477464638	CMakeFiles/opencv.dir/opencv_jni.cpp.o	edde7142f95c945f
+3169	4007	7529352485923603	D:/1.android/my/MediaPacket/opencv/build/intermediates/cxx/Debug/3mq2u2e3/obj/arm64-v8a/libopencv.so	471d40144f44bcde
+5	2692	7529353128240895	CMakeFiles/opencv.dir/opencv_jni.cpp.o	edde7142f95c945f
+2692	3346	7529353134855921	D:/1.android/my/MediaPacket/opencv/build/intermediates/cxx/Debug/3mq2u2e3/obj/arm64-v8a/libopencv.so	471d40144f44bcde

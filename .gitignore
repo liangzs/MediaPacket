@@ -87,3 +87,5 @@ nativelib/build/intermediates/cxx/ndk_locator_record_626ne35c.log
 /.gradle
 .idea/workspace.xml
 .idea/workspace.xml
+/opencv/.cxx/
+/protocol/.cxx/

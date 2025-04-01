@@ -245,7 +245,7 @@ void VideoConcat::run() {
         }
         //写入尾巴
         av_write_trailer(outFormatContext);
-        LOGE("CONCAT-------------FINISH------------")
+        LOGE("CONCAT-------------FINISH------------");
     }
 
 

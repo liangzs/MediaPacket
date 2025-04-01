@@ -88,20 +88,20 @@ android {
         getByName("main") {
             java {
                 srcDir("src/main/java")
-                srcDir("../commonLib/src/main/java")
+//                srcDir("../commonLib/src/main/java")
             }
             res {
                 srcDir("src/main/res")
-                srcDir("../commonLib/src/main/res")
+//                srcDir("../commonLib/src/main/res")
             }
             assets {
                 srcDir("src/main/assets")
-                srcDir("../commonLib/src/main/assets")
+//                srcDir("../commonLib/src/main/assets")
             }
 
-            manifest.srcFile(
-                mergeManifestXmlFiles("src/main/AndroidManifest.xml", listOf<String>("../commonLib/src/main/AndroidManifest.xml"))
-            )
+//            manifest.srcFile(
+//                mergeManifestXmlFiles("src/main/AndroidManifest.xml", listOf<String>("../commonLib/src/main/AndroidManifest.xml"))
+//            )
         }
     }
 }
@@ -121,6 +121,7 @@ android {
         implementation("androidx.appcompat:appcompat:1.6.1")
         implementation("com.google.android.material:material:1.9.0")
         implementation("androidx.constraintlayout:constraintlayout:2.1.4")
+        implementation(project(mapOf("path" to ":baseCommon")))
         testImplementation("junit:junit:4.13.2")
         androidTestImplementation("androidx.test.ext:junit:1.1.5")
         androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")

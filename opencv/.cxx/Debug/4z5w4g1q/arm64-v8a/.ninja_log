@@ -1,0 +1,12 @@
+# ninja log v5
+0	579	7517262236764273	CMakeFiles/opencv.dir/opencv_jni.cpp.o	edde7142f95c945f
+0	784	7517274260653045	D:/1.android/my/MediaPacket/opencv/build/intermediates/cxx/Debug/4z5w4g1q/obj/arm64-v8a/libopencv.so	f5e9a66c4a4bb284
+1	678	7528310674204075	CMakeFiles/opencv.dir/opencv_jni.cpp.o	edde7142f95c945f
+678	1668	7528310684089482	D:/1.android/my/MediaPacket/opencv/build/intermediates/cxx/Debug/4z5w4g1q/obj/arm64-v8a/libopencv.so	f5e9a66c4a4bb284
+1	8	0	clean	df21c7e18988fccf
+1	1388	7528473312831284	CMakeFiles/opencv.dir/opencv_jni.cpp.o	edde7142f95c945f
+1388	2076	7528473319712043	D:/1.android/my/MediaPacket/opencv/build/intermediates/cxx/Debug/4z5w4g1q/obj/arm64-v8a/libopencv.so	f5e9a66c4a4bb284
+1	971	7528601031176428	CMakeFiles/opencv.dir/opencv_jni.cpp.o	edde7142f95c945f
+971	1780	7528601039277988	D:/1.android/my/MediaPacket/opencv/build/intermediates/cxx/Debug/4z5w4g1q/obj/arm64-v8a/libopencv.so	f5e9a66c4a4bb284
+1	2626	7529311413182667	CMakeFiles/opencv.dir/opencv_jni.cpp.o	edde7142f95c945f
+2628	3420	7529311420832188	D:/1.android/my/MediaPacket/opencv/build/intermediates/cxx/Debug/4z5w4g1q/obj/arm64-v8a/libopencv.so	f5e9a66c4a4bb284
