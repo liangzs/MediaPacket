@@ -513,7 +513,6 @@ int VideoConcat::startDecode() {
             queueAudio.push(newPacket);
             av_frame_free(&newFrame);
         }
-
     }
     av_audio_fifo_free(audioFifo);
     av_packet_free(&inPacket);

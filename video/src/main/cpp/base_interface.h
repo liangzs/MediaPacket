@@ -1,21 +1,18 @@
-//
-// Created by Administrator on 2024/7/25.
-//
 
 #ifndef MEDIAPACKAGE_BASE_INTERFACE_H
 #define MEDIAPACKAGE_BASE_INTERFACE_H
 
+#include "android_log.h"
 #include <stdio.h>
 #include <vector>
-#include "android_log.h"
 
 extern "C" {
-#include <libavcodec/avcodec.h>
-#include <libavformat/avformat.h>
-#include <libavfilter/avfiltergraph.h>
-#include <libavfilter/buffersink.h>
-#include <libavfilter/buffersrc.h>
-#include <libavutil/opt.h>
+#include "ffmpeg/include/libavcodec/avcodec.h"
+#include "ffmpeg/include/libavformat/avformat.h"
+#include "ffmpeg/include/libavfilter/avfiltergraph.h"
+#include "ffmpeg/include/libavfilter/buffersink.h"
+#include "ffmpeg/include/libavfilter/buffersrc.h"
+#include "ffmpeg/include/libavutil/opt.h"
 };
 
 class BaseInterface {
@@ -23,6 +20,22 @@ protected:
     //输入
     int videoStreamIndex;
     int audioStreamIndex;
+    //进度
+    int progress;
+    AVRational timeBaseFFmpeg;
+
+    AVStream *avStreamVideoIn;
+    AVStream *avStreamVideoOut;
+
+    AVStream *avStreamAudioIn;
+    AVStream *avStreamAudioOut;
+
+    //时间戳索引计算
+    int videoPtsIndex;
+    int audioPtsIndex;
+    int64_t *startPts;//int 数组,记录音、视频
+    int64_t *startDts;//int 数组
+
 
     int open_input_file(const char *filename, AVFormatContext **ps);
 
@@ -64,11 +77,6 @@ protected:
     int getAudioOutputStreamIndex();
 
     int writeTrail(AVFormatContext *afc_output);
-
-
-    //进度
-    int progress;
-    AVRational timeBaseFFmpeg;
 
 
 public:

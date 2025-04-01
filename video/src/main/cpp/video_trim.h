@@ -1,84 +1,72 @@
 //
-// Created by DELLQ on 11/7/2024.
+// Created by DELLQ on 28/8/2024.
 //
 
-#ifndef MEDIAPACKAGE_VIDEO_TRIM_H
-#define MEDIAPACKAGE_VIDEO_TRIM_H
+#ifndef VIDEOMAKERTAB_VIDEO_TRIM_H
+#define VIDEOMAKERTAB_VIDEO_TRIM_H
 
-#include "android_log.h"
+#include "base_interface.h"
+#include "thread"
+#include "media_util_jni.h"
 
 extern "C" {
-#include "libavcodec/avcodec.h"
 #include "libavformat/avformat.h"
-#include "pthread.h"
+#include "libavcodec/avcodec.h"
 };
 
 /**
- * 视频裁剪,其实就是seek到具体位置，把trim内的packet写入到文件
+ * 针对单个文件的精准trim
  */
-class VideoTrim {
+class VideoTrim : BaseInterface {
 public:
-    //放到子线程取处理
-    pthread_t trimThread;
+    pthread_t pthread;
 private:
-    int startTime = 0;
-    int endTime = 0;
+    bool isCancel = false;
+    AVRational curRational;
+
+//    in
+    AVFormatContext *avFormatContextIn = NULL;
+    AVCodecContext *avCtxVideoIn = NULL;
+    AVCodec *avCodecVideoIn = NULL;
     char *inputPath;
-    char *outputPath;
+    int startTime;
+    int endTime;
+    int offsetTime = 0;//时间戳起始时间
 
-    //ffmpeg
-    AVFormatContext *inputFormatContext;
-    AVFormatContext *outputFormatContext;
+//    out
+    char *outPath;
+    AVFormatContext *avFormatContextOut = NULL;
+    AVCodecContext *avCtxVideoOut = NULL;
     AVPacket *avPacket;
-    int videoStreamIndex = -1;
-    int audioStreamIndex = -1;
+    AVOutputFormat *afot = NULL;
+    AVCodec *avCodecVideoOut = NULL;
+    bool hadDrawKeyFrame;
 
-    AVCodecContext *avCtxD;
-    AVCodecContext *avCtxE;
-    AVCodec *avCodecD;
-    AVCodec *avCodecE;
 
-    int width;
-    int height;
+private:
+    int buildInput();
 
-    AVStream *videoStream;
-    AVStream *audioStream;
-    //外写文件
-    AVOutputFormat *avOutputFormat;
-    AVStream *outputVideoStream;
-    AVStream *outputAudioStream;
+    int buildOutput();
 
-    int progress;
+    void startDecode();
+
+    int writePackPage(AVFormatContext *avFormatContext, AVStream *inStream, AVStream *outStream,
+                      AVPacket *avPacket);
+    void copyContext(AVCodecContext *vCtxIn,AVCodecContext **vCtxE);
+
 public:
-    VideoTrim(char *inputPath, char *outputpath, long startTime, long endTime);
+    VideoTrim(const char *inputPath, const char *output, long start, long end);
 
     ~VideoTrim();
 
-    void startTrim();
-
-
-private:
-    int initInput();
-
-    int initOutput();
-
-    int decodeEncode();
-
-    AVFrame *decodePackage();
-
-    AVPacket *encodePackage(AVFrame *frame);
-
     void trimImpl();
 
-    /**
-     * 修改广告库，需要
-     */
-    void writePacket(AVPacket *packet);
+    void writeData();
 
-    int addVideoStream(int width, int height);
+    void readData();
 
-    int addAudioStream();
+    void cancel();
 };
 
 
-#endif //MEDIAPACKAGE_VIDEO_TRIM_H
+#endif //VIDEOMAKERTAB_VIDEO_TRIM_H

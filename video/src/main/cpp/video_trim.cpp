@@ -1,386 +1,340 @@
 //
-// Created by DELLQ on 11/7/2024.
+// Created by DELLQ on 28/8/2024.
 //
 
 #include "video_trim.h"
 
-/**
- * 重新赋值吧，inputPath在外部可能会回收
- * @param inputPath
- * @param outputpath
- * @param startTime
- * @param endTime
- */
-VideoTrim::VideoTrim(char *inputPath, char *outputpath, long startTime, long endTime) {
-    int charlen = strlen(inputPath);
-    this->inputPath = static_cast<char *>(malloc(charlen + 1));
+VideoTrim::VideoTrim(const char *inputPath, const char *output, long start, long end) {
+    this->inputPath = static_cast<char *>(malloc(strlen(inputPath) + 1));
     strcpy(this->inputPath, inputPath);
-    charlen = strlen(outputpath);
-    this->outputPath = static_cast<char *>(malloc(charlen + 1));
-    strcpy(this->outputPath, outputpath);
-    this->startTime = startTime;
-    this->endTime = endTime;
+    this->outPath = static_cast<char *>(malloc(strlen(output) + 1));
+    strcpy(this->outPath, output);
+    this->startTime = start;
+    this->endTime = end;
 
 }
 
-/**
- *
- */
+//void *pthreadrun(void *data) {
+//    VideoTrim *videoTrim = static_cast<VideoTrim *>(data);
+//    videoTrim->trimImpl();
+//    pthread_exit(&videoTrim->pthread);
+//}
+
 VideoTrim::~VideoTrim() {
-    avformat_free_context(inputFormatContext);
-    avformat_free_context(outputFormatContext);
-    avcodec_free_context(&avCtxD);
-    avcodec_free_context(&avCtxE);
-    av_free(avCodecD);
-    av_free(avCodecE);
-    free(inputPath);
-    free(outputPath);
+//    pthread_create(&pthread, nullptr, pthreadrun, this);
+    if (avFormatContextIn != NULL) {
+        avformat_close_input(&avFormatContextIn);
+        avformat_free_context(avFormatContextIn);
+    }
+    if (avFormatContextOut != NULL) {
+        avformat_free_context(avFormatContextOut);
+    }
+    if (avCtxVideoOut != NULL) {
+        avcodec_free_context(&avCtxVideoOut);
+    }
+    if (avCtxVideoIn != NULL) {
+        avcodec_free_context(&avCtxVideoIn);
+    }
+    free(startDts);
+    free(startPts);
+
 }
 
-/**
- * c方法，执行thread方法
- * @param data
- * @return
- */
-void *threadTrim(void *data) {
-    VideoTrim *trim = static_cast<VideoTrim *>(data);
-    pthread_exit(&trim->trimThread);
-}
-
-void VideoTrim::startTrim() {
-
-    pthread_create(&trimThread, NULL, threadTrim, this);
-}
 
 void VideoTrim::trimImpl() {
-    avcodec_register_all();
-    if (initInput() < 0) {
+    int ret;
+    ret = buildInput();
+    if (ret < 0) {
+        LOGE("buildInput fail");
+    }
+    ret = buildOutput();
+    if (ret < 0) {
+        LOGE("buildOutput fail");
+    }
+
+    if (ret < 0) {
+        LOGE("buildOutput fail");
         return;
     }
-    if (initOutput() < 0) {
+
+    ret = writeOutoutHeader(avFormatContextOut, outPath);
+    if (ret < 0) {
+        LOGE("writeOutoutHeader fail");
         return;
     }
-    //开始写入文件
-    if (av_seek_frame(outputFormatContext, -1, startTime / av_q2d(videoStream->time_base),
-                      AVSEEK_FLAG_ANY) < 0) {
+    //开始编码
+    startDecode();
+    if (isCancel) {
+        return;
+    }
+    writeTrail(avFormatContextOut);
+    callProgress(100);
+
+
+}
+
+void VideoTrim::copyContext(AVCodecContext *vCtxIn, AVCodecContext **vCtxE) {
+
+    const AVCodec *codec = avcodec_find_encoder(vCtxIn->codec_id);
+    if (codec == NULL) {
+        LOGE("copyContext fail");
+    }
+    //给outVideoStreamIndex赋值
+    *vCtxE = avcodec_alloc_context3(codec);
+    (*vCtxE)->bit_rate = vCtxIn->bit_rate;
+    (*vCtxE)->framerate = vCtxIn->framerate;
+    (*vCtxE)->time_base = vCtxIn->time_base;
+    (*vCtxE)->gop_size = 100;
+    (*vCtxE)->max_b_frames = 1;
+    (*vCtxE)->pix_fmt = AV_PIX_FMT_YUV420P;
+    (*vCtxE)->codec_type = AVMEDIA_TYPE_VIDEO;
+    (*vCtxE)->width = vCtxIn->width;
+    (*vCtxE)->height = vCtxIn->height;
+    if ((*vCtxE)->codec_id == AV_CODEC_ID_MPEG2VIDEO) {
+        (*vCtxE)->max_b_frames = 2;
+    }
+    if ((*vCtxE)->codec_id == AV_CODEC_ID_MPEG1VIDEO) {
+        /* Needed to avoid using macroblocks in which some coeffs overflow.
+         * This does not happen with normal video, it just happens here as
+         * the motion of the chroma plane does not match the luma plane. */
+        (*vCtxE)->mb_decision = 2;
+    }
+    if ((*vCtxE)->codec_id == AV_CODEC_ID_H264)
+        av_opt_set((*vCtxE)->priv_data, "preset", "slow", 0);
+    int ret = avcodec_parameters_from_context(avStreamVideoOut->codecpar, *vCtxE);
+    if (ret < 0) {
+        LOGE("avcodec_parameters_from_context fail");
+        return;
+    }
+    ret = avcodec_open2(*vCtxE, codec, NULL);
+    if (ret < 0) {
+        LOGE("addOutputVideoStream->avcodec_open2 fail");
+        return;
+    }
+}
+
+/**
+ * 开始编码
+ */
+void VideoTrim::startDecode() {
+    //先seek,pts=timeNow=avFrame*pts*av_q2d(time_base))
+    //pts=timeNow/q2d
+    offsetTime = ((float) startTime / 1000.0) * AV_TIME_BASE;
+    LOGE("av_seek_frame offsetTime:%d,time:%d", offsetTime, time);
+    //如果用-1就是用了默认流，然后时间戳用的是AV_TIME_BASE
+    int ret = av_seek_frame(avFormatContextIn, -1, offsetTime, AVSEEK_FLAG_BACKWARD);
+    if (ret < 0) {
         LOGE("av_seek_frame fail");
         return;
     }
-    decodeEncode();
-    //写入尾部tail
-    av_write_trailer(outputFormatContext);
-    progress = 100;
-}
-
-int VideoTrim::initInput() {
-    inputFormatContext = avformat_alloc_context();
-    int ret = avformat_open_input(&inputFormatContext, inputPath, NULL, NULL);
-    if (ret < 0) {
-        LOGE("avformat_open_input fail");
-        return -1;
-    }
-    ret = avformat_find_stream_info(inputFormatContext, NULL);
-    if (ret < 0) {
-        LOGE("avformat_find_stream_info fail");
-        return -1;
-    }
-
-    for (int i = 0; i < inputFormatContext->nb_streams; i++) {
-        if (inputFormatContext->streams[i]->codecpar->codec_type == AVMEDIA_TYPE_VIDEO) {
-            videoStreamIndex = i;
-            avCodecD = avcodec_find_decoder(inputFormatContext->streams[i]->codecpar->codec_id);
-            width = inputFormatContext->streams[i]->codecpar->width;
-            height = inputFormatContext->streams[i]->codecpar->height;
-            videoStream = inputFormatContext->streams[i];
-            break;
-        } else if (inputFormatContext->streams[i]->codecpar->codec_type ==
-                   AVMediaType::AVMEDIA_TYPE_AUDIO) {
-            audioStreamIndex = i;
-            audioStream = inputFormatContext->streams[i];
-            break;
-        }
-    }
-    if (videoStreamIndex == -1) {
-        LOGE("could not find videoStreamIndex");
-        return -1;
-    }
-    //已经不推荐这种做法了,而是由contexparamter进行赋值
-//    avCtxD = inputFormatContext->streams[videoStreamIndex]->codec;
-    avCtxD = avcodec_alloc_context3(avCodecD);
-    ret = avcodec_parameters_to_context(avCtxD,
-                                        inputFormatContext->streams[videoStreamIndex]->codecpar);
-    if (ret < 0) {
-        LOGE("avcodec_parameters_to_context fail");
-        return -1;
-    }
-    ret = avcodec_open2(avCtxD, avCodecD, NULL);
-    if (ret < 0) {
-        LOGE("avcodec_open2 fail");
-        return -1;
-    }
-    return 0;
-}
-
-/**
- * 输出,codec->format->codecParmeterc反向赋值
- * @return
- */
-int VideoTrim::initOutput() {
-    //oformat: 指定输出格式。如果为 NULL，则函数会根据 format_name 或 filename 自动推断。
-    //format_name: 指定输出格式的名称（如 "mp4", "flv" 等）。如果为 NULL，则函数会根据 filename 自动推断。
-    int ret = avformat_alloc_output_context2(&outputFormatContext, NULL, NULL, outputPath);
-    if (ret < 0) {
-        LOGE("avformat_alloc_output_context2 fail: %s", outputPath);
-        return -1;
-    }
-    //有oformat和iformat
-    oformat = outputFormatContext->oformat;
-    //添加信道音频和视频信道
-    ret = addVideoStream(width, height);
-    if (ret < 0) {
-        LOGE("addVideoStream fail");
-        return -1;
-    }
-    ret = addAudioStream();
-    if (ret < 0) {
-        LOGE("addAudioStream fail");
-        return -1;
-    }
-    //检测打开输出文件，然后检测输入头文件，然后输入文件，最后输入尾文件
-    if (!(oformat->flags & AVFMT_NOFILE)) {
-        ret = avio_open(&outputFormatContext->pb, outputPath, AVIO_FLAG_WRITE);
-        if (ret < 0) {
-            LOGE("avio_open fail");
-            return -1;
-        }
-    }
-    //写入文件头
-    ret = avformat_write_header(outputFormatContext, NULL);
-    if (ret < 0) {
-        LOGE("avformat_write_header fail");
-        return -1;
-    }
-    LOGE(" init output success");
-    return 1;
-
-}
-
-int VideoTrim::addVideoStream(int width, int height) {
-    //avformat_alloc_output_context2这里初始化outputFormatContext
-    outputVideoStream = avformat_new_stream(outputFormatContext, NULL);
-    if (outputVideoStream == NULL) {
-        LOGE("addVideoStream:avformat_new_stream fail");
-        return -1;
-    }
-    //检测输出文件编码是否none
-    if (oformat->video_codec == AV_CODEC_ID_NONE) {
-        LOGE("avOutputFormat->video_codec == AV_CODEC_ID_NONE");
-        return -1;
-    }
-    avCodecE = avcodec_find_decoder(oformat->video_codec);
-    if (avCodecE == NULL) {
-        LOGE("avCodecE->avcodec_find_decoder fail");
-        return -1;
-    }
-    avCtxE = avcodec_alloc_context3(avCodecE);
-    if (avCtxE == NULL) {
-        LOGE("avCtxE->avcodec_alloc_context3 fail");
-        return -1;
-    }
-    avCtxE->width = width;
-    avCtxE->height = height;
-    avCtxE->codec_type = AVMediaType::AVMEDIA_TYPE_VIDEO;
-    //帧率以及帧率对应的时间戳
-    avCtxE->time_base = AVRational{1, 25};
-    avCtxE->framerate = AVRational{25, 1};
-    avCtxE->pix_fmt = AV_PIX_FMT_YUV420P;
-    avCtxE->bit_rate = 400000;
-    avCtxE->gop_size = 10;
-    avCtxE->max_b_frames = 3;
-    //和avcodec_parameters_to_context相反
-    if (avcodec_parameters_from_context(outputVideoStream->codecpar, avCtxE) < 0) {
-        LOGE("outputVideoStream  avcodec_parameters_from_context fail");
-        return -1;
-    }
-
-    //打开编码器
-    if (avcodec_open2(avCtxE, avCodecE, NULL) < 0) {
-        LOGE("avCodecE avcodec_open2 fail");
-        return -1;
-    }
-    return 0;
-}
-
-/**
- * 直接复用输入源的数据
- * @return
- */
-int VideoTrim::addAudioStream() {
-    outputAudioStream = avformat_new_stream(outputFormatContext, NULL);
-    if (outputAudioStream == NULL) {
-        LOGE("outputAudioStream avformat_new_stream fail");
-        return -1;
-    }
-    if (oformat->audio_codec == AV_CODEC_ID_NONE) {
-        LOGE("avOutputFormat->audio_codec==AV_CODEC_ID_NONE");
-        return -1;
-    }
-    //直接复制
-    if (avcodec_parameters_copy(outputAudioStream->codecpar, audioStream->codecpar) < 0) {
-        LOGE("avOutputFormat avcodec_parameters_copy fail");
-        return -1;
-    }
-    //stream->codecpar->codec_tag = 0; // 设置 codec_tag 为 0，让 FFmpeg 自动选择
-    outputAudioStream->codecpar->codec_tag = 0;
-    return 0;
-}
-
-
-int VideoTrim::decodeEncode() {
-    int ret;
-    while (true) {
-        ret = av_read_frame(inputFormatContext, avPacket);
+    int currentTime;
+    AVFrame *frame = NULL;
+    hadDrawKeyFrame = false;
+    while (!isCancel) {
+        avPacket = av_packet_alloc();
+        ret = av_read_frame(avFormatContextIn, avPacket);
         if (ret < 0) {
             LOGE("av_read_frame fail");
             av_packet_free(&avPacket);
             break;
         }
-        int pts;
-        //判断是否视频帧还是音频帧
-        if (avPacket->stream_index == videoStreamIndex) {
-            //先解码，再编码，再输出
-            AVFrame *frame = decodePackage();
-            if (frame == NULL) {
-                continue;
+        curRational = avFormatContextIn->streams[avPacket->stream_index]->time_base;
+        currentTime = (int64_t) avPacket->pts * av_q2d(curRational) * 1000;
+//        LOGI("currentTime:%d,startTime:%d,endTime:%d", currentTime, startTime, endTime);
+        if (avPacket->stream_index == audioStreamIndex) {
+            if (currentTime >= startTime && currentTime <= endTime) {
+                if (startPts[audioStreamIndex] == 0) {
+                    startPts[audioStreamIndex] = avPacket->pts;
+                }
+                if (startDts[audioStreamIndex] == 0) {
+                    startDts[audioStreamIndex] = avPacket->dts;
+                }
+                audioPtsIndex++;
+                writePackPage(avFormatContextOut, avStreamAudioIn, avStreamAudioOut, avPacket);
             }
-            //编码
-            AVPacket *newPacket = encodePackage(frame);
-            if (newPacket == NULL) {
-                continue;
+        } else {//视频帧，重新走解码，编码流程
+            if (currentTime > endTime) {//结束
+                LOGE("currentTime > endTime:finish %d,%d", currentTime, endTime);
+                av_packet_free(&avPacket);
+                break;
             }
-            //pts转化成s
-            pts = frame->pts * av_q2d(videoStream->time_base);
-            if (pts > startTime && pts < endTime) {
-                progress = 100 * (pts - startTime) / (endTime - startTime);
-                //输出
-                writePacket(newPacket);
-            }
-            av_frame_free(&frame);
-            av_packet_free(&newPacket);
-            av_packet_free(&avPacket);
 
-        } else if (avPacket->stream_index == audioStreamIndex) {
-            pts = avPacket->pts * av_q2d(videoStream->time_base);
-            if (pts > startTime && pts < endTime) {
-                //直接用原始数据进行输出即可
-                writePacket(avPacket);
+            if (currentTime >= startTime && currentTime <= endTime) {
+                videoPtsIndex++;
+                //计算最初时间
+                if (startPts[videoStreamIndex] == 0) {
+                    startPts[videoStreamIndex] = avPacket->pts;
+                }
+                if (startDts[videoStreamIndex] == 0) {
+                    startDts[videoStreamIndex] = avPacket->dts;
+                }
+                if (!hadDrawKeyFrame) {
+                    avPacket->flags |= AV_PKT_FLAG_KEY;
+                    frame = decodePacket(avCtxVideoIn, avPacket);
+                    if (frame != NULL) {
+                        LOGI("frame not null  go encodeFrame");
+                        AVPacket *newPackage = encodeFrame(frame, avCtxVideoIn);
+                        if (newPackage != NULL) {
+                            LOGI("newPackage not null  go writePackPage");
+                            hadDrawKeyFrame = true;
+                            writePackPage(avFormatContextOut, avStreamVideoIn, avStreamVideoOut,
+                                          newPackage);
+                        }
+                        av_packet_free(&newPackage);
+                    }
+                    av_frame_free(&frame);
+                    av_packet_free(&avPacket);
+                    if (videoPtsIndex > 5) {
+                        LOGE("videoPtsIndex > 5  finish hadDrawKeyFrame");
+                        hadDrawKeyFrame = true;
+                    }
+                    continue;
+                }
+                writePackPage(avFormatContextOut, avStreamAudioIn, avStreamAudioOut, avPacket);
+                //计算progress
+                callProgress((currentTime - startTime) * 1.0f / (endTime - startTime) * 100);
+
+            } else {  //在未到达指定帧之前一直进行sendFrame进行解码，获取到完整的帧
+                frame = decodePacket(avCtxVideoIn, avPacket);
+                if (frame != NULL) {
+//                    AVPacket *newPackage = encodeFrame(frame, avCtxVideoOut);
+//                    writePackPage(avFormatContextOut, avStreamVideoIn, avStreamVideoOut,
+//                                  newPackage);
+//                    av_packet_free(&newPackage);
+                }
+                av_frame_free(&frame);
             }
-            av_packet_free(&avPacket);
+
+
         }
-        if (pts > endTime) {
-            LOGE("pts > endTime  end");
-            break;
-        }
     }
-}
+    av_packet_free(&avPacket);
 
-AVFrame *VideoTrim::decodePackage() {
-    int ret = avcodec_send_packet(avCtxD, avPacket);
-    if (ret < 0) {
-        LOGE("avcodec_send_packet fail");
-        return NULL;
-    }
-    AVFrame *avFrame;
-    ret = avcodec_receive_frame(avCtxD, avFrame);
-    if (ret < 0) {
-        av_frame_free(&avFrame);
-        LOGE("avcodec_receive_frame fail");
-        return NULL;
-    }
-    return avFrame;
-}
-
-AVPacket *VideoTrim::encodePackage(AVFrame *frame) {
-    int ret = avcodec_send_frame(avCtxE, frame);
-    if (ret < 0) {
-        return NULL;
-    }
-    AVPacket *avPacket = av_packet_alloc();
-    ret = avcodec_receive_packet(avCtxE, avPacket);
-    if (ret < 0) {
-        av_packet_free(&avPacket);
-        return NULL;
-    }
-    return avPacket;
-}
-
-/**
- * 要进行时间基数进行转换，因为输入输入的时间基数可能不一样
- * @param packet
- */
-void VideoTrim::writePacket(AVPacket *packet) {
-    packet->pts = av_rescale_q_rnd(packet->pts, videoStream->time_base,
-                                   outputVideoStream->time_base, AV_ROUND_NEAR_INF);
-    packet->dts = av_rescale_q_rnd(packet->dts, videoStream->time_base,
-                                   outputVideoStream->time_base, AV_ROUND_NEAR_INF);
-    //duration也要转换
-    packet->duration = av_rescale_q(packet->duration, videoStream->time_base,
-                                    outputVideoStream->time_base);
-    int ret = av_interleaved_write_frame(outputFormatContext, packet);
-
-    if (ret < 0) {
-        LOGE("av_interleaved_write_frame fail");
-    }
 }
 
 
-int addVideoStreamTest(AVFormatContext *avFormatContext, AVOutputFormat *avOutputFormat, int width,
-                       int height) {
-
-    AVStream *videoStream = avformat_new_stream(avFormatContext, NULL);
-    if (videoStream == NULL) {
-        LOGE("avformat_new_stream fail");
-        return -1;
-    }
-    if (avOutputFormat->video_codec == AV_CODEC_ID_NONE) {
-        LOGE("avOutputFormat->video_codec==AV_CODEC_ID_NONE");
-        return -1;
-    }
-    //videoStream->codecpar 通过avCodecContext输出参数设置
-    AVCodec *codec = avcodec_find_encoder(avOutputFormat->video_codec);
-    AVCodecContext *avCodecContext = avcodec_alloc_context3(codec);
-    avCodecContext->width = width;
-    avCodecContext->height = height;
-    //帧率和时间戳要匹配
-    avCodecContext->framerate = AVRational{25, 1};
-    avCodecContext->time_base = AVRational{1, 25};
-    avCodecContext->pix_fmt = AV_PIX_FMT_YUV420P;
-    avCodecContext->max_b_frames = 5;
-
-    //设置输出参数
-    if (avcodec_parameters_from_context(videoStream->codecpar, avCodecContext) < 0) {
-        LOGE("avcodec_parameters_from_context fail");
-        return -1;
-    }
-    //打开编码器
-    if (avcodec_open2(avCodecContext, codec, NULL) < 0) {
-        LOGE("avCodecContext avcodec_open2 fail");
-        return -1;
+int VideoTrim::buildInput() {
+    int ret = 0;
+    LOGI("inputPath:%s", inputPath);
+    ret = open_input_file(inputPath, &avFormatContextIn);
+    if (ret < 0) {
+        LOGE("open_input_file fail:%s", inputPath);
+        return ret;
     }
 
-    avCodecContext->bit_rate = 40000;
+    ret = getVideoDecodeContext(avFormatContextIn, &avCtxVideoIn);
+    if (ret < 0) {
+        LOGE("getVideoDecodeContext fail:%s", inputPath);
+        return ret;
+    }
+    //这里初始化startpts时间
+    startPts = (int64_t *) malloc(sizeof(int64_t) * avFormatContextIn->nb_streams);
+    memset(startPts, 0, sizeof(int64_t) * avFormatContextIn->nb_streams);
+    startDts = (int64_t *) malloc(sizeof(int64_t) * avFormatContextIn->nb_streams);
+    memset(startDts, 0, sizeof(int64_t) * avFormatContextIn->nb_streams);
     return 0;
 }
 
-void initOutputTest() {
-    char *outPath = "";
-    AVFormatContext *outputFormatContext;
-    int ret = avformat_alloc_output_context2(&outputFormatContext, NULL, NULL, outPath);
+
+int VideoTrim::buildOutput() {
+    int ret = 0;
+    ret = initOutput(outPath, &avFormatContextOut);
     if (ret < 0) {
-        LOGE("avformat_alloc_output_context2 fail: %s", outPath);
+        LOGE("initOutput fail:%s", outPath);
+        return ret;
     }
-    AVOutputFormat *avOutputFormat = outputFormatContext->oformat;
-    //输出的视频流，音频流
+
+//    ret = addOutputVideoStream(avFormatContextOut, &avCtxVideoOut,
+//                               *avFormatContextIn->streams[videoStreamIndex]->codecpar);
+
+    //用同一个编解码
+    avStreamVideoOut = avformat_new_stream(avFormatContextOut, NULL);
+    if (avStreamVideoOut == NULL) {
+        LOGE(" VIDEO STREAM NULL ");
+        return -1;
+    }
+    if (avFormatContextOut->oformat->video_codec == AV_CODEC_ID_NONE) {
+        LOGE(" VIDEO AV_CODEC_ID_NONE ");
+        return -1;
+    }
+   ret= avcodec_parameters_copy(avStreamVideoOut->codecpar,
+                            avFormatContextIn->streams[videoStreamIndex]->codecpar);
+//    avFormatContextOut->bit_rate = 4000000;
+    avStreamVideoOut->r_frame_rate = avFormatContextIn->streams[videoStreamIndex]->codecpar->framerate;
+    avStreamVideoOut->time_base = avFormatContextIn->streams[videoStreamIndex]->time_base;
+    if (ret < 0) {
+        LOGE("avcodec_parameters_copy video fail:%s", av_err2str(ret));
+        return ret;
+    }
+
+    //音频直接赋值
+    avStreamAudioOut = avformat_new_stream(avFormatContextOut, NULL);
+    if (avStreamAudioOut == NULL) {
+        LOGE(" VIDEO STREAM NULL ");
+        return -1;
+    }
+    if (avFormatContextOut->oformat->audio_codec == AV_CODEC_ID_NONE) {
+        LOGE(" VIDEO AV_CODEC_ID_NONE ");
+        return -1;
+    }
+    ret=avcodec_parameters_copy(avStreamAudioOut->codecpar,
+                            avFormatContextIn->streams[audioStreamIndex]->codecpar);
+    avStreamAudioOut->codecpar->codec_tag = 0;
+    avStreamAudioOut->r_frame_rate = avFormatContextIn->streams[audioStreamIndex]->codecpar->framerate;
+    avStreamAudioOut->time_base = avFormatContextIn->streams[audioStreamIndex]->time_base;
+    if (ret < 0) {
+        LOGE("avcodec_parameters_copy audio fail:%s", av_err2str(ret));
+        return ret;
+    }
+
+
+    return ret;
+
 }
+
+void VideoTrim::writeData() {
+
+}
+
+void VideoTrim::readData() {
+
+}
+
+/**
+ * 编码包输出
+ * @param avPacket
+ * @return
+ */
+int
+VideoTrim::writePackPage(AVFormatContext *avFormatContext, AVStream *inStream, AVStream *outStream,
+                         AVPacket *avPacket) {
+    LOGI("writePackPage avPacket->pts:%ld,stream_index:%d,real pts:%ld",
+         avPacket->pts, avPacket->stream_index, avPacket->pts - startPts[avPacket->stream_index]);
+    //duration也要转换
+    avPacket->pts = avPacket->pts - startPts[avPacket->stream_index];
+    avPacket->dts = avPacket->dts - startPts[avPacket->stream_index];
+//    avPacket->pts = av_rescale_q(avPacket->pts - startPts[avPacket->stream_index],
+//                                 inStream->time_base,
+//                                 outStream->time_base);
+//    avPacket->dts = av_rescale_q(avPacket->dts - startDts[avPacket->stream_index],
+//                                 inStream->time_base,
+//                                 outStream->time_base);
+//    avPacket->duration = av_rescale_q(avPacket->duration, inStream->time_base,
+//                                      outStream->time_base);
+
+    int ret = av_interleaved_write_frame(avFormatContext, avPacket);
+    if (ret < 0) {
+        LOGE("av_interleaved_write_frame fail:%s,avPacket->pts:%ld,avPacket->dts:%ld,avPacket->duration:%ld",
+             av_err2str(ret), avPacket->pts, avPacket->dts, avPacket->duration);
+    }
+    return ret;
+}
+
+void VideoTrim::cancel() {
+    this->isCancel = true;
+    progress = 0;
+}
+
+
 
 
