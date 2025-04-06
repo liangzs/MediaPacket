@@ -7,12 +7,12 @@
 #include <vector>
 
 extern "C" {
-#include "ffmpeg/include/libavcodec/avcodec.h"
-#include "ffmpeg/include/libavformat/avformat.h"
-#include "ffmpeg/include/libavfilter/avfiltergraph.h"
-#include "ffmpeg/include/libavfilter/buffersink.h"
-#include "ffmpeg/include/libavfilter/buffersrc.h"
-#include "ffmpeg/include/libavutil/opt.h"
+#include "include/libavcodec/avcodec.h"
+#include "include/libavformat/avformat.h"
+#include "include/libavfilter/avfiltergraph.h"
+#include "include/libavfilter/buffersink.h"
+#include "include/libavfilter/buffersrc.h"
+#include "include/libavutil/opt.h"
 };
 
 class BaseInterface {
@@ -54,6 +54,7 @@ protected:
     //输出
     int videoOutputStreamIndex;
     int audioOutputStreamIndex;
+
     int initOutput(const char *ouput, AVFormatContext **ctx);
 
     int outFrameRate;
@@ -62,6 +63,9 @@ protected:
 
     int addOutputVideoStream(AVFormatContext *afc_output, AVCodecContext **vCtxE,
                              AVCodecParameters codecpar);
+
+    int addOutputVideoStreamCopy(AVFormatContext *afc_output, AVCodecContext **vCtxE,
+                                 AVFormatContext *afc_input);
 
     int addOutputAudioStream(AVFormatContext *afc_output, AVCodecContext **aCtxE,
                              AVCodecParameters codecpar);

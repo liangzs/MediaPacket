@@ -1,6 +1,3 @@
-//
-// Created by DELLQ on 28/8/2024.
-//
 
 #include "video_trim.h"
 
@@ -41,6 +38,9 @@ VideoTrim::~VideoTrim() {
 }
 
 
+/**
+ * 查询seek位置和当前gop区间的数据，用编解码，记得编码数据要和原数据。在gop后直接赋值流
+ */
 void VideoTrim::trimImpl() {
     int ret;
     ret = buildInput();
@@ -52,10 +52,10 @@ void VideoTrim::trimImpl() {
         LOGE("buildOutput fail");
     }
 
-    if (ret < 0) {
-        LOGE("buildOutput fail");
-        return;
-    }
+//    if (ret < 0) {
+//        LOGE("buildOutput fail");
+//        return;
+//    }
 
     ret = writeOutoutHeader(avFormatContextOut, outPath);
     if (ret < 0) {
@@ -68,7 +68,8 @@ void VideoTrim::trimImpl() {
         return;
     }
     writeTrail(avFormatContextOut);
-    callProgress(100);
+    LOGE("progress:100");
+//    callProgress(100);
 
 
 }
@@ -129,7 +130,8 @@ void VideoTrim::startDecode() {
     }
     int currentTime;
     AVFrame *frame = NULL;
-    hadDrawKeyFrame = false;
+    hadReachKeyFrame = false;
+
     while (!isCancel) {
         avPacket = av_packet_alloc();
         ret = av_read_frame(avFormatContextIn, avPacket);
@@ -141,74 +143,83 @@ void VideoTrim::startDecode() {
         curRational = avFormatContextIn->streams[avPacket->stream_index]->time_base;
         currentTime = (int64_t) avPacket->pts * av_q2d(curRational) * 1000;
 //        LOGI("currentTime:%d,startTime:%d,endTime:%d", currentTime, startTime, endTime);
-        if (avPacket->stream_index == audioStreamIndex) {
-            if (currentTime >= startTime && currentTime <= endTime) {
-                if (startPts[audioStreamIndex] == 0) {
-                    startPts[audioStreamIndex] = avPacket->pts;
-                }
-                if (startDts[audioStreamIndex] == 0) {
-                    startDts[audioStreamIndex] = avPacket->dts;
-                }
-                audioPtsIndex++;
-                writePackPage(avFormatContextOut, avStreamAudioIn, avStreamAudioOut, avPacket);
-            }
-        } else {//视频帧，重新走解码，编码流程
-            if (currentTime > endTime) {//结束
-                LOGE("currentTime > endTime:finish %d,%d", currentTime, endTime);
-                av_packet_free(&avPacket);
-                break;
-            }
+        LOGE("currentTime:%d ,isVideo:%s", currentTime,
+             avPacket->stream_index == videoStreamIndex ? "true" : "false");
 
-            if (currentTime >= startTime && currentTime <= endTime) {
-                videoPtsIndex++;
-                //计算最初时间
-                if (startPts[videoStreamIndex] == 0) {
-                    startPts[videoStreamIndex] = avPacket->pts;
-                }
-                if (startDts[videoStreamIndex] == 0) {
-                    startDts[videoStreamIndex] = avPacket->dts;
-                }
-                if (!hadDrawKeyFrame) {
-                    avPacket->flags |= AV_PKT_FLAG_KEY;
-                    frame = decodePacket(avCtxVideoIn, avPacket);
-                    if (frame != NULL) {
-                        LOGI("frame not null  go encodeFrame");
-                        AVPacket *newPackage = encodeFrame(frame, avCtxVideoIn);
-                        if (newPackage != NULL) {
-                            LOGI("newPackage not null  go writePackPage");
-                            hadDrawKeyFrame = true;
-                            writePackPage(avFormatContextOut, avStreamVideoIn, avStreamVideoOut,
-                                          newPackage);
-                        }
-                        av_packet_free(&newPackage);
-                    }
-                    av_frame_free(&frame);
-                    av_packet_free(&avPacket);
-                    if (videoPtsIndex > 5) {
-                        LOGE("videoPtsIndex > 5  finish hadDrawKeyFrame");
-                        hadDrawKeyFrame = true;
-                    }
-                    continue;
-                }
-                writePackPage(avFormatContextOut, avStreamAudioIn, avStreamAudioOut, avPacket);
-                //计算progress
-                callProgress((currentTime - startTime) * 1.0f / (endTime - startTime) * 100);
-
-            } else {  //在未到达指定帧之前一直进行sendFrame进行解码，获取到完整的帧
-                frame = decodePacket(avCtxVideoIn, avPacket);
-                if (frame != NULL) {
-//                    AVPacket *newPackage = encodeFrame(frame, avCtxVideoOut);
-//                    writePackPage(avFormatContextOut, avStreamVideoIn, avStreamVideoOut,
-//                                  newPackage);
-//                    av_packet_free(&newPackage);
-                }
-                av_frame_free(&frame);
-            }
-
-
+        //视频帧，重新走解码，编码流程
+        if (currentTime > endTime) {//结束
+            LOGE("currentTime > endTime:finish %d,%d", currentTime, endTime);
+            av_packet_free(&avPacket);
+            break;
         }
+        //音频流直接复制
+        if (avPacket->stream_index == audioStreamIndex) {
+            if (startPts[audioStreamIndex] == 0) {
+                startPts[audioStreamIndex] = avPacket->pts;
+            }
+            if (startDts[audioStreamIndex] == 0) {
+                startDts[audioStreamIndex] = avPacket->dts;
+            }
+            audioPtsIndex++;
+            writePackPage(avFormatContextOut, avStreamAudioIn, avStreamAudioOut, avPacket);
+            av_packet_free(&avPacket);
+            continue;
+        }
+        //这里不应该根据seek进行判断，而是seek时间戳所在的gop都应该重新编解码，gop后直接赋值码流
+//            if (currentTime >= startTime && currentTime <= endTime) {
+        //计算最初时间
+        //如果没到指定位置就一直正常解码就行,为什么要解码，因为后续的b帧搞不好要依赖它才能正常
+        if (currentTime < startTime) {
+            //如果是视频&&在未到达指定帧之前一直进行sendFrame进行解码，获取到完整的帧
+            frame = decodePacket(avCtxVideoIn, avPacket);
+            if (frame != NULL) {
+                AVPacket *newPackage = encodeFrame(frame, avCtxVideoOut);
+                if (newPackage != NULL) {
+                    LOGI("< startTime   newPackage not null  go writePackPage");
+                    writePackPage(avFormatContextOut, avStreamVideoIn, avStreamVideoOut,
+                                  newPackage);
+                } else {
+                    LOGI("< startTime   newPackage is null...");
+                }
+                av_packet_free(&newPackage);
+            }
+            av_frame_free(&frame);
+            av_packet_free(&avPacket);
+            continue;
+        }
+
+        if (startPts[videoStreamIndex] == 0) {
+            startPts[videoStreamIndex] = avPacket->pts;
+        }
+        if (startDts[videoStreamIndex] == 0) {
+            startDts[videoStreamIndex] = avPacket->dts;
+        }
+        if (!(avPacket->flags & AV_PKT_FLAG_KEY) && !hadReachKeyFrame) {
+//            videoPtsIndex++;
+
+//                avPacket->flags |= AV_PKT_FLAG_KEY;
+            frame = decodePacket(avCtxVideoIn, avPacket);
+            if (frame != NULL) {
+                AVPacket *newPackage = encodeFrame(frame, avCtxVideoOut);
+                if (newPackage != NULL) {
+                    LOGI("newPackage not null  go writePackPage");
+                    writePackPage(avFormatContextOut, avStreamVideoIn, avStreamVideoOut,
+                                  newPackage);
+                } else {
+                    LOGI("newPackage is null...");
+                }
+                av_packet_free(&newPackage);
+            }
+            av_frame_free(&frame);
+            av_packet_free(&avPacket);
+            continue;
+        }
+        hadReachKeyFrame = true;
+        writePackPage(avFormatContextOut, avStreamVideoIn, avStreamVideoOut, avPacket);
+        //计算progress
+//        callProgress((currentTime - startTime) * 1.0f / (endTime - startTime) * 100);
+        LOGE("progress:%d", (currentTime - startTime) * 100 / (endTime - startTime));
     }
-    av_packet_free(&avPacket);
 
 }
 
@@ -236,6 +247,11 @@ int VideoTrim::buildInput() {
 }
 
 
+/**
+ * 这里有一点很诡异avformat_new_stream创建的时候，是根据顺序进行创建的，
+ * 所以音频和视频的创建的顺序不一样竟然会影响输入，所最好是输入和输出的stream_index能保持一致
+ * @return
+ */
 int VideoTrim::buildOutput() {
     int ret = 0;
     ret = initOutput(outPath, &avFormatContextOut);
@@ -244,28 +260,26 @@ int VideoTrim::buildOutput() {
         return ret;
     }
 
-//    ret = addOutputVideoStream(avFormatContextOut, &avCtxVideoOut,
-//                               *avFormatContextIn->streams[videoStreamIndex]->codecpar);
-
-    //用同一个编解码
-    avStreamVideoOut = avformat_new_stream(avFormatContextOut, NULL);
-    if (avStreamVideoOut == NULL) {
-        LOGE(" VIDEO STREAM NULL ");
-        return -1;
-    }
-    if (avFormatContextOut->oformat->video_codec == AV_CODEC_ID_NONE) {
-        LOGE(" VIDEO AV_CODEC_ID_NONE ");
-        return -1;
-    }
-   ret= avcodec_parameters_copy(avStreamVideoOut->codecpar,
-                            avFormatContextIn->streams[videoStreamIndex]->codecpar);
-//    avFormatContextOut->bit_rate = 4000000;
-    avStreamVideoOut->r_frame_rate = avFormatContextIn->streams[videoStreamIndex]->codecpar->framerate;
-    avStreamVideoOut->time_base = avFormatContextIn->streams[videoStreamIndex]->time_base;
-    if (ret < 0) {
-        LOGE("avcodec_parameters_copy video fail:%s", av_err2str(ret));
-        return ret;
-    }
+//② 用1就不用2
+//    //用同一个编解码
+//    avStreamVideoOut = avformat_new_stream(avFormatContextOut, NULL);
+//    if (avStreamVideoOut == NULL) {
+//        LOGE(" VIDEO STREAM NULL ");
+//        return -1;
+//    }
+//    if (avFormatContextOut->oformat->video_codec == AV_CODEC_ID_NONE) {
+//        LOGE(" VIDEO AV_CODEC_ID_NONE ");
+//        return -1;
+//    }
+//    ret = avcodec_parameters_copy(avStreamVideoOut->codecpar,
+//                                  avFormatContextIn->streams[videoStreamIndex]->codecpar);
+////    avFormatContextOut->bit_rate = avFormatContextIn->streams[videoStreamIndex]->codecpar->bit_rate;
+////    avStreamVideoOut->r_frame_rate = avFormatContextIn->streams[videoStreamIndex]->r_frame_rate;
+//    avStreamVideoOut->time_base = avFormatContextIn->streams[videoStreamIndex]->time_base;
+//    if (ret < 0) {
+//        LOGE("avcodec_parameters_copy video fail:%s", av_err2str(ret));
+//        return ret;
+//    }
 
     //音频直接赋值
     avStreamAudioOut = avformat_new_stream(avFormatContextOut, NULL);
@@ -277,16 +291,22 @@ int VideoTrim::buildOutput() {
         LOGE(" VIDEO AV_CODEC_ID_NONE ");
         return -1;
     }
-    ret=avcodec_parameters_copy(avStreamAudioOut->codecpar,
-                            avFormatContextIn->streams[audioStreamIndex]->codecpar);
+    ret = avcodec_parameters_copy(avStreamAudioOut->codecpar,
+                                  avFormatContextIn->streams[audioStreamIndex]->codecpar);
     avStreamAudioOut->codecpar->codec_tag = 0;
-    avStreamAudioOut->r_frame_rate = avFormatContextIn->streams[audioStreamIndex]->codecpar->framerate;
+//    avStreamAudioOut->r_frame_rate = avFormatContextIn->streams[audioStreamIndex]->r_frame_rate;
     avStreamAudioOut->time_base = avFormatContextIn->streams[audioStreamIndex]->time_base;
     if (ret < 0) {
         LOGE("avcodec_parameters_copy audio fail:%s", av_err2str(ret));
         return ret;
     }
 
+    //①
+    ret = addOutputVideoStreamCopy(avFormatContextOut, &avCtxVideoOut, avFormatContextIn);
+    if (ret < 0) {
+        LOGE("addOutputVideoStream fail:%s", av_err2str(ret));
+        return ret;
+    }
 
     return ret;
 
@@ -305,11 +325,15 @@ void VideoTrim::readData() {
  * @param avPacket
  * @return
  */
+int pts;
+int dts;
+int duration;
+
 int
 VideoTrim::writePackPage(AVFormatContext *avFormatContext, AVStream *inStream, AVStream *outStream,
                          AVPacket *avPacket) {
-    LOGI("writePackPage avPacket->pts:%ld,stream_index:%d,real pts:%ld",
-         avPacket->pts, avPacket->stream_index, avPacket->pts - startPts[avPacket->stream_index]);
+    LOGI("writePackPage stream_index:%d,real pts:%ld",
+         avPacket->stream_index, avPacket->pts - startPts[avPacket->stream_index]);
     //duration也要转换
     avPacket->pts = avPacket->pts - startPts[avPacket->stream_index];
     avPacket->dts = avPacket->dts - startPts[avPacket->stream_index];
@@ -321,11 +345,16 @@ VideoTrim::writePackPage(AVFormatContext *avFormatContext, AVStream *inStream, A
 //                                 outStream->time_base);
 //    avPacket->duration = av_rescale_q(avPacket->duration, inStream->time_base,
 //                                      outStream->time_base);
-
+    pts = avPacket->pts;
+    dts = avPacket->dts;
+    duration = avPacket->duration;
     int ret = av_interleaved_write_frame(avFormatContext, avPacket);
     if (ret < 0) {
         LOGE("av_interleaved_write_frame fail:%s,avPacket->pts:%ld,avPacket->dts:%ld,avPacket->duration:%ld",
-             av_err2str(ret), avPacket->pts, avPacket->dts, avPacket->duration);
+             av_err2str(ret), pts, dts, duration);
+    } else {
+        LOGE("av_interleaved_write_frame success:%s,avPacket->pts:%ld,avPacket->dts:%ld,avPacket->duration:%ld",
+             av_err2str(ret), pts, dts, duration);
     }
     return ret;
 }

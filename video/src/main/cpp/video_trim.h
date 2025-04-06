@@ -7,7 +7,6 @@
 
 #include "base_interface.h"
 #include "thread"
-#include "media_util_jni.h"
 
 extern "C" {
 #include "libavformat/avformat.h"
@@ -40,7 +39,7 @@ private:
     AVPacket *avPacket;
     AVOutputFormat *afot = NULL;
     AVCodec *avCodecVideoOut = NULL;
-    bool hadDrawKeyFrame;
+    bool hadReachKeyFrame;
 
 
 private:

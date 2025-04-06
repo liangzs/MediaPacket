@@ -1,7 +1,7 @@
 
 
 
-#include "include/base_interface.h"
+#include "base_interface.h"
 #include "libavutil/avassert.h"
 
 int BaseInterface::open_input_file(const char *filename, AVFormatContext **avformatCtx) {
@@ -129,6 +129,61 @@ int BaseInterface::initOutput(const char *ouput, const char *format, AVFormatCon
     return 0;
 }
 
+int BaseInterface::addOutputVideoStreamCopy(AVFormatContext *afc_output, AVCodecContext **vCtxE,
+                                            AVFormatContext *afc_input) {
+    avStreamVideoOut = avformat_new_stream(afc_output, NULL);
+    //创建codecCxt，给codecParameter进行赋值
+    AVOutputFormat *oformat = const_cast<AVOutputFormat *>(afc_output->oformat);
+
+    if (oformat->video_codec == AVCodecID::AV_CODEC_ID_NONE) {
+        LOGE("afc_output->oformat is AV_CODEC_ID_NONE");
+        return -1;
+    }
+    const AVCodec *codec = avcodec_find_encoder(oformat->video_codec);
+    if (codec == NULL) {
+        LOGE("avcodec_find_encoder fail");
+        return -1;
+    }
+    *vCtxE = avcodec_alloc_context3(codec);
+    //给outVideoStreamIndex赋值
+    int ret = avcodec_parameters_to_context(*vCtxE, afc_input->streams[videoStreamIndex]->codecpar);
+    if (ret < 0) {
+        LOGE("avcodec_parameters_to_context fail:%s", av_err2str(ret));
+        return -1;
+    }
+
+//    (*vCtxE)->bit_rate = afc_input->bit_rate;
+    (*vCtxE)->framerate = afc_input->streams[videoStreamIndex]->r_frame_rate;
+    (*vCtxE)->time_base = afc_input->streams[videoStreamIndex]->time_base;
+//    (*vCtxE)->pix_fmt = AV_PIX_FMT_YUV420P;
+//    (*vCtxE)->codec_type = AVMEDIA_TYPE_VIDEO;
+//    (*vCtxE)->width = codecpar.width;
+//    (*vCtxE)->height = codecpar.height;
+//    if ((*vCtxE)->codec_id == AV_CODEC_ID_MPEG2VIDEO) {
+//        (*vCtxE)->max_b_frames = 2;
+//    }
+//    if ((*vCtxE)->codec_id == AV_CODEC_ID_MPEG1VIDEO) {
+//        /* Needed to avoid using macroblocks in which some coeffs overflow.
+//         * This does not happen with normal video, it just happens here as
+//         * the motion of the chroma plane does not match the luma plane. */
+//        (*vCtxE)->mb_decision = 2;
+//    }
+//    if ((*vCtxE)->codec_id == AV_CODEC_ID_H264)
+//        av_opt_set((*vCtxE)->priv_data, "preset", "slow", 0);
+    ret = avcodec_parameters_from_context(avStreamVideoOut->codecpar, *vCtxE);
+    if (ret < 0) {
+        LOGE("avcodec_parameters_from_context fail");
+        return -1;
+    }
+    ret = avcodec_open2(*vCtxE, codec, NULL);
+    if (ret < 0) {
+        LOGE("addOutputVideoStream->avcodec_open2 fail");
+        return -1;
+    }
+    LOGE(" init addOutputVideoStream success!");
+    return 0;
+}
+
 /**
  * 添加视频的信道信息
  * @param afc_output
@@ -234,14 +289,14 @@ int BaseInterface::writeOutoutHeader(AVFormatContext *avFormatContextOut, const 
     if (!(avFormatContextOut->oformat->flags & AVFMT_NOFILE)) {
         ret = avio_open(&avFormatContextOut->pb, outPath, AVIO_FLAG_WRITE);
         if (ret < 0) {
-            LOGE("avio_open fail");
+            LOGE("avio_open fail %s", av_err2str(ret));
             return -1;
         }
     }
     //写入文件头
     ret = avformat_write_header(avFormatContextOut, NULL);
     if (ret < 0) {
-        LOGE("avformat_write_header fail");
+        LOGE("avformat_write_header fail  %s", av_err2str(ret));
         return -1;
     }
     return ret;
@@ -263,33 +318,35 @@ int BaseInterface::writeTrail(AVFormatContext *afc_output) {
 AVFrame *BaseInterface::decodePacket(AVCodecContext *decode, AVPacket *packet) {
     int ret = avcodec_send_packet(decode, packet);
     if (ret < 0) {
-        LOGE("avcodec_send_packet fail");
+        LOGE("avcodec_send_packet fail:%s", av_err2str(ret));
         return NULL;
     }
     AVFrame *avFrame = av_frame_alloc();
-    while (1){
-        ret = avcodec_receive_frame(decode, avFrame);
-        if (ret == AVERROR(EAGAIN)) {
-            av_assert0(packet); // should never happen during flushing
-            return NULL;
-        } else if (ret == AVERROR_EOF) {
-            return NULL;
-        } else if (ret < 0) {
-            LOGE("Decoding error: %s\n", av_err2str(ret));
-            continue;
-        }
-    }
-//    if (ret < 0) {
-//        av_frame_free(&avFrame);
-//        LOGE("avcodec_receive_frame fail:%s", av_err2str(ret));
-//        return NULL;
+//    while (1) {
+//        ret = avcodec_receive_frame(decode, avFrame);
+//        if (ret == AVERROR(EAGAIN)) {
+//            av_assert0(packet); // should never happen during flushing
+//            return avFrame;
+//        } else if (ret == AVERROR_EOF) {
+//            return avFrame;
+//        } else if (ret < 0) {
+//            LOGE("Decoding error: %s\n", av_err2str(ret));
+//            continue;
+//        }
 //    }
+    ret = avcodec_receive_frame(decode, avFrame);
+    if (ret < 0) {
+        av_frame_free(&avFrame);
+        LOGE("avcodec_receive_frame error: %s", av_err2str(ret));
+        return NULL;
+    }
     return avFrame;
 }
 
 AVPacket *BaseInterface::encodeFrame(AVFrame *frame, AVCodecContext *codecContext) {
     int ret = avcodec_send_frame(codecContext, frame);
     if (ret < 0) {
+        LOGE("avcodec_send_frame fail:%s", av_err2str(ret));
         return NULL;
     }
     AVPacket *avPacket = av_packet_alloc();
@@ -301,5 +358,11 @@ AVPacket *BaseInterface::encodeFrame(AVFrame *frame, AVCodecContext *codecContex
     }
     return avPacket;
 }
+
+int BaseInterface::getVideoOutFrameRate() {
+    return 0;
+}
+
+
 
 

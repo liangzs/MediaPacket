@@ -3,6 +3,7 @@
 #include <android/log.h>
 #include <android/native_window.h>
 #include <android/native_window_jni.h>
+#include "video_trim.h"
 
 #define LOGI(...) __android_log_print(ANDROID_LOG_INFO, "nativelib", __VA_ARGS__)
 extern "C" {
@@ -164,4 +165,16 @@ Java_com_linagzs_video_FFPlayer_release(JNIEnv *env, jobject thiz) {
 extern "C"
 JNIEXPORT jint JNICALL
 Java_com_linagzs_video_FFPlayer_getRotation(JNIEnv *env, jobject thiz) {
+}
+extern "C"
+JNIEXPORT void JNICALL
+Java_com_linagzs_video_FFmpegUtil_trim(JNIEnv *env, jobject thiz, jstring input, jstring output,
+                                       jlong start_time, jlong end_time) {
+    char *charInput = const_cast<char *>(env->GetStringUTFChars(input, JNI_FALSE));
+    char *charOupt = const_cast<char *>(env->GetStringUTFChars(output, JNI_FALSE));
+    VideoTrim *videoTrim = new VideoTrim(charInput, charOupt, start_time, end_time);
+    videoTrim->trimImpl();
+    env->ReleaseStringUTFChars(input, charInput);
+    env->ReleaseStringUTFChars(output, charOupt);
+    delete videoTrim;
 }
